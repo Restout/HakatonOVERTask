@@ -1,0 +1,49 @@
+$containerWidth: 1280px;
+
+//<====Breakpoints=====>
+$pcBig: $containerWidth; //большие мониторы
+$pc: 1360px; //пк и ноутбуки
+$tablet: 991.98px; //планшеты
+$mobile: 767.96px; //телефоны
+$mobileMiddle: 677px; //телефоны
+$mobileSmall: 479.98px; //телефоны
+
+$colors: (
+    "black": #000000,
+    "white": #ffffff,
+    "grey": #607286,
+    "red": #dd434b,
+    "green": #8fc96d,
+    "dark-blue": #0f3a8c,
+    "light-blue": #008cce,
+    "yellow": #ffc107,
+);
+
+@function HexToRGB($hex) {
+    @return red($hex), green($hex), blue($hex);
+}
+
+:root {
+    // Colors
+    @if $colors {
+        @each $key, $value in $colors {
+            --color-#{$key}: #{$value};
+            --color-#{$key}--rgb: #{HexToRGB($value)};
+        }
+    }
+
+    // Typography
+    --font-family: "Roboto", sans-serif;
+    --font-size: 1rem;
+
+    // Layout
+    --container-width: #{$containerWidth};
+
+    // Breakpoints
+    --bp-lgx: #{$pcBig};
+    --bp-lg: #{$pc};
+    --bp-md: #{$tablet};
+    --bp-sm: #{$mobile};
+    --bp-smm: #{$mobileMiddle};
+    --bp-smx: #{$mobileSmall};
+}

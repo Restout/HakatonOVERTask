@@ -1,0 +1,12 @@
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    // .modal-header__title
+    &__title {
+        font-size: 1.2rem;
+        color: var(--color-white);
+        font-weight: 600;
+    }
+}

@@ -1,0 +1,32 @@
+.logo {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    // .logo__icon
+    &__icon {
+        display: flex;
+        gap: 1px;
+        margin-top: 0.25rem;
+    }
+    // .logo__icon-item
+    &__icon-item {
+        height: 1.25rem;
+        width: 0.25rem;
+        background-color: var(--color-blue);
+        border-radius: 0.25rem;
+        &:nth-child(2) {
+            opacity: 0.7;
+        }
+        &:nth-child(3) {
+            opacity: 0.5;
+        }
+    }
+    // .logo__title
+    &__title {
+        font-weight: 700;
+        text-align: center;
+        color: var(--color-white);
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+    }
+}

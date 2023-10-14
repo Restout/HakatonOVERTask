@@ -1,0 +1,11 @@
+.title {
+    margin-bottom: 20px;
+}
+
+.feedList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}

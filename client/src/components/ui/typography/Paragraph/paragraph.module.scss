@@ -1,0 +1,12 @@
+@import "../../../assets/styles/vars.scss";
+
+.paragraph {
+    color: rgba($black, 0.6);
+    line-height: 1.375;
+    &.default {
+        font-size: 16px;
+    }
+    &.small {
+        font-size: 14px;
+    }
+}

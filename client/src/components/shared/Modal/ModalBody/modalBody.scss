@@ -1,0 +1,9 @@
+.modal-body {
+    width: 100%;
+    max-width: 36rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-dark-grey);
+    max-height: 80%;
+    overflow-y: auto;
+}

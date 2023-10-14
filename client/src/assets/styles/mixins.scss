@@ -1,0 +1,55 @@
+@import "./vars.scss";
+
+@mixin md-lgx {
+    @media (max-width: $lgx) {
+        @content;
+    }
+}
+
+@mixin md-lg {
+    @media (max-width: $lg) {
+        @content;
+    }
+}
+
+@mixin md-md {
+    @media (max-width: $md) {
+        @content;
+    }
+}
+
+@mixin md-sm {
+    @media (max-width: $sm) {
+        @content;
+    }
+}
+
+@mixin md-smm {
+    @media (max-width: $smm) {
+        @content;
+    }
+}
+
+@mixin md-smx {
+    @media (max-width: $smx) {
+        @content;
+    }
+}
+
+@mixin control {
+    font-size: 1rem;
+    border: 1px solid $grey;
+    padding: 0.7rem;
+    color: $black;
+    background-color: $white;
+    outline: none;
+    &:focus {
+        border-color: $blue;
+    }
+    &:disabled {
+        opacity: 0.5;
+    }
+    &::placeholder {
+        font-size: 0.9rem;
+    }
+}
