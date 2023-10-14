@@ -18,7 +18,7 @@ public class UserRepository {
     public Optional<UserDetails> getUserByEmailName(String usernameId) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * ")
-                .append("FROM \"CommercialEdu\".\"Enrolee \" ")
+                .append("FROM \"public\".\"Enrollee \" ")
                 .append("WHERE \"Email\" LIKE '")
                 .append(usernameId+"'");
         return namedParameterJdbcTemplate.query(query.toString(), (rs, rowNum) -> User.builder()
