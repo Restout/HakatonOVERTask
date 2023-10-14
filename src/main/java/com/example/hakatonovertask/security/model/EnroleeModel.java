@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.UUID;
+import java.util.Date;
 
 
 @Getter
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-public class EnroleeModel implements UserDetails {
+public class EnroleeModel {
     @Id
     private Integer Id;
     private String name;
@@ -27,10 +27,9 @@ public class EnroleeModel implements UserDetails {
 
     private String lastName;
     private String email;
+    private Date birthday;
 
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    /*public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
@@ -63,4 +62,5 @@ public class EnroleeModel implements UserDetails {
     public String getPassword() {
         return password.toString();
     }
+*/
 }
