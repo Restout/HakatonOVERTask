@@ -2,12 +2,10 @@ package com.example.hakatonovertask.security.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Date;
 
 
@@ -20,10 +18,13 @@ import java.util.Date;
 @Entity
 public class EnroleeModel {
     @Id
+    @GeneratedValue
     private Integer Id;
     private String name;
     private char[] password;
+    private String phone;
     @Column(name = "Last_name")
+
 
     private String lastName;
     private String email;
