@@ -16,13 +16,13 @@ public class NewsController {
     @Autowired
     private NewsService service;
 
-    @GetMapping("/news")
+    @GetMapping("/hackathon/news")
     public ResponseEntity<List<News>> getNews(@RequestParam(name = "limit")Integer limit, @RequestParam(name = "page") Integer page){
         Page<News> news = service.GetNewsPage(limit, page);
         return ResponseEntity.ok()
                 .body(news.getContent());
     }
-    @PostMapping("/news")
+    @PostMapping("/hackathon/news")
     public ResponseEntity<News> saveNews(@RequestBody NewsDAO news, HttpServletResponse response){
         System.out.println(news);
         return ResponseEntity.ok()

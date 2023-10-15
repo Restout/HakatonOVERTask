@@ -1,14 +1,9 @@
 package com.example.hakatonovertask.security.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.UUID;
+import java.util.Date;
 
 
 @Getter
@@ -18,19 +13,32 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-public class EnroleeModel implements UserDetails {
+@Table(name="Enrollee")
+public class EnrolleeModel {
     @Id
+    @Column(name="ID")
     private Integer Id;
+    @Column(name="NAME")
+
     private String name;
+    @Column(name="PASSWORD")
+
     private char[] password;
-    @Column(name = "Last_name")
+    @Column(name="PHONE")
+
+    private String phone;
+    @Column(name = "LAST_NAME")
+
 
     private String lastName;
+    @Column(name="EMAIL")
+
     private String email;
+    @Column(name="BIRTHDAY")
 
+    private Date birthday;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    /*public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
 
@@ -63,4 +71,5 @@ public class EnroleeModel implements UserDetails {
     public String getPassword() {
         return password.toString();
     }
+*/
 }

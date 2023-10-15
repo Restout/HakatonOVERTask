@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnrolleDao {
+public class UserDao {
     String email;
     char[] password;
 }
