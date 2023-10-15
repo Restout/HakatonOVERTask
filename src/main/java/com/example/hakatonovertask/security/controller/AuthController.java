@@ -1,6 +1,6 @@
 package com.example.hakatonovertask.security.controller;
 
-import com.example.hakatonovertask.security.model.EnrolleDao;
+import com.example.hakatonovertask.security.model.UserDao;
 import com.example.hakatonovertask.security.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class AuthController {
     private UserDetailsService userDetailsService;
 
     @PostMapping("/hackathon/auth/login")
-    public ResponseEntity<String> authentication(@RequestBody EnrolleDao user, HttpServletResponse response) {
+    public ResponseEntity<String> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String jwtToken = "Bearer " + jwtUtils.generateToken(userDetails);

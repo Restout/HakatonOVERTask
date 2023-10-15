@@ -14,17 +14,18 @@ import java.util.Optional;
 public class UserRepository {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final String SAVE_QUERY=("SELECT * FROM \"USER\" WHERE \"Email\" LIKE ?");
 
     public Optional<UserDetails> getUserByEmailName(String usernameId) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * ")
-                .append("FROM \"USER \" ")
+                .append("FROM \"User\" ")
                 .append("WHERE \"Email\" LIKE '")
                 .append(usernameId+"'");
         return namedParameterJdbcTemplate.query(query.toString(), (rs, rowNum) -> User.builder()
                         .username(rs.getString("Email"))
                         .password(rs.getString("Password"))
-                        .authorities(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")))
+                        .authorities(Collections.singleton(new SimpleGrantedAuthority(rs.getString("Role"))))
                         .build())
                 .stream()
                 .findFirst();

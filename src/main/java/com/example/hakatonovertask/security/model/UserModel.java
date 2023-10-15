@@ -6,16 +6,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "User")
 @Data
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-public class UserModel {
+public class UserModel implements UserDetails {
     @Id
     @Column(name = "ID")
     Integer id;
@@ -40,5 +43,40 @@ public class UserModel {
     String lastName;
     @Column(name = "Father_name")
     String fatherName;
+    @Transient
+    boolean expiredAccount;
+    @Transient
+    boolean lockedAccount;
+    @Transient
+    boolean enableAccount;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(role);
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return expiredAccount;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return lockedAccount;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
