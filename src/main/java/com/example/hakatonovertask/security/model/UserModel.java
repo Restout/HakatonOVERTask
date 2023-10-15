@@ -36,6 +36,7 @@ public class UserModel implements UserDetails {
     String email;
     @Column(name = "Role")
     @JsonProperty
+    @Enumerated(EnumType.STRING)
     Roles role;
     @Column(name = "First_name")
     String firstName;
