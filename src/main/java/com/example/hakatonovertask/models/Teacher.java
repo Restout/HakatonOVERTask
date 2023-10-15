@@ -1,6 +1,7 @@
 package com.example.hakatonovertask.models;
 
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
+import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class Teacher {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID")
     @MapsId
-    private User user;
+    private UserModel user;
     @Column(name="AcademicDegree")
     private String academicDegree;
     @Column(name = "AcademicTitle")

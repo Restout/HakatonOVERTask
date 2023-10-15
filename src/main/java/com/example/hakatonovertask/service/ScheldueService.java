@@ -43,7 +43,7 @@ public class ScheldueService {
                     day.getEndTime(),
                     day.getGroup().getGroupName(),
                     day.getAudience(),
-                    day.getLessonTeacher().getTeacher().getUser().getFirsName(),
+                    day.getLessonTeacher().getTeacher().getUser().getFirstName(),
                     day.getLessonTeacher().getTeacher().getUser().getLastName()
             ));
 
@@ -75,7 +75,7 @@ public class ScheldueService {
                 day.getEndTime(),
                 day.getGroup().getGroupName(),
                 day.getAudience(),
-                day.getLessonTeacher().getTeacher().getUser().getFirsName(),
+                day.getLessonTeacher().getTeacher().getUser().getFirstName(),
                 day.getLessonTeacher().getTeacher().getUser().getLastName()
         );
         return out;

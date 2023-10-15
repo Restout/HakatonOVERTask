@@ -28,7 +28,7 @@ public class NewsController {
         return ResponseEntity.ok()
                 .body(service.SaveNews(news));
     }
-    @DeleteMapping("/news/{id}")
+    @DeleteMapping("/hackathon/news/{id}")
     public void deleteNews(@PathVariable("id") Integer id ){
         service.deleteNews(id);
     }
