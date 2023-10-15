@@ -1,4 +1,4 @@
-import { FC, useImperativeHandle } from "react";
+import { FC, useImperativeHandle, useState } from "react";
 
 import {
     Control,
@@ -9,7 +9,9 @@ import {
     UseFormRegister,
     useForm,
 } from "react-hook-form";
+import { Link } from "react-router-dom";
 
+import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
 import { DateInput } from "components/ui/DateInput";
 import { FieldError } from "components/ui/FieldError";
@@ -20,11 +22,14 @@ import { Label } from "components/ui/Label";
 
 import useFocus from "hooks/shared/useFocus";
 
+import { BaseUser } from "types/user.interface";
+
 import { formErrors } from "constants/formErrors";
+import { SIGN_IN_PATH } from "constants/routesPathnames";
 
 import styles from "./signUpPage.module.scss";
 
-export interface SignUpState {
+interface SignUpState {
     firstName: string;
     lastName: string;
     email: string;
@@ -32,6 +37,7 @@ export interface SignUpState {
     passwordConfirm: string;
     birthdate: Date;
     phone: string;
+    patronymic: string;
 }
 
 interface FieldProps {
@@ -41,6 +47,7 @@ interface FieldProps {
 }
 
 const SignUpPage: FC = () => {
+    const [error, setError] = useState<string | null>(null);
     const {
         handleSubmit: submitHandlerWrapper,
         register,
@@ -51,35 +58,98 @@ const SignUpPage: FC = () => {
 
     const handleSubmit: SubmitHandler<SignUpState> = (data: SignUpState) => {
         console.log(data);
+        setError(null);
+        const firstName = data.firstName.trim();
+        const lastName = data.lastName.trim();
+        const patronymic = data.patronymic.trim();
+        const email = data.email.trim();
+        const phone = data.phone.trim();
+        const password = data.password.trim();
+
+        if (
+            firstName !== lastName ||
+            !patronymic ||
+            !email ||
+            !phone ||
+            !password
+        ) {
+            setError("Неверные форматы данных");
+            return;
+        }
+
+        if (password !== data.passwordConfirm) {
+            setError("Пароли должны совпадать");
+        }
+
+        const user: BaseUser = {
+            birthdate: data.birthdate.toLocaleDateString(),
+            email,
+            firstName,
+            lastName,
+            patronymic,
+            phone,
+        };
+        console.log(user);
+
+        // reset();
     };
 
     return (
         <div className={styles.page}>
-            <form
-                className={styles.form}
-                onSubmit={submitHandlerWrapper(handleSubmit)}
-            >
-                <FieldRow>
-                    <FirstName register={register} error={errors.firstName} />
-                    <LastName register={register} error={errors.lastName} />
-                </FieldRow>
-                <FieldRow>
-                    <Email register={register} error={errors.email} />
-                    <Phone register={register} error={errors.phone} />
-                </FieldRow>
-                <Birthdate
-                    register={register}
-                    error={errors.birthdate}
-                    control={control}
-                />
-                <FieldRow>
-                    <Password register={register} error={errors.password} />
-                    <PasswordConfirm
-                        register={register}
-                        error={errors.passwordConfirm}
-                    />
-                </FieldRow>
-            </form>
+            <div className={styles.wrapper}>
+                <h1 className={styles.title}>Регистрация</h1>
+                <form
+                    className={styles.form}
+                    onSubmit={submitHandlerWrapper(handleSubmit)}
+                    onChange={() => setError(null)}
+                >
+                    {error && (
+                        <Alert className={styles.alert} variant="error">
+                            {error}
+                        </Alert>
+                    )}
+                    <FieldRow className={styles.row}>
+                        <FirstName
+                            register={register}
+                            error={errors.firstName}
+                        />
+                        <LastName register={register} error={errors.lastName} />
+                    </FieldRow>
+                    <FieldRow className={styles.row}>
+                        <Patronymic
+                            register={register}
+                            error={errors.patronymic}
+                        />
+                        <Email register={register} error={errors.email} />
+                    </FieldRow>
+                    <FieldRow className={styles.row}>
+                        <Phone register={register} error={errors.phone} />
+                        <Birthdate
+                            register={register}
+                            error={errors.birthdate}
+                            control={control}
+                        />
+                    </FieldRow>
+                    <FieldRow className={styles.row}>
+                        <Password register={register} error={errors.password} />
+                        <PasswordConfirm
+                            register={register}
+                            error={errors.passwordConfirm}
+                        />
+                    </FieldRow>
+                    <Button
+                        className={styles.button}
+                        variant="dark-blue"
+                        type="submit"
+                    >
+                        Регистрация
+                    </Button>
+                    <footer className={styles.footer}>
+                        <span>Уже есть аккаунт? </span>
+                        <Link to={SIGN_IN_PATH}>Вход</Link>
+                    </footer>
+                </form>
+            </div>
         </div>
     );
 };
@@ -143,6 +213,37 @@ function LastName({ register, error }: FieldProps) {
                 placeholder="Фамилия"
                 {...register("lastName", fieldOptions)}
                 id="lastName"
+                type="text"
+                aria-invalid={error ? "true" : "false"}
+            />
+            {error && <FieldError>{error.message}</FieldError>}
+        </FieldGroup>
+    );
+}
+
+function Patronymic({ register, error }: FieldProps) {
+    const LENGTH_LIMIT = 25;
+
+    const { required, maxLengthLimit } = formErrors;
+
+    const fieldOptions: RegisterOptions<SignUpState, "patronymic"> = {
+        required: required,
+        maxLength: {
+            value: LENGTH_LIMIT,
+            message: maxLengthLimit(LENGTH_LIMIT),
+        },
+    };
+
+    return (
+        <FieldGroup className={styles.group}>
+            <Label isRequired={true} htmlFor="patronymic">
+                Ваше отчество
+            </Label>
+            <Input
+                className={styles.input}
+                placeholder="Отчество"
+                {...register("patronymic", fieldOptions)}
+                id="patronymic"
                 type="text"
                 aria-invalid={error ? "true" : "false"}
             />
@@ -229,6 +330,8 @@ function Birthdate({ control }: FieldProps) {
                             selected={value}
                             onChange={(date) => onChange(date)}
                             id="birthdate"
+                            placeholderText="Дата рождения"
+                            className={styles.date}
                         />
                     );
                 }}
@@ -260,7 +363,7 @@ function Password({ register, error }: FieldProps) {
                 placeholder="Пароль"
                 {...register("password", fieldOptions)}
                 id="password"
-                type="number"
+                type="password"
                 aria-invalid={error ? "true" : "false"}
             />
             {error && <FieldError>{error.message}</FieldError>}
@@ -284,14 +387,14 @@ function PasswordConfirm({ register, error }: FieldProps) {
     return (
         <FieldGroup className={styles.group}>
             <Label isRequired={true} htmlFor="passwordConfirm">
-                Пароль
+                Повторите пароль
             </Label>
             <Input
                 className={styles.input}
-                placeholder="Пароль"
+                placeholder="Повторите пароль"
                 {...register("passwordConfirm", fieldOptions)}
                 id="passwordConfirm"
-                type="number"
+                type="password"
                 aria-invalid={error ? "true" : "false"}
             />
             {error && <FieldError>{error.message}</FieldError>}

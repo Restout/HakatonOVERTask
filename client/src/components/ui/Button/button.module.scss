@@ -1,0 +1,36 @@
+.button {
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 100px;
+    transition: opacity 0.15s ease;
+    cursor: pointer;
+    &:focus {
+        border-color: var(--color-white);
+    }
+    &:hover {
+        opacity: 0.9;
+    }
+    &:disabled {
+        opacity: 0.6;
+        cursor: default;
+    }
+    &.dark-blue {
+        color: var(--color-white);
+        background-color: var(--color-dark-blue);
+    }
+    &.light-blue {
+        color: var(--color-black);
+        background-color: var(--color-light-blue);
+    }
+    &.green {
+        color: var(--color-white);
+        background-color: var(--color-green);
+    }
+    &.red {
+        color: var(--color-white);
+        background-color: var(--color-red);
+    }
+}

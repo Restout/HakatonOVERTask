@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import cn from "clsx";
 
-import { Post } from "components/news/Post";
+import { Post } from "components/screens/home/Feed/Post";
 import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
 

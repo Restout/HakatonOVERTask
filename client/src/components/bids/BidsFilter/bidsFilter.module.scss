@@ -1,0 +1,11 @@
+.tabs {
+    display: flex;
+    align-items: center;
+}
+
+.btn {
+    border-right: 1px solid rgba(black, 0.2);
+    &:last-child {
+        border-right: 0;
+    }
+}

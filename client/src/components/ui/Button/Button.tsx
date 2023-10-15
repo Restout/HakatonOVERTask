@@ -6,7 +6,7 @@ import styles from "./button.module.scss";
 
 type ButtonCustomProps<E extends ElementType = ElementType> = {
     children: ReactNode;
-    variant?: "dark" | "light";
+    variant?: "light-blue" | "dark-blue" | "green" | "red";
     as?: E;
 };
 
@@ -19,7 +19,7 @@ const Button = <E extends ElementType = typeof defaultElement>({
     children,
     className,
     as,
-    variant = "light",
+    variant = "dark-blue",
     ...rest
 }: ButtonProps<E>) => {
     const TagName = as ?? defaultElement;
