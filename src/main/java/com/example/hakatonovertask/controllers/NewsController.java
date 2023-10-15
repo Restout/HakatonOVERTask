@@ -23,9 +23,9 @@ public class NewsController {
                 .body(news.getContent());
     }
     @PostMapping("/news")
-    public ResponseEntity<?> saveNews(@RequestBody NewsDAO news, HttpServletResponse response){
+    public ResponseEntity<News> saveNews(@RequestBody NewsDAO news, HttpServletResponse response){
         System.out.println(news);
-        service.SaveNews(news);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok()
+                .body(service.SaveNews(news));
     }
 }

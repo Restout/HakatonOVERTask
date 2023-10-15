@@ -12,7 +12,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LessonID")
-    private int id;
+    private int lessonID;
     @Column(name="LessonName")
     private String lessonName;
     @Column(name = "Description")

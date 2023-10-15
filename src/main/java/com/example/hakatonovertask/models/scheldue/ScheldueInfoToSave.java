@@ -1,20 +1,15 @@
 package com.example.hakatonovertask.models.scheldue;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
-public class ScheldueDayDTO {
-
+public class ScheldueInfoToSave {
     private Date day;
-    private String Lesson;
+    private String lesson;
     private Date startTime;
     private Date endTime;
-    private String groupId;
+    private int teacherId;
     private String audience;
-    private String firstName;
-    private String lastname;
 }

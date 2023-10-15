@@ -33,7 +33,7 @@ public class NewsService {
     }
 
     @Transactional
-    public void SaveNews(NewsDAO newsDAO){
+    public News SaveNews(NewsDAO newsDAO){
         News news = new News();
         news.setContent(newsDAO.getContent());
         news.setTitle(newsDAO.getTitle());
@@ -44,7 +44,6 @@ public class NewsService {
         System.out.println(img);
         imageRepository.save(img);
         news.setImagePath("img"+Integer.toString(news.getId()));
-        newsRepository.save(news);
-        return ;
+        return newsRepository.save(news);
     }
 }

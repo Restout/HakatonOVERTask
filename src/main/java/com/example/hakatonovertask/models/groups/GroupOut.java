@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupDTO {
+public class GroupOut {
     private int groupId;
     private String groupName;
 }

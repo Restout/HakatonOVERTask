@@ -1,8 +1,7 @@
 package com.example.hakatonovertask.controllers;
 
-import com.example.hakatonovertask.models.groups.Group;
-import com.example.hakatonovertask.models.groups.GroupAllDTO;
-import com.example.hakatonovertask.models.groups.GroupDTO;
+import com.example.hakatonovertask.models.groups.GroupAllInfo;
+import com.example.hakatonovertask.models.groups.GroupOut;
 import com.example.hakatonovertask.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +18,18 @@ public class GroupController {
     }
 
     @GetMapping("/groups")
-    public ResponseEntity<List<GroupDTO>> getGroups(){
+    public ResponseEntity<List<GroupOut>> getGroups(){
 
         return ResponseEntity.ok().body(groupService.getAll());
     }
 
     @PostMapping("/groups")
-    public ResponseEntity<GroupDTO> saveGroup(@RequestBody GroupAllDTO group){
+    public ResponseEntity<GroupOut> saveGroup(@RequestBody GroupAllInfo group){
         return ResponseEntity.ok(groupService.saveGroup(group,null));
     }
 
     @PutMapping("/groups/{groupId}")
-    public ResponseEntity<GroupDTO> updateGroup(@PathVariable("groupId") Integer groupId,@RequestBody GroupAllDTO group){
+    public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group){
         return ResponseEntity.ok(groupService.saveGroup(group,groupId));
     }
 

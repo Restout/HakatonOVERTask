@@ -1,8 +1,8 @@
 package com.example.hakatonovertask.service;
 
 import com.example.hakatonovertask.models.groups.Group;
-import com.example.hakatonovertask.models.groups.GroupAllDTO;
-import com.example.hakatonovertask.models.groups.GroupDTO;
+import com.example.hakatonovertask.models.groups.GroupAllInfo;
+import com.example.hakatonovertask.models.groups.GroupOut;
 import com.example.hakatonovertask.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,8 @@ public class GroupService {
     public void setGroupRepository(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
-    public List<GroupDTO> getAll(){
-        List<GroupDTO> groupsDTO = new ArrayList<GroupDTO>();
+    public List<GroupOut> getAll(){
+        List<GroupOut> groupsDTO = new ArrayList<GroupOut>();
         List<Group> groups = groupRepository.findAll();
         for (var group: groups) {
             groupsDTO.add(groupToDTO(group));
@@ -26,20 +26,20 @@ public class GroupService {
         return groupsDTO;
     }
 
-    public GroupDTO saveGroup(GroupAllDTO group, Integer groupId){
-        GroupDTO groupDTO = new GroupDTO();
+    public GroupOut saveGroup(GroupAllInfo group, Integer groupId){
+        GroupOut groupOut = new GroupOut();
         if(groupId==null){
-            groupDTO = groupToDTO(groupRepository.save(new Group(group.getGroupId(),group.getCourseId(),group.getGroupName(),group.getSupervisiorId())));
+            groupOut = groupToDTO(groupRepository.save(new Group(group.getGroupId(),group.getCourseId(),group.getGroupName(),group.getSupervisiorId())));
         }else {
-            groupDTO = groupToDTO(groupRepository.save(new Group(groupId,group.getCourseId(),group.getGroupName(),group.getSupervisiorId())));
+            groupOut = groupToDTO(groupRepository.save(new Group(groupId,group.getCourseId(),group.getGroupName(),group.getSupervisiorId())));
         }
-        return groupDTO;
+        return groupOut;
     }
 
     public void deleteGroup(Integer GroupId){
-        groupRepository.delete(new Group(GroupId));
+        groupRepository.deleteById(GroupId);
     }
-    private GroupDTO groupToDTO(Group group){
-        return new GroupDTO(group.getGroupId(),group.getGroupName());
+    private GroupOut groupToDTO(Group group){
+        return new GroupOut(group.getGroupId(),group.getGroupName());
     }
 }

@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class GroupAllDTO extends GroupDTO{
-    public GroupAllDTO() {
+public class GroupAllInfo extends GroupOut {
+    public GroupAllInfo() {
         super();
     }
     private int supervisiorId;
