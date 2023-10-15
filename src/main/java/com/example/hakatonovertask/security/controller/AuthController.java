@@ -23,6 +23,11 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @GetMapping("/hackathon/auth/login")
+    public String getPage(){
+        return "index";
+    }
+
     @PostMapping("/hackathon/auth/login")
     public ResponseEntity<String> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
