@@ -1,7 +1,7 @@
 package com.example.hakatonovertask.security.controller;
 
-import com.example.hakatonovertask.security.model.EnrolleeModel;
-import com.example.hakatonovertask.service.EnrolleService;
+import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,16 +15,16 @@ import static com.example.hakatonovertask.security.utils.Validator.validate;
 @RestController
 public class RegistrationController {
     @Autowired
-    private EnrolleService enrolleService;
+    private UserService userService;
 
     @PostMapping("/hackathon/registration")
-    public ResponseEntity<EnrolleeModel> registrateNewEnrolle(@RequestBody EnrolleeModel enroleeModel) {
-        if (!validate(enroleeModel)) {
+    public ResponseEntity<UserModel> registrateNewUser(@RequestBody UserModel userModel) {
+        if (!validate(userModel)) {
             return ResponseEntity
                     .status(400)
                     .body(null);
         }
-        Optional<EnrolleeModel> model = enrolleService.saveEnrolle(enroleeModel);
+        Optional<UserModel> model = userService.saveNewUser(userModel);
         if (model.isEmpty()) {
             return ResponseEntity
                     .badRequest()
