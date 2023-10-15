@@ -1,6 +1,5 @@
 package com.example.hakatonovertask.security.controller;
 
-import com.example.hakatonovertask.security.model.EnroleeModel;
 import com.example.hakatonovertask.security.model.EnrolleDao;
 import com.example.hakatonovertask.security.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;

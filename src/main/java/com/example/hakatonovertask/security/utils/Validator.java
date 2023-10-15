@@ -1,9 +1,9 @@
 package com.example.hakatonovertask.security.utils;
 
-import com.example.hakatonovertask.security.model.EnroleeModel;
+import com.example.hakatonovertask.security.model.EnrolleeModel;
 
 public class Validator {
-    public static boolean validate(EnroleeModel enroleeModel) {
+    public static boolean validate(EnrolleeModel enroleeModel) {
         return true;
         //TODO
     }

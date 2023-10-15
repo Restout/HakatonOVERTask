@@ -1,6 +1,6 @@
 package com.example.hakatonovertask.security.controller;
 
-import com.example.hakatonovertask.security.model.EnroleeModel;
+import com.example.hakatonovertask.security.model.EnrolleeModel;
 import com.example.hakatonovertask.service.EnrolleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,14 @@ public class RegistrationController {
     @Autowired
     private EnrolleService enrolleService;
 
-    @PostMapping("/hakaton/registration")
-    public ResponseEntity<EnroleeModel> registrateNewEnrolle(@RequestBody EnroleeModel enroleeModel) {
-        if (validate(enroleeModel)) {
+    @PostMapping("/hackathon/registration")
+    public ResponseEntity<EnrolleeModel> registrateNewEnrolle(@RequestBody EnrolleeModel enroleeModel) {
+        if (!validate(enroleeModel)) {
             return ResponseEntity
                     .status(400)
                     .body(null);
         }
-        Optional<EnroleeModel> model = enrolleService.saveEnrolle(enroleeModel);
+        Optional<EnrolleeModel> model = enrolleService.saveEnrolle(enroleeModel);
         if (model.isEmpty()) {
             return ResponseEntity
                     .badRequest()
