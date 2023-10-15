@@ -18,11 +18,15 @@ public class ScheldueController {
     }
 
     @GetMapping("/scheldue/{groupid}")
-    public ResponseEntity<List<ScheldueDayOut>> getSheldue(@PathVariable("groupid") Integer groupid){
+    public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupid") Integer groupid){
         return ResponseEntity.ok(scheldueService.getScheldueByGroup(groupid));
     }
     @PostMapping("/scheldue/{groupid}")
-    public ResponseEntity<ScheldueDayOut> saveSheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
+    public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
         return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
+    }
+    @PutMapping("/scheldue/{groupid}")
+    public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("groupid") Integer groupid,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
+        return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid,scheldueInfoToSave));
     }
 }

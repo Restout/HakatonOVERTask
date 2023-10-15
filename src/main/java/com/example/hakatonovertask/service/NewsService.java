@@ -46,4 +46,9 @@ public class NewsService {
         news.setImagePath("img"+Integer.toString(news.getId()));
         return newsRepository.save(news);
     }
+
+    public void deleteNews(Integer id){
+        newsRepository.deleteById(id);
+    }
+
 }
