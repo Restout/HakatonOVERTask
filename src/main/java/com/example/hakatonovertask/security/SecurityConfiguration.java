@@ -36,6 +36,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/hackathon/auth/login"))
                         .permitAll()
+                        .requestMatchers("/news","/groups","/scheldue/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
