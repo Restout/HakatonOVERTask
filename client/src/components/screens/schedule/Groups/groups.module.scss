@@ -1,0 +1,34 @@
+.section {
+    padding: 20px 0;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.groupsList {
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    row-gap: 15px;
+    column-gap: 10px;
+    flex-wrap: wrap;
+    a {
+        display: block;
+        font-size: 18px;
+        padding: 12px 22px;
+        color: var(--color-grey);
+        cursor: pointer;
+        border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+        background-color: var(--color-white);
+        transition:
+            border-color 0.15s ease,
+            background-color 0.15s ease,
+            color 0.15s ease;
+        &:hover {
+            border-color: var(--color-light-blue);
+            background-color: rgba(var(--color-light-blue--rgb), 0.1);
+            color: var(--color-black);
+        }
+    }
+}

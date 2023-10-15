@@ -10,7 +10,7 @@ import styles from "./homePage.module.scss";
 const HomePage: FC = () => {
     return (
         <div>
-            <Header renderNav={() => <Navigation />} />
+            <Header renderNav={() => <></>} />
             <main className={styles.main}>
                 <Feed />
             </main>
@@ -23,7 +23,7 @@ export default HomePage;
 function Navigation() {
     return (
         <nav className={styles.nav}>
-            <Header.Link to={SCHEDULE_PATH}>Расписание</Header.Link>
+            {/* <Header.Link to={SCHEDULE_PATH}>Расписание</Header.Link> */}
         </nav>
     );
 }

@@ -1,9 +1,6 @@
 import React from "react";
 
 import cn from "clsx";
-import { Link } from "react-router-dom";
-
-import { Title } from "components/ui/typography/Title";
 
 import styles from "./post.module.scss";
 
@@ -27,8 +24,3 @@ const Post: React.FC<PostProps> = ({ title, date, src, text, className }) => {
 };
 
 export default Post;
-
-// cd existing_repo
-// git remote add origin https://git.codenrock.com/adventure-league-spb/template.git
-// git branch -M main
-// git push -uf origin main

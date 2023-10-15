@@ -1,55 +1,37 @@
 @import "./vars.scss";
 
-@mixin md-lgx {
-    @media (max-width: $lgx) {
+@mixin pcBig {
+    @media (max-width: $pcBig) {
         @content;
     }
 }
 
-@mixin md-lg {
-    @media (max-width: $lg) {
+@mixin pc {
+    @media (max-width: $pc) {
         @content;
     }
 }
 
-@mixin md-md {
-    @media (max-width: $md) {
+@mixin tablet {
+    @media (max-width: $tablet) {
         @content;
     }
 }
 
-@mixin md-sm {
-    @media (max-width: $sm) {
+@mixin mobile {
+    @media (max-width: $mobile) {
         @content;
     }
 }
 
-@mixin md-smm {
-    @media (max-width: $smm) {
+@mixin mobileMiddle {
+    @media (max-width: $mobileMiddle) {
         @content;
     }
 }
 
-@mixin md-smx {
-    @media (max-width: $smx) {
+@mixin mobileSmall {
+    @media (max-width: $mobileSmall) {
         @content;
-    }
-}
-
-@mixin control {
-    font-size: 1rem;
-    border: 1px solid $grey;
-    padding: 0.7rem;
-    color: $black;
-    background-color: $white;
-    outline: none;
-    &:focus {
-        border-color: $blue;
-    }
-    &:disabled {
-        opacity: 0.5;
-    }
-    &::placeholder {
-        font-size: 0.9rem;
     }
 }
