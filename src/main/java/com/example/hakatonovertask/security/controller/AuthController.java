@@ -23,10 +23,7 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @GetMapping("/hackathon/auth/login")
-    public String getPage(){
-        return "index";
-    }
+
 
     @PostMapping("/hackathon/auth/login")
     public ResponseEntity<String> authentication(@RequestBody UserDao user, HttpServletResponse response) {
@@ -42,10 +39,5 @@ public class AuthController {
         return ResponseEntity
                 .badRequest()
                 .body("Error");
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
     }
 }

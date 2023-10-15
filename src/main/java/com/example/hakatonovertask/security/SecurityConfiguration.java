@@ -22,7 +22,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Optional;
 
+
 @Configuration
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {

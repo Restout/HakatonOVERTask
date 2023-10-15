@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
-    @Bean
+   /* @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
@@ -21,5 +21,5 @@ public class AppConfig {
                         .exposedHeaders("students_count", "lessons_count", "attendance_count", "content_count", "Authorization");
             }
         };
-    }
+    }*/
 }
