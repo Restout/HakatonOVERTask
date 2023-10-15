@@ -1,0 +1,87 @@
+@import "/src/assets/styles/mixins.scss";
+
+.table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0 0 30px;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+    @include tablet {
+        border: 0;
+    }
+}
+
+.tableHead {
+    @include tablet {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    tr {
+        background-color: #e5e5e5;
+        border: 1px solid #ddd;
+        padding: 0.35em;
+        @include tablet {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: 0.625em;
+        }
+    }
+
+    th {
+        padding: 0.625em 0.2em;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.85em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+}
+
+.tableBody {
+    tr {
+        background-color: var(--color-white);
+        border: 1px solid #ddd;
+        padding: 0.35em;
+        transition: background-color 0.1s ease-in;
+        cursor: pointer;
+        &:hover {
+            background-color: rgba(var(--color-light-blue--rgb), 0.05);
+        }
+        @include tablet {
+            border-bottom: 3px solid #ddd;
+            display: block;
+            margin-bottom: 0.625em;
+        }
+    }
+    td {
+        padding: 0.625em 0.2em;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-left: 1px solid rgba(grey, 0.2);
+        @include tablet {
+            border-bottom: 1px solid #ddd;
+            display: block;
+            font-size: 0.8em;
+            text-align: right;
+            &::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            &:last-child {
+                border-bottom: 0;
+            }
+        }
+    }
+}

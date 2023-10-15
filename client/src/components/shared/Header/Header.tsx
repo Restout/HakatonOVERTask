@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 
-import { HOME_PATH } from "constants/routesPathnames";
+import { BIDS_PATH, HOME_PATH, SCHEDULE_PATH } from "constants/routesPathnames";
 
 import logo from "assets/img/logo.svg";
 
@@ -22,12 +22,18 @@ const Header = ({ renderNav, className }: Props) => {
         <header className={cn(styles.header, className)}>
             <Container>
                 <div className={styles.wrapper}>
-                    <a className={styles.logo} href={HOME_PATH}>
+                    <Link className={styles.logo} to={HOME_PATH}>
                         <img src={logo} alt="Logo" />
-                    </a>
+                    </Link>
                     <div className={styles.controls}>
                         {renderNav()}
-                        <ProfileButton />
+                        <Link className={styles.link} to={SCHEDULE_PATH}>
+                            Расписание
+                        </Link>
+                        <Link className={styles.link} to={BIDS_PATH}>
+                            Заявки
+                        </Link>
+                        {/* <ProfileButton /> */}
                     </div>
                 </div>
             </Container>
