@@ -2,13 +2,21 @@ package com.example.hakatonovertask.models;
 
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
-@Table(name="teacher")
+@Setter
+
+@Getter
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
+@ToString
+@Table(name="Teacher")
 public class Teacher {
     @Id
     @Column(name = "ID")

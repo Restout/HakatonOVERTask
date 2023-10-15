@@ -4,27 +4,35 @@ import com.example.hakatonovertask.models.LessonTeacher;
 import com.example.hakatonovertask.models.Teacher;
 import com.example.hakatonovertask.models.groups.Group;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Entity
-@Data
-@Table(name="ScheldueDay")
+@Setter
+
+@Getter
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
+@ToString
+@Table(name="ScheduleDay")
 @IdClass(ScheldueDayId.class)
+@Entity
 public class ScheldueDay {
     @Id
-    @Column(name = "ID")
+    @Column(name = "Day")
     private Date day;
     @Id
-    @Column(name = "time")
+    @Column(name = "Time")
     private Date startTime;
     @Id
-    @Column(name = "timeend")
+    @Column(name = "TimeEnd")
     private Date endTime;
     @Id
     @ManyToOne
-    @JoinColumn(name="groupid")
+    @JoinColumn(name="GroupID")
     private Group group;
 
     private String audience;

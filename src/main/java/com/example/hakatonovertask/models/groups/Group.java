@@ -2,17 +2,21 @@ package com.example.hakatonovertask.models.groups;
 
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name="Groups")
-@Data
+@Setter
+
+@Getter
+
 @AllArgsConstructor
+
 @NoArgsConstructor
+
+@ToString
 public class Group {
     @Id
     @Column(name="GroupID")

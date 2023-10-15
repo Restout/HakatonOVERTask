@@ -21,6 +21,7 @@ public class Image {
     @JoinColumn(
             name="NewsID"
     )
+    @MapsId
     private News news;
     @Column(name="Image")
     private byte[] img;
