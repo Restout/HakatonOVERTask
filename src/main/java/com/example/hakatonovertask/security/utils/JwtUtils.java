@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service
 public class JwtUtils {
-    private final String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "secrete";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -46,7 +46,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 1))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60*60*60))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
     }
 

@@ -1,14 +1,12 @@
 package com.example.hakatonovertask.security.controller;
 
-import com.example.hakatonovertask.security.model.EnroleeModel;
-import com.example.hakatonovertask.security.model.EnrolleDao;
+import com.example.hakatonovertask.security.model.UserDao;
 import com.example.hakatonovertask.security.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +23,10 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
+
+
     @PostMapping("/hackathon/auth/login")
-    public ResponseEntity<String> authentication(@RequestBody EnrolleDao user, HttpServletResponse response) {
+    public ResponseEntity<String> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
         String jwtToken = "Bearer " + jwtUtils.generateToken(userDetails);
@@ -39,10 +39,5 @@ public class AuthController {
         return ResponseEntity
                 .badRequest()
                 .body("Error");
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
     }
 }
