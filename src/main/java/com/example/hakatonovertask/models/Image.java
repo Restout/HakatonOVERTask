@@ -1,10 +1,10 @@
 package com.example.hakatonovertask.models;
 
+import com.example.hakatonovertask.models.news.News;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data

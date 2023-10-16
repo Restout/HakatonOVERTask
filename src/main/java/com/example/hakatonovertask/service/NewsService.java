@@ -1,8 +1,9 @@
 package com.example.hakatonovertask.service;
 
 import com.example.hakatonovertask.models.Image;
-import com.example.hakatonovertask.models.News;
-import com.example.hakatonovertask.models.NewsDAO;
+import com.example.hakatonovertask.models.news.News;
+import com.example.hakatonovertask.models.news.NewsDAO;
+import com.example.hakatonovertask.models.news.NewsOut;
 import com.example.hakatonovertask.repositories.ImageRepository;
 import com.example.hakatonovertask.repositories.NewsRepository;
 import jakarta.transaction.Transactional;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class NewsService {
@@ -27,9 +30,21 @@ public class NewsService {
         this.imageRepository = imageRepository;
     }
 
-    public Page<News> GetNewsPage(Integer limit, Integer page){
+    public List<NewsOut> GetNewsPage(Integer limit, Integer page){
         Pageable Page = PageRequest.of(page-1,limit);
-        return newsRepository.findAll(Page);
+        List<News> news = newsRepository.findAll(Page).getContent();
+        List<NewsOut> newsOut = new ArrayList<NewsOut>();
+        for (var oneNews:news ) {
+            NewsOut oneNewsOut = new NewsOut(
+                    oneNews.getId(),
+                    oneNews.getPublish_date(),
+                    oneNews.getTitle(),
+                    oneNews.getContent(),
+                    oneNews.getImagePath()
+            );
+            newsOut.add(oneNewsOut);
+        }
+        return newsOut;
     }
 
     @Transactional
