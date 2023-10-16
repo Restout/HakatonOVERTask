@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @ToString
 public enum Roles implements GrantedAuthority {
-    ENROLLEE("EnrollEe"),
+    ENROLLEE("Enrollee"),
     TEACHER("Teacher"),
     STUDENT("Student"),
     GUEST("Guest"),
