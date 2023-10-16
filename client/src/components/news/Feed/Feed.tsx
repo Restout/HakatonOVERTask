@@ -2,12 +2,12 @@ import { FC } from "react";
 
 import cn from "clsx";
 
-import { Post } from "components/screens/home/Feed/Post";
 import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
 
 import image from "assets/img/test-image.jpg";
 
+import { Post } from "./Post";
 import styles from "./feed.module.scss";
 
 interface Props {}

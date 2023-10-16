@@ -39,7 +39,7 @@ function TableBody({ bids }: { bids: number[] }) {
     return (
         <tbody className={styles.tableBody}>
             {bids.map((value) => (
-                <tr key={value} onClick={() => navigate(`${value}`)}>
+                <tr key={value} onClick={() => navigate(`/bids/${value}`)}>
                     <td data-label>13</td>
                     <td data-label>13.13.1313</td>
                     <td data-label>Что-то</td>

@@ -9,7 +9,7 @@ import styles from "./bids.module.scss";
 
 const Bids: FC = () => {
     return (
-        <section>
+        <section className={styles.section}>
             <Container>
                 <Title className={styles.title}>Заявки</Title>
                 <BidsFilter className={styles.filter} />

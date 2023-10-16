@@ -1,8 +1,8 @@
 import { FC, useImperativeHandle, useState } from "react";
 
+import axios from "axios";
 import {
     Control,
-    Controller,
     FieldError as FieldErrorType,
     RegisterOptions,
     SubmitHandler,
@@ -13,10 +13,8 @@ import { Link } from "react-router-dom";
 
 import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
-import { DateInput } from "components/ui/DateInput";
 import { FieldError } from "components/ui/FieldError";
 import { FieldGroup } from "components/ui/FieldGroup";
-import { FieldRow } from "components/ui/FieldRow";
 import { Input } from "components/ui/Input";
 import { Label } from "components/ui/Label";
 
@@ -48,11 +46,19 @@ const SignInPage: FC = () => {
         formState: { errors },
     } = useForm<SignInState>();
 
+    const handleSubmit: SubmitHandler<SignInState> = async (data) => {
+        console.log(data);
+        // const response = await axios.post("/hackathon/auth/login");
+    };
+
     return (
         <div className={styles.page}>
             <div className={styles.wrapper}>
                 <h1 className={styles.title}>Вход</h1>
-                <form className={styles.form}>
+                <form
+                    className={styles.form}
+                    onSubmit={submitHandlerWrapper(handleSubmit)}
+                >
                     <Email register={register} error={errors.email} />
                     <Password register={register} error={errors.password} />
                     <Button

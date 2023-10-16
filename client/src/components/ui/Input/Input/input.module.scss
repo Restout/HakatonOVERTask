@@ -1,12 +1,12 @@
 .input {
     color: var(--color-black);
     font-size: var(--font-size);
-    font-family: var(--font-family);
+    font-family: var(--font-roboto);
     padding: 0.55rem 0.75rem;
     line-height: 1.5rem;
     border-radius: 0.5rem;
     border: 1px solid rgba(var(--color-grey--rgb), 0.3);
-    background-color: var(--color-dark-grey);
+    background-color: var(--color-white);
     transition: border-color 0.15s ease;
     &:focus {
         border-color: var(--color-light-blue);

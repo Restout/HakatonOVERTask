@@ -1,5 +1,5 @@
 export const formErrors = {
-    required: "Required field",
-    maxLengthLimit: (length: number) => `Max length: ${length}`,
-    minLengthLimit: (length: number) => `Min length: ${length}`,
+    required: "Обязательное поле",
+    maxLengthLimit: (length: number) => `Максимальная. длина: ${length}`,
+    minLengthLimit: (length: number) => `Минимальная длина: ${length}`,
 } as const;

@@ -1,0 +1,22 @@
+.navigation {
+    display: flex;
+    justify-content: center;
+
+    ul {
+        display: flex;
+        align-items: center;
+    }
+
+    a {
+        display: block;
+        padding: 15px 20px;
+        color: var(--color-black);
+        &.active {
+            border-bottom: 2px solid var(--color-dark-blue);
+            pointer-events: none;
+        }
+        &:hover {
+            background-color: rgba(var(--color-light-blue--rgb), 0.1);
+        }
+    }
+}
