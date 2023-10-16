@@ -1,0 +1,14 @@
+.section {
+    padding: 30px 0;
+    background-color: var(--color-bg-grey);
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.coursesList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

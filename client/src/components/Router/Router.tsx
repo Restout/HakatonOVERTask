@@ -7,6 +7,8 @@ import { SignInPage } from "pages/(auth)/SignInPage";
 import { SignUpPage } from "pages/(auth)/SignUpPage";
 import { BidsPage } from "pages/(bids)/BidsPage";
 import { FullBidPage } from "pages/(bids)/FullBidPage";
+import { CoursesPage } from "pages/(courses)/CoursesPage";
+import { FullCoursePage } from "pages/(courses)/FullCoursePage";
 import { GroupsPage } from "pages/(schedule)/GroupsPage";
 import { SchedulePage } from "pages/(schedule)/SchedulePage";
 import { HomePage } from "pages/HomePage";
@@ -21,6 +23,7 @@ import { Users } from "components/users/Users";
 import {
     ADMIN_PATH,
     BIDS_PATH,
+    COURSES_PATH,
     CREATE_COURSES_PATH,
     CREATE_NEWS_PATH,
     HOME_PATH,
@@ -36,9 +39,16 @@ const Router: FC = () => {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path={HOME_PATH} element={<HomePage />} />
-                <Route path={SIGN_UP_PATH} element={<SignUpPage />} />
-                <Route path={SIGN_IN_PATH} element={<SignInPage />} />
                 <Route path={SCHEDULE_PATH} element={<GroupsPage />} />
+                <Route
+                    path={`${SCHEDULE_PATH}/:groupId`}
+                    element={<SchedulePage />}
+                />
+                <Route path={COURSES_PATH} element={<CoursesPage />} />
+                <Route
+                    path={`${COURSES_PATH}/:courseId`}
+                    element={<FullCoursePage />}
+                />
 
                 <Route path={ADMIN_PATH} element={<AdminLayout />}>
                     <Route path={BIDS_PATH} element={<Bids />} />
@@ -51,15 +61,15 @@ const Router: FC = () => {
                     <Route path={CREATE_COURSES_PATH} />
                 </Route>
 
-                <Route
-                    path={`${SCHEDULE_PATH}/:groupId`}
-                    element={<SchedulePage />}
-                />
                 <Route path={BIDS_PATH} element={<BidsPage />} />
                 <Route
                     path={`/${BIDS_PATH}/:bidId`}
                     element={<FullBidPage />}
                 />
+
+                <Route path={SIGN_UP_PATH} element={<SignUpPage />} />
+                <Route path={SIGN_IN_PATH} element={<SignInPage />} />
+
                 <Route path={MISSING_PATH} element={<MissingPage />} />
             </Route>
         </Routes>
