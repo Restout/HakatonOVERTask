@@ -1,4 +1,4 @@
-package com.example.hakatonovertask.models;
+package com.example.hakatonovertask.models.news;
 
 import lombok.Data;
 
