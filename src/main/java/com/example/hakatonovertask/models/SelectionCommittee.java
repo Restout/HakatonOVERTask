@@ -21,4 +21,8 @@ public class SelectionCommittee {
     private UserModel user;
     @OneToMany(mappedBy = "selectionCommittee")
     private List<Course> course;
+
+    public SelectionCommittee(int id) {
+        this.id = id;
+    }
 }

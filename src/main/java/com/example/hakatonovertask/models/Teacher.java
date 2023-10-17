@@ -32,4 +32,8 @@ public class Teacher {
     private String academicTitle;
     @OneToMany(mappedBy = "teacher")
     private List<LessonTeacher> lessons;
+
+    public Teacher(int teacherId) {
+        this.teacherId = teacherId;
+    }
 }

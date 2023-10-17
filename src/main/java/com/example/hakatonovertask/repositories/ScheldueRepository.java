@@ -1,12 +1,11 @@
 package com.example.hakatonovertask.repositories;
 
-import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
-import com.example.hakatonovertask.models.scheldue.ScheldueDayId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Date;
 import java.util.List;
 
-public interface ScheldueRepository extends JpaRepository<ScheldueDay, ScheldueDayId> {
-    List<ScheldueDay> getScheldueDaysByGroupGroupId(Integer groupid);
+public interface ScheldueRepository extends JpaRepository<ScheldueDay, Integer> {
+    List<ScheldueDay> getScheldueDaysByGroupGroupIdAndDayBetween(Integer groupid, Date day1,Date day2);
 }
