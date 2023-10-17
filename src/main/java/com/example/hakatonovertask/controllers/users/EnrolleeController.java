@@ -1,8 +1,8 @@
 package com.example.hakatonovertask.controllers.users;
 
 import com.example.hakatonovertask.models.Enrollee;
-import com.example.hakatonovertask.security.repository.EnroleeJpaRepository;
-import com.example.hakatonovertask.service.EnrolleService;
+import com.example.hakatonovertask.repositories.users.EnroleeJpaRepository;
+import com.example.hakatonovertask.service.users.EnrolleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +39,8 @@ public class EnrolleeController {
                 .body(enrolleService.saveEnrolle(enrollee).get());
     }
 
-    @GetMapping("/api/auth/user/grand/enrolle")
-    public ResponseEntity<List<Enrollee>> getAllEnrollee() {
+    @GetMapping("/api/auth/user/data/enrolle")
+    public ResponseEntity<Iterable<Enrollee>> getAllEnrollee() {
         return ResponseEntity
                 .ok()
                 .body(enroleeJpaRepository.findAll());

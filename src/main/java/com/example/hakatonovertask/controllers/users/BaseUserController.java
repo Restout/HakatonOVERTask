@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface BaseUserController<T, S> {
 
-    public ResponseEntity<List<T>> getAllRoleUsers();
+     ResponseEntity<Iterable<T>> getAllRoleUsers();
 
-    public ResponseEntity<T> creatRoleUser();
+     ResponseEntity<T> creatRoleUser(T role);
 
-    public ResponseEntity<T> grandUserToRole(@RequestBody S roleDao);
+     ResponseEntity<T> grandUserToRole(@RequestBody S roleDao);
 
-    public void deleteRoleUserById(@RequestParam int id);
+     void deleteRoleUserById(@RequestParam int id);
 }

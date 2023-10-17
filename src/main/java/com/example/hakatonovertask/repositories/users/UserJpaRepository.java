@@ -1,4 +1,4 @@
-package com.example.hakatonovertask.security.repository;
+package com.example.hakatonovertask.repositories.users;
 
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;

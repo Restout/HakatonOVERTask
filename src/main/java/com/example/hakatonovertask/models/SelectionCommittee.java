@@ -19,6 +19,6 @@ public class SelectionCommittee {
     @JoinColumn(name = "ID")
     @MapsId
     private UserModel user;
-    @OneToMany(mappedBy = "selectionCommittee")
-    private List<Course> course;
+  /*  @OneToMany(mappedBy = "selectionCommittee")
+    private List<Course> course;*/
 }

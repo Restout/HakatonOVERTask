@@ -2,7 +2,7 @@ package com.example.hakatonovertask.controllers;
 
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
-import com.example.hakatonovertask.service.UserService;
+import com.example.hakatonovertask.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

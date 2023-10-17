@@ -1,9 +1,9 @@
-package com.example.hakatonovertask.service;
+package com.example.hakatonovertask.service.users;
 
 import com.example.hakatonovertask.models.Enrollee;
 import com.example.hakatonovertask.security.model.UserModel;
-import com.example.hakatonovertask.security.repository.EnroleeJpaRepository;
-import com.example.hakatonovertask.security.repository.UserJpaRepository;
+import com.example.hakatonovertask.repositories.users.EnroleeJpaRepository;
+import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
