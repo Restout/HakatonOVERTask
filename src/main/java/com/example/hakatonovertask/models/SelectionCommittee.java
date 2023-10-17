@@ -4,11 +4,13 @@ import com.example.hakatonovertask.models.course.Course;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name="SelectionCommittee")
 public class SelectionCommittee {
     @Id
