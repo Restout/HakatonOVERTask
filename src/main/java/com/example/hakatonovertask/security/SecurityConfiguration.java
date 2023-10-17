@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/hackathon/registration"))
                         .permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
-                        .permitAll()
+                        .hasAuthority("TEACHER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
