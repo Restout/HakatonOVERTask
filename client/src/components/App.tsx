@@ -1,9 +1,14 @@
 import { FC } from "react";
 
+import AppProvider from "./AppProvider";
 import { Router } from "./Router";
 
 const App: FC = () => {
-    return <Router />;
+    return (
+        <AppProvider>
+            <Router />
+        </AppProvider>
+    );
 };
 
 export default App;
