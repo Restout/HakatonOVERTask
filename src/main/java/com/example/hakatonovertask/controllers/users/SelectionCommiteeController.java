@@ -1,6 +1,5 @@
 package com.example.hakatonovertask.controllers.users;
 
-import com.example.hakatonovertask.controllers.BasicController;
 import com.example.hakatonovertask.models.SelectionCommittee;
 import org.springframework.http.ResponseEntity;
 
