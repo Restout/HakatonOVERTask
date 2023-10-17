@@ -1,7 +1,9 @@
 import { FC } from "react";
 
+import { useQuery } from "@tanstack/react-query";
 import cn from "clsx";
 import { Link } from "react-router-dom";
+import NewsService from "services/NewsService";
 
 import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
@@ -25,6 +27,11 @@ const groupsList = [
 ];
 
 const Groups: FC<Props> = () => {
+    // const {} = useQuery({
+    //     queryKey: ["todos"],
+    //     queryFn: NewsService.getNews,
+    // });
+
     return (
         <section className={styles.section}>
             <Container>
