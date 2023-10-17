@@ -18,7 +18,7 @@ public class SelectionCommiteeController implements BaseUserController<Selection
     SelectionCommiteeJpaRepository selectionCommiteeJpaRepository;
 
     @Override
-    @GetMapping("/api/auth/user/data/student")
+    @GetMapping("/api/auth/user/data/selCom")
     public ResponseEntity<Iterable<SelectionCommittee>> getAllRoleUsers() {
         return ResponseEntity
                 .ok()
@@ -26,7 +26,7 @@ public class SelectionCommiteeController implements BaseUserController<Selection
     }
 
     @Override
-    @PostMapping("/api/auth/user/set/student")
+    @PostMapping("/api/auth/user/set/selCom")
     public ResponseEntity<SelectionCommittee> creatRoleUser(@RequestBody SelectionCommittee role) {
         return ResponseEntity
                 .ok()
@@ -34,7 +34,7 @@ public class SelectionCommiteeController implements BaseUserController<Selection
     }
 
     @Override
-    @PutMapping("/api/auth/user/grand/student")
+    @PutMapping("/api/auth/user/grand/selCom")
     public ResponseEntity<SelectionCommittee> grandUserToRole(@RequestBody Integer roleDao) {
         SelectionCommittee student;
         try {
@@ -50,7 +50,7 @@ public class SelectionCommiteeController implements BaseUserController<Selection
     }
 
     @Override
-    @DeleteMapping("/api/auth/user/delete/student")
+    @DeleteMapping("/api/auth/user/delete/selCom")
     public void deleteRoleUserById(@RequestParam int id) {
     }
 }
