@@ -60,4 +60,8 @@ public class UserService {
         return Optional.of(userRepository.save(userModel));
     }
 
+    public void deleteUserById(int id) {
+        userRepository.deleteById(id);
+    }
+
 }
