@@ -12,25 +12,22 @@ import java.util.Date;
 
 @Getter
 
-@AllArgsConstructor
-
 @NoArgsConstructor
 
 @ToString
 @Table(name="ScheduleDay")
-@IdClass(ScheldueDayId.class)
 @Entity
 public class ScheldueDay {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ScheldueID")
+    private int scheldueId;
     @Column(name = "Day")
     private Date day;
-    @Id
     @Column(name = "Time")
     private Date startTime;
-    @Id
     @Column(name = "TimeEnd")
     private Date endTime;
-    @Id
     @ManyToOne
     @JoinColumn(name="GroupID")
     private Group group;
@@ -45,4 +42,13 @@ public class ScheldueDay {
             }
     )
     private LessonTeacher lessonTeacher;
+
+    public ScheldueDay(Date day, Date startTime, Date endTime, Group group, String audience, LessonTeacher lessonTeacher) {
+        this.day = day;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.group = group;
+        this.audience = audience;
+        this.lessonTeacher = lessonTeacher;
+    }
 }

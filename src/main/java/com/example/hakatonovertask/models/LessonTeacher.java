@@ -31,4 +31,9 @@ public class LessonTeacher {
     @ManyToOne
     @JoinColumn(name = "LessonID")
     private Lesson lesson;
+
+    public LessonTeacher(int lessonID, Teacher teacher) {
+        LessonID = lessonID;
+        this.teacher = teacher;
+    }
 }

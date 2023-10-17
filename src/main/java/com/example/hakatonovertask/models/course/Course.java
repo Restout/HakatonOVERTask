@@ -29,4 +29,8 @@ public class Course {
         this.name = name;
         this.selectionCommittee = selectionCommittee;
     }
+
+    public Course(int courseId) {
+        this.courseId = courseId;
+    }
 }
