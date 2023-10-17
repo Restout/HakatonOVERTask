@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,17 +49,20 @@ public class NewsService {
     }
 
     @Transactional
-    public News SaveNews(NewsDAO newsDAO){
+    public News SaveNews(NewsDAO newsDAO) throws IOException {
         News news = new News();
         news.setContent(newsDAO.getContent());
         news.setTitle(newsDAO.getTitle());
         news.setPublish_date(new Date());
         news = newsRepository.save(news);
-        System.out.println(news);
+        news.setImagePath(newsDAO.getFileName());
+        File file = new File("/media/"+newsDAO.getFileName());
+        file.createNewFile();
+        OutputStream os = new FileOutputStream(file);
+        os.write(newsDAO.getImage());
+        os.close();
         Image img = new Image(news.getId(),news,newsDAO.getImage()) ;
-        System.out.println(img);
         imageRepository.save(img);
-        news.setImagePath("img"+Integer.toString(news.getId()));
         return newsRepository.save(news);
     }
 
