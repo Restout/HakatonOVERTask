@@ -1,6 +1,6 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.security.model.Enrollee;
+import com.example.hakatonovertask.models.Enrollee;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.repository.EnroleeJpaRepository;
 import com.example.hakatonovertask.security.repository.UserJpaRepository;

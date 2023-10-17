@@ -1,5 +1,6 @@
-package com.example.hakatonovertask.security.model;
+package com.example.hakatonovertask.models;
 
+import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,10 +14,6 @@ import lombok.*;
 @Entity
 @Table(name = "Enrollee")
 public class Enrollee {
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;*/
     @Id
     @Column(name = "ID")
     int id;

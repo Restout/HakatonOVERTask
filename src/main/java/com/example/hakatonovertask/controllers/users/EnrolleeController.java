@@ -1,6 +1,6 @@
-package com.example.hakatonovertask.controllers;
+package com.example.hakatonovertask.controllers.users;
 
-import com.example.hakatonovertask.security.model.Enrollee;
+import com.example.hakatonovertask.models.Enrollee;
 import com.example.hakatonovertask.security.repository.EnroleeJpaRepository;
 import com.example.hakatonovertask.service.EnrolleService;
 import org.springframework.beans.factory.annotation.Autowired;
