@@ -34,6 +34,6 @@ public class EnrolleService {
     }
 
     public void deleteEnrolleeByID(int id) {
-        enroleeJpaRepository.deleteById(id);
+        enroleeJpaRepository.deleteById(id);//Application delete Bug mb Fix later, then application will be done
     }
 }
