@@ -23,8 +23,8 @@ public class Group {
     @Column(name="GroupID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupId;
-    @OneToMany(mappedBy = "group")
-    private List<ScheldueDay> scheldueDay;
+  /*  @OneToMany(mappedBy = "group")
+    private List<ScheldueDay> scheldueDay;*/
     @ManyToOne
     @JoinColumn(name = "CourseID")
     private Course course;

@@ -1,6 +1,6 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
-import cn from "clsx";
+import { api } from "api";
 
 import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
@@ -13,6 +13,17 @@ import styles from "./feed.module.scss";
 interface Props {}
 
 const Feed: FC<Props> = () => {
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await api.get("/news?page=1&limit=10");
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
     return (
         <section>
             <Container>
