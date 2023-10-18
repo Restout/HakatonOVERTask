@@ -6,6 +6,7 @@ import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import com.example.hakatonovertask.service.users.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ public class StudentController implements BaseUserController<Student, StudentDao
     private StudentJpaRepository studentJpaRepository;
 
     @Override
+    @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/api/auth/user/data/student")
     public ResponseEntity<Iterable<Student>> getAllRoleUsers() {
         return ResponseEntity
@@ -50,6 +52,7 @@ public class StudentController implements BaseUserController<Student, StudentDao
     }
 
     @Override
+
     @DeleteMapping("/api/auth/user/delete/student")
     public void deleteRoleUserById(@RequestParam int id) {
         studentService.deleteStudentByID(id);
