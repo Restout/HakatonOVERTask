@@ -43,6 +43,10 @@ public class ScheldueService {
             calendar.setTime(date);
 
         }else {
+            int dayOfWeek = 2;
+            int weekday = calendar.get(Calendar.DAY_OF_WEEK);
+            int days = (Calendar.SATURDAY - weekday + dayOfWeek-7) % 7;
+            calendar.add(Calendar.DAY_OF_YEAR, days);
             date=calendar.getTime();
         }
         calendar.add(Calendar.DAY_OF_MONTH, 7);
