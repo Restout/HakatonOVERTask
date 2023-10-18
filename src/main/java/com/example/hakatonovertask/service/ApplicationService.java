@@ -54,7 +54,7 @@ public class ApplicationService {
     public ApplicationOut createApplication(ApplicationIn applicationIn){
         Application app = new Application(enrolleeRepository.getReferenceById(applicationIn.getID()),
                 courseRepository.getReferenceById(applicationIn.getCourseID()),
-                applicationIn.getStatus());
+                Status.FOR_APPROVAL.getDescription());
 
         applicationRepository.save(app);
         return getApplicationById(app.getApplicationId());

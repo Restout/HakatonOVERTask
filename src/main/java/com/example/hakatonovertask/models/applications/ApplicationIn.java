@@ -8,5 +8,4 @@ import lombok.Data;
 public class ApplicationIn {
     private int courseID;
     private int ID;
-    private String status;
 }
