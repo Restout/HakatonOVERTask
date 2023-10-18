@@ -3,12 +3,14 @@ package com.example.hakatonovertask.models.news;
 import jakarta.persistence.*;
 import lombok.Data;
 import com.example.hakatonovertask.models.Image;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name="News")
+@NoArgsConstructor
 public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,6 @@ public class News {
     private String Content;
     @Column(name = "Image")
     private String imagePath;
-   @OneToOne(mappedBy = "news")
+   @OneToOne(mappedBy = "news",cascade = CascadeType.ALL)
     private Image image;
 }
