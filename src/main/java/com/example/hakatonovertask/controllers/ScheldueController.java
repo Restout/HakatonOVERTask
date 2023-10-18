@@ -6,6 +6,7 @@ import com.example.hakatonovertask.service.ScheldueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -26,14 +27,19 @@ public class ScheldueController {
         return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid,day));
     }
     @PostMapping("/scheldue/{groupid}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
     public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
         return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
     }
     @PutMapping("/scheldue/{groupid}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("groupid") Integer groupid,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
         return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid,scheldueInfoToSave));
     }
     @DeleteMapping("/scheldue/{scheldueId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     public void deleteScheldue(@PathVariable("scheldueId")Integer scheldueId){
         scheldueService.deleteScheldue(scheldueId);
     }

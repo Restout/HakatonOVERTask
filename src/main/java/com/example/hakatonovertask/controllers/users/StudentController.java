@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN','SELLECTION_COMMITE')")
 public class StudentController implements BaseUserController<Student, StudentDao> {
     @Autowired
     private StudentService studentService;

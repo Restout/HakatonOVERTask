@@ -25,7 +25,7 @@ public class AuthController {
 
 
 
-    @PostMapping("/hackathon/auth/login")
+    @PostMapping("/api/login")
     public ResponseEntity<String> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
