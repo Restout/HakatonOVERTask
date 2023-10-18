@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -27,6 +28,8 @@ public class ScheldueController {
         return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid,day));
     }
     @PostMapping("/api/auth/scheldue/{groupid}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
         try {
             return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
@@ -36,6 +39,8 @@ public class ScheldueController {
 
     }
     @PutMapping("/api/auth/scheldue/{scheldueId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("scheldueId") Integer scheldueId,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
         try {
             return ResponseEntity.ok().body(scheldueService.updateScheldueDay(scheldueId, scheldueInfoToSave));
@@ -44,6 +49,8 @@ public class ScheldueController {
         }
     }
     @DeleteMapping("/api/auth/scheldue/{scheldueId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     public void deleteScheldue(@PathVariable("scheldueId")Integer scheldueId){
         scheldueService.deleteScheldue(scheldueId);
     }
