@@ -2,8 +2,10 @@ package com.example.hakatonovertask.security;
 
 import com.example.hakatonovertask.security.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Optional;
+import java.util.TimeZone;
 
 
 @Configuration
@@ -41,7 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/hackathon/registration"))
                         .permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
-                        .hasAuthority("TEACHER")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -100,5 +103,13 @@ public class SecurityConfiguration {
             }
         };
     }
-
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer init() {
+        return new Jackson2ObjectMapperBuilderCustomizer() {
+            @Override
+            public void customize(Jackson2ObjectMapperBuilder builder) {
+                builder.timeZone(TimeZone.getDefault());
+            }
+        };
+    }
 }
