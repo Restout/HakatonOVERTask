@@ -5,6 +5,8 @@ import com.example.hakatonovertask.models.Teacher;
 import com.example.hakatonovertask.models.groups.Group;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Date;
 
@@ -13,7 +15,7 @@ import java.util.Date;
 @Getter
 
 @NoArgsConstructor
-
+@AllArgsConstructor
 @ToString
 @Table(name="ScheduleDay")
 @Entity
@@ -41,6 +43,7 @@ public class ScheldueDay {
                     @JoinColumn(name ="ID", referencedColumnName = "ID")
             }
     )
+    @Fetch(FetchMode.JOIN)
     private LessonTeacher lessonTeacher;
 
     public ScheldueDay(Date day, Date startTime, Date endTime, Group group, String audience, LessonTeacher lessonTeacher) {

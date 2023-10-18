@@ -5,8 +5,8 @@ import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
 import com.example.hakatonovertask.service.ScheldueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -21,25 +21,29 @@ public class ScheldueController {
         this.scheldueService = scheldueService;
     }
 
-    @GetMapping("/scheldue/{groupid}")
+    @GetMapping("/api/scheldue/{groupid}")
     public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupid") Integer groupid, @RequestParam("date")@DateTimeFormat(pattern="yyyy-MM-dd") Optional<Date> date){
         Date day = date.orElse(null);
         return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid,day));
     }
-    @PostMapping("/scheldue/{groupid}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+    @PostMapping("/api/auth/scheldue/{groupid}")
     public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
-    }
-    @PutMapping("/scheldue/{groupid}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+        try {
+            return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-    public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("groupid") Integer groupid,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid,scheldueInfoToSave));
     }
-    @DeleteMapping("/scheldue/{scheldueId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
-
+    @PutMapping("/api/auth/scheldue/{scheldueId}")
+    public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("scheldueId") Integer scheldueId,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
+        try {
+            return ResponseEntity.ok().body(scheldueService.updateScheldueDay(scheldueId, scheldueInfoToSave));
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping("/api/auth/scheldue/{scheldueId}")
     public void deleteScheldue(@PathVariable("scheldueId")Integer scheldueId){
         scheldueService.deleteScheldue(scheldueId);
     }
