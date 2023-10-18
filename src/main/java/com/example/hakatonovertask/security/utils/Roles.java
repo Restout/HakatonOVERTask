@@ -10,7 +10,7 @@ public enum Roles implements GrantedAuthority {
     ENROLLEE("ENROLLEE"),
     TEACHER("TEACHER"),
     STUDENT("STUDENT"),
-    GUEST("GUEST"),
+    ADMIN("ADMIN"),
     SELLECTION_COMMITE("SELLECTION_COMMITE"),
     SUPERVISOR("SUPERVISOR");
     private final String authority;

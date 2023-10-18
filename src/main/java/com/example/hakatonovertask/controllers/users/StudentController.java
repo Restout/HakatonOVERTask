@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 public class StudentController implements BaseUserController<Student, StudentDao> {
     @Autowired
     private StudentService studentService;
@@ -19,7 +20,6 @@ public class StudentController implements BaseUserController<Student, StudentDao
     private StudentJpaRepository studentJpaRepository;
 
     @Override
-    @PreAuthorize("hasAuthority('TEACHER')")
     @GetMapping("/api/auth/user/data/student")
     public ResponseEntity<Iterable<Student>> getAllRoleUsers() {
         return ResponseEntity
@@ -36,6 +36,7 @@ public class StudentController implements BaseUserController<Student, StudentDao
     }
 
     @Override
+
     @PutMapping("/api/auth/user/grand/student")
     public ResponseEntity<Student> grandUserToRole(@RequestBody StudentDao roleDao) {
         Student student;

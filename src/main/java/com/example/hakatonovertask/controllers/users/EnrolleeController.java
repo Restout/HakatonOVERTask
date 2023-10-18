@@ -5,12 +5,14 @@ import com.example.hakatonovertask.repositories.users.EnroleeJpaRepository;
 import com.example.hakatonovertask.service.users.EnrolleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 public class EnrolleeController {
     @Autowired
     EnroleeJpaRepository enroleeJpaRepository;

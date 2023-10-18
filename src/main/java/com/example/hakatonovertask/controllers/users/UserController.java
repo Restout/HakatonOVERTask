@@ -1,15 +1,17 @@
-package com.example.hakatonovertask.controllers;
+package com.example.hakatonovertask.controllers.users;
 
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import com.example.hakatonovertask.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
     private UserService userService;
