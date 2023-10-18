@@ -19,12 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Optional;
 
 
 @Configuration
-
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
@@ -40,7 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/hackathon/registration"))
                         .permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**"))
-                        .permitAll()
+                        .hasAuthority("TEACHER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -84,6 +85,20 @@ public class SecurityConfiguration {
        /* InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(userDao.getUSER_DATA().get(0));
         return manager;*/
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer()
+    {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOriginPatterns("*")
+                        .allowedHeaders("*")
+                        .exposedHeaders("students_count","lessons_count","attendance_count","content_count", "Authorization");
+            }
+        };
     }
 
 }

@@ -44,6 +44,6 @@ public class CourseController {
     }
     @DeleteMapping("/api/auth/courses/{courseId}")
     public void deleteCourse(@PathVariable("courseId") Integer courseId){
-        courseService.deleteCourse(courseId);
+       // courseService.deleteCourse(courseId);
     }
 }
