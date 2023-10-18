@@ -3,6 +3,8 @@ package com.example.hakatonovertask.models;
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public class LessonTeacher {
     @Id
     @Column(name = "LessonID")
-    private int LessonID;
+    private int lessonId;
     @Id
     @ManyToOne()
     @JoinColumn(name = "ID")
@@ -30,5 +32,11 @@ public class LessonTeacher {
     private List<ScheldueDay> scheldueDay;
     @ManyToOne
     @JoinColumn(name = "LessonID")
+    @Fetch(FetchMode.JOIN)
     private Lesson lesson;
+
+    public LessonTeacher(int lessonID, Teacher teacher) {
+        lessonId = lessonID;
+        this.teacher = teacher;
+    }
 }

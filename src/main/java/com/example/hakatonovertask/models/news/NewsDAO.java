@@ -6,5 +6,6 @@ import lombok.Data;
 public class NewsDAO {
     private String title;
     private String content;
+    private String fileName;
     private byte[] image;
 }

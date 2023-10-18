@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.service;
 
+import com.example.hakatonovertask.models.course.Course;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.groups.GroupAllInfo;
 import com.example.hakatonovertask.models.groups.GroupOut;
@@ -14,14 +15,9 @@ import java.util.List;
 @Service
 public class GroupService {
     private GroupRepository groupRepository;
-    private CourseRepository courseRepository;
     @Autowired
     public void setGroupRepository(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
-    }
-    @Autowired
-    public void setCourseRepository(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
     }
 
     public List<GroupOut> getAll(){
@@ -36,9 +32,9 @@ public class GroupService {
     public GroupOut saveGroup(GroupAllInfo group, Integer groupId){
         GroupOut groupOut = new GroupOut();
         if(groupId==null){
-            groupOut = groupToDTO(groupRepository.save(new Group(courseRepository.findById(group.getCourseId()).get(),group.getGroupName(),group.getSupervisiorId())));
+            groupOut = groupToDTO(groupRepository.save(new Group(new Course(group.getCourseId()),group.getGroupName(),group.getSupervisiorId())));
         }else {
-            groupOut = groupToDTO(groupRepository.save(new Group(groupId,courseRepository.findById(group.getCourseId()).get(),group.getGroupName(),group.getSupervisiorId())));
+            groupOut = groupToDTO(groupRepository.save(new Group(groupId,new Course(group.getCourseId()),group.getGroupName(),group.getSupervisiorId())));
         }
         return groupOut;
     }

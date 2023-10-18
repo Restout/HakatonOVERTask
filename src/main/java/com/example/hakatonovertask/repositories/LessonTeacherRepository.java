@@ -2,11 +2,8 @@ package com.example.hakatonovertask.repositories;
 
 import com.example.hakatonovertask.models.LessonTeacher;
 import com.example.hakatonovertask.models.LessonTeacherId;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface LessonTeacherRepository extends JpaRepository<LessonTeacher, LessonTeacherId> {
-    LessonTeacher findLessonTeacherByTeacherTeacherIdAndLessonLessonID(Integer LessonID, Integer TeacherId);
+public interface LessonTeacherRepository extends CrudRepository<LessonTeacher, LessonTeacherId> {
+    LessonTeacher getLessonTeacherByLessonLessonIDAndTeacherTeacherId(Integer lessonId, Integer teacherId);
 }

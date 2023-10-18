@@ -7,12 +7,13 @@ import com.example.hakatonovertask.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class CourseController {
     CourseService courseService;
     @Autowired
@@ -20,12 +21,13 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping("/courses")
+    @GetMapping("/api/courses")
     public ResponseEntity<List<CourseOut>> getCourses(){
         return ResponseEntity.ok().body(courseService.getCourse());
     }
 
-    @PostMapping("/courses")
+    @PostMapping("/api/auth/courses")
+    @PreAuthorize("hasAnyAuthority('TEACHER','ADMIN','SUPERVISOR')")
     public ResponseEntity<CourseOut> saveCourse(@RequestBody CourseIn course){
         try {
             return ResponseEntity.ok().body(courseService.saveCourse(course));
@@ -34,7 +36,8 @@ public class CourseController {
         }
 
     }
-    @PutMapping("/courses/{courseId}")
+    @PutMapping("/api/auth/courses/{courseId}")
+    @PreAuthorize("hasAnyAuthority('TEACHER','ADMIN','SUPERVISOR')")
     public ResponseEntity<CourseOut> updateCourse(@RequestBody CourseIn course, @PathVariable("courseId") Integer courseId){
         try {
             return ResponseEntity.ok().body(courseService.updateCourse(course, courseId));
@@ -42,6 +45,9 @@ public class CourseController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
-
+    @DeleteMapping("/api/auth/courses/{courseId}")
+    @PreAuthorize("hasAnyAuthority('TEACHER','ADMIN','SUPERVISOR')")
+    public void deleteCourse(@PathVariable("courseId") Integer courseId){
+       // courseService.deleteCourse(courseId);
+    }
 }

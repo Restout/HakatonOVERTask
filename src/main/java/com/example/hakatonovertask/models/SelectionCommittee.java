@@ -3,12 +3,15 @@ package com.example.hakatonovertask.models;
 import com.example.hakatonovertask.models.course.Course;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name="SelectionCommittee")
 public class SelectionCommittee {
     @Id
@@ -19,6 +22,15 @@ public class SelectionCommittee {
     @JoinColumn(name = "ID")
     @MapsId
     private UserModel user;
-  /*  @OneToMany(mappedBy = "selectionCommittee")
+    /*@OneToMany(mappedBy = "selectionCommittee")
     private List<Course> course;*/
+
+    public SelectionCommittee(int id, UserModel user) {
+        this.id = id;
+        this.user = user;
+    }
+
+    public SelectionCommittee(int id) {
+        this.id = id;
+    }
 }
