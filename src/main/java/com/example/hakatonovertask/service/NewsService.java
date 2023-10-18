@@ -71,7 +71,6 @@ public class NewsService {
     }
 
     public void deleteNews(Integer id){
-        System.out.println(id);
         newsRepository.deleteById(id);
     }
 
