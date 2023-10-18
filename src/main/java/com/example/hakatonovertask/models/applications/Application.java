@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import static com.example.hakatonovertask.models.applications.Status.*;
 
 @Entity
-@Table(name="Applications", schema="portal")
+@Table(name="Applications", schema="public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,21 +26,22 @@ public class Application {
     @ManyToOne
     @JoinColumn(name = "CourseID")
     private Course course;
+    @Enumerated(EnumType.STRING)
     @Column(name = "Status")
-    private String status;
+    private Status status;
 
     public Application(Enrollee enrollee, Course course, String status){
         this.course = course;
         this.enrollee = enrollee;
         switch (status) {
             case "На согласовании":
-                this.status = FOR_APPROVAL.getDescription();
+                this.status = FOR_APPROVAL;
                 break;
             case "Отклонена":
-                this.status = REJECTED.getDescription();
+                this.status = REJECTED;
                 break;
             case "Зарегистрирована":
-                this.status = REGISTERED.getDescription();
+                this.status = REGISTERED;
                 break;
         }
     }

@@ -1,7 +1,6 @@
 package com.example.hakatonovertask.controllers;
 
 
-import com.example.hakatonovertask.models.applications.Application;
 import com.example.hakatonovertask.models.applications.ApplicationIn;
 import com.example.hakatonovertask.models.applications.ApplicationOut;
 import com.example.hakatonovertask.service.ApplicationService;
@@ -23,7 +22,7 @@ public class ApplicationController {
         return ResponseEntity.ok().body(applicationService.listApplications());
     }
 
-    @GetMapping("/applications/{id}")
+    @GetMapping("/application/{id}")
     public ResponseEntity<ApplicationOut> getApplicatoinById(@PathVariable int id) {
         var result = applicationService.getApplicationById(id);
         if (result == null) {
@@ -32,11 +31,20 @@ public class ApplicationController {
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/applications/delete")
-    public void deleteApplication(@RequestParam int id){applicationService.deleteApplication(id);}
+    @DeleteMapping("/application/delete")
+    public ResponseEntity deleteApplication(@RequestParam int id){
+        applicationService.deleteApplication(id);
+        return ResponseEntity.ok().build();
+    }
 
-    @PostMapping("/applications/create")
+    @PostMapping("/application/create")
     public ResponseEntity<ApplicationOut> createApplication(@RequestBody ApplicationIn app){
         return ResponseEntity.ok().body(applicationService.createApplication(app));
+    }
+
+    @PutMapping("/applicatoin/approve/{id}")
+    public ResponseEntity approveApplicatoin(@PathVariable int id, @RequestParam boolean answer){
+        applicationService.approveApplication(id, answer);
+        return ResponseEntity.ok().build();
     }
 }

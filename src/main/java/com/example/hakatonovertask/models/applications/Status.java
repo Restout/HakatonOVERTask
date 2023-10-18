@@ -6,11 +6,11 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum Status {
-    FOR_APPROVAL("В согласовании"),
+    FOR_APPROVAL("На согласовании"),
     REJECTED("Отклонена"),
     REGISTERED("Зарегистрирована");
 
-    private String description;
+    private final String description;
 
     Status(String description) {
         this.description = description;
