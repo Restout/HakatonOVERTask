@@ -1,13 +1,14 @@
 package com.example.hakatonovertask.service.users;
 
-import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
+import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -55,6 +56,13 @@ public class UserService {
         return userRepository.findByRole(role);
     }
 
+    public UserModel getUserByID(int id) throws SQLException {
+        Optional<UserModel> userModel = userRepository.findById(id);
+        if (userModel.isEmpty()) {
+            throw new SQLException("No Such User");
+        }
+        return userModel.get();
+    }
 
     public Optional<UserModel> saveNewUser(UserModel userModel) {
         return Optional.of(userRepository.save(userModel));

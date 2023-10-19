@@ -3,6 +3,8 @@ package com.example.hakatonovertask.models.applications;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 public class ApplicationOutById {
@@ -11,7 +13,12 @@ public class ApplicationOutById {
     private String firstName;
     private String lastName;
     private String fatherName;
-    private String status;
+    private String chiefName;
+    private String currentPosition;
+    private String departmentName;
+    private int experience;
     private String merits;
     private String motivationLetter;
+    private String status;
+    private Date dateOfChange;
 }

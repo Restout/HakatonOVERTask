@@ -21,5 +21,6 @@ public interface UserJpaRepository extends JpaRepository<UserModel, Integer> {
      long countAllByRole(Roles role);
 
      UserModel findByEmail(String Email);
+     UserModel findByLastName(String LastName);
 
 }

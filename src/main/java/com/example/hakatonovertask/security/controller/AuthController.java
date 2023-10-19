@@ -3,13 +3,13 @@ package com.example.hakatonovertask.security.controller;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserDao;
 import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.security.model.UserOut;
 import com.example.hakatonovertask.security.utils.JwtUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,15 +26,16 @@ public class AuthController {
 
 
     @PostMapping("/api/login")
-    public ResponseEntity<UserDetails> authentication(@RequestBody UserDao user, HttpServletResponse response) {
+    public ResponseEntity<UserOut> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
         UserModel userModel = userJpaRepository.findByEmail(user.getEmail());
+        UserOut userOut = new UserOut(userModel);
         String jwtToken = "Bearer " + jwtUtils.generateToken(userModel);
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtToken);
         if (user != null) {
             return ResponseEntity
                     .ok()
-                    .body(userModel);
+                    .body(userOut);
         }
         return ResponseEntity
                 .badRequest()
@@ -42,9 +43,10 @@ public class AuthController {
     }
 
     @GetMapping("/api/refresh")
-    public ResponseEntity<UserModel> refreshToken(@RequestHeader(name=HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<UserOut> refreshToken(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String token) {
         String email = jwtUtils.extractUsername(token);
         UserModel userModel = userJpaRepository.findByEmail(email);
+        UserOut userOut = new UserOut(userModel);
         if (!jwtUtils.validateToken(token, userModel)) {
             return ResponseEntity
                     .status(401)
@@ -52,6 +54,6 @@ public class AuthController {
         }
         return ResponseEntity
                 .ok()
-                .body(userModel);
+                .body(userOut);
     }
 }

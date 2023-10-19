@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.Optional;
 
 @RestController
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
     @GetMapping("/api/auth/users/all")
     public ResponseEntity<Iterable<UserModel>> getAllUsers(Roles role) {
@@ -30,6 +32,19 @@ public class UserController {
                     .header("user_count", String.valueOf(userService.getCountOfUsersByRole(role)))
                     .body(userService.getUsersByRole(role));
         } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+    }
+
+    @GetMapping("api/auth/users/one")
+    public ResponseEntity<UserModel> getUserById(@RequestParam int id) {
+        try {
+            return ResponseEntity
+                    .ok()
+                    .body(userService.getUserByID(id));
+        } catch (SQLException e) {
             return ResponseEntity
                     .badRequest()
                     .build();
