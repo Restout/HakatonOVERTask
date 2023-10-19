@@ -6,21 +6,22 @@ import com.example.hakatonovertask.models.applications.ApplicationOut;
 import com.example.hakatonovertask.models.applications.ApplicationOutById;
 import com.example.hakatonovertask.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ApplicationController {
 
     private final ApplicationService applicationService;
 
     @GetMapping("/api/auth/applications")
-    public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId){
-        return ResponseEntity.ok().body(applicationService.listApplications(userId));
+    public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId, Pageable pageable){
+        return ResponseEntity.ok().body(applicationService.listApplications(userId, pageable));
     }
 
     @GetMapping("/api/auth/application/{id}")

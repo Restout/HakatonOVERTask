@@ -42,7 +42,6 @@ public class UserService {
                 isRole = true;
                 break;
             }
-
         }
         if (!isRole) {
             throw new HttpClientErrorException(HttpStatusCode.valueOf(404));
@@ -56,7 +55,6 @@ public class UserService {
             throw e;
         }
         page = page.withPage(page.getPageNumber() - 1);
-
         return userRepository.findByRole(role, page).getContent();
     }
 
