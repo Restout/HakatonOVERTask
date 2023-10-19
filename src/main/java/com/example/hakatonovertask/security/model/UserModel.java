@@ -22,6 +22,7 @@ import java.util.List;
 public class UserModel implements UserDetails {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @Column(name = "Birthday")
 
@@ -37,7 +38,7 @@ public class UserModel implements UserDetails {
     String email;
     @Column(name = "Role")
     @Enumerated(EnumType.STRING)
-    Roles role;
+    Roles role=Roles.ENROLLEE;
     @Column(name = "First_name")
     String firstName;
     @Column(name = "Last_name")
