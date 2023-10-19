@@ -3,23 +3,15 @@ import { FC } from "react";
 import cn from "clsx";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
-import {
-    BIDS_PATH,
-    CREATE_COURSES_PATH,
-    CREATE_NEWS_PATH,
-    USERS_PATH,
-} from "constants/routesPathnames";
+import { NavLink } from "components/Router/router.data";
 
-import styles from "./adminLayout.module.scss";
+import styles from "./subNavLayout.module.scss";
 
-const navLinks = [
-    { label: "Пользователи", path: USERS_PATH, id: 1 },
-    { label: "Заявки", path: BIDS_PATH, id: 2 },
-    { label: "Новости", path: CREATE_NEWS_PATH, id: 3 },
-    { label: "Курсы", path: CREATE_COURSES_PATH, id: 4 },
-];
+interface Props {
+    navLinks: NavLink[];
+}
 
-const AdminLayout: FC = () => {
+const SubNavLayout: FC<Props> = ({ navLinks }) => {
     const { pathname } = useLocation();
 
     return (
@@ -45,4 +37,4 @@ const AdminLayout: FC = () => {
     );
 };
 
-export default AdminLayout;
+export default SubNavLayout;

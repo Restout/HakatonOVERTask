@@ -6,7 +6,9 @@ import { BrowserRouter } from "react-router-dom";
 
 import { store } from "store";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 const AppProvider: FC<PropsWithChildren> = ({ children }) => {
     return (

@@ -26,7 +26,7 @@ import closeIcon from "assets/img/icons/close.svg";
 
 import styles from "./newsForm.module.scss";
 
-interface NewsFormState {
+export interface NewsFormState {
     description: string;
     title: string;
     image: File | null;
@@ -38,7 +38,11 @@ interface FieldProps {
     control?: Control<NewsFormState>;
 }
 
-const NewsForm: FC = () => {
+interface Props {
+    onSubmit: (data: NewsFormState) => Promise<void>;
+}
+
+const NewsForm: FC<Props> = ({ onSubmit }) => {
     const [error, setError] = useState<string | null>(null);
 
     const {
@@ -47,21 +51,19 @@ const NewsForm: FC = () => {
         reset,
         control,
         setValue,
-        getValues,
         formState: { errors },
     } = useForm<NewsFormState>();
 
     const handleSubmit: SubmitHandler<NewsFormState> = async (data) => {
-        console.log(data);
-        console.log(data.image);
+        onSubmit(data);
+        reset();
     };
-
-    console.log(getValues("image"));
 
     return (
         <form
             className={styles.form}
             onSubmit={submitHandlerWrapper(handleSubmit)}
+            encType="multipart/form-data"
         >
             <Image
                 register={register}
@@ -71,7 +73,11 @@ const NewsForm: FC = () => {
             />
             <Title register={register} error={errors.title} />
             <Description register={register} error={errors.description} />
-            <Button variant="green" type="submit">
+            <Button
+                variant="green"
+                className={styles.submitButton}
+                type="submit"
+            >
                 Создать
             </Button>
         </form>

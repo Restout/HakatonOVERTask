@@ -1,0 +1,114 @@
+.block {
+    background-color: var(--color-white);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+    font-size: 24px;
+    font-weight: 500;
+    padding: 15px 26px;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease;
+    &:hover {
+        border-color: var(--color-dark-blue);
+        color: var(--color-dark-blue);
+
+        & path {
+            fill: var(--color-dark-blue);
+        }
+    }
+    &.active {
+        color: var(--color-dark-blue);
+        border-color: var(--color-dark-blue);
+
+        & svg {
+            transform: rotate(180deg);
+
+            path {
+                fill: var(--color-dark-blue);
+            }
+        }
+    }
+
+    svg {
+        display: block;
+        width: 32px;
+        height: 32px;
+        transition:
+            transform 0.2s ease,
+            fill 0.15s ease;
+    }
+}
+
+.content {
+    border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+    padding: 0 20px 20px 50px;
+}
+
+.date {
+    color: var(--color-grey);
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 16px;
+    color: var(--color-grey);
+    margin-bottom: 20px;
+}
+
+.subsections {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    h5 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 14px;
+
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    li {
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--color-light-blue);
+        font-size: 16px;
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+
+        a {
+            color: inherit;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        img {
+            width: 21px;
+            height: 21px;
+        }
+    }
+}

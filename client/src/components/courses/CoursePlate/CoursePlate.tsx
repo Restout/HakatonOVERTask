@@ -1,10 +1,26 @@
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+
+import { Button } from "components/ui/Button";
+
+import { COURSES_PATHNAME, PROGRAM_PATHNAME } from "constants/routesPathnames";
 
 import styles from "./coursePlate.module.scss";
 
-interface Props {}
+interface Props {
+    isParticipant?: boolean;
+}
 
-const CoursePlate: FC<Props> = () => {
+const CoursePlate: FC<Props> = ({ isParticipant }) => {
+    const navigate = useNavigate();
+    const handleNavigateToMaterials = (
+        event: MouseEvent<HTMLButtonElement>,
+    ) => {
+        event.preventDefault();
+        navigate(`/${COURSES_PATHNAME}/1/${PROGRAM_PATHNAME}`);
+    };
+
     return (
         <article className={styles.plate}>
             <header>
@@ -22,6 +38,13 @@ const CoursePlate: FC<Props> = () => {
                     перехода на frontend-разработку.
                 </p>
             </div>
+            {isParticipant && (
+                <footer>
+                    <Button onClick={handleNavigateToMaterials}>
+                        Перейти к материалам курса
+                    </Button>
+                </footer>
+            )}
         </article>
     );
 };

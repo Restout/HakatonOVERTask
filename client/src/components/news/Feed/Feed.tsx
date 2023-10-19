@@ -1,94 +1,69 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 
-import { api } from "api";
+import { useQuery } from "@tanstack/react-query";
+import cn from "clsx";
 
 import { Container } from "components/shared/Container";
+import { Alert } from "components/ui/Alert";
+import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
-import image from "assets/img/test-image.jpg";
+import NewsService from "services/NewsService";
+
+import { formatDate } from "utils/formatDate";
+import { getServerImagePath } from "utils/getServerImagePath";
 
 import { Post } from "./Post";
 import styles from "./feed.module.scss";
 
-interface Props {}
+interface Props {
+    className?: string;
+}
 
-const Feed: FC<Props> = () => {
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await api.get("/news?page=1&limit=10");
-                console.log(response);
-            } catch (error) {
-                console.log(error);
-            }
-        })();
-    }, []);
+const Feed: FC<Props> = ({ className }) => {
+    const { data, isSuccess, isError, isLoading } = useQuery({
+        queryKey: ["news"],
+        queryFn: () => NewsService.getAll({ limit: 30, page: 1 }),
+        select(data) {
+            return data.data;
+        },
+    });
 
     return (
-        <section>
+        <section className={cn(styles.section, className)}>
             <Container>
                 <Title className={styles.title}>Новости и события</Title>
-                <ul className={styles.feedList}>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                    <li>
-                        <Post
-                            date="2020-19-10"
-                            src={image}
-                            text="Everyday thundercats coloring book yuccie woke. Ugh pok pok taxidermy pabst enamel pin edison bulb farm-to-table"
-                            title="Semiotics fixie four, next level woke"
-                        />
-                    </li>
-                </ul>
+                {isSuccess && (
+                    <ul className={styles.feedList}>
+                        {data.map((news) => (
+                            <li key={news.id}>
+                                <Post
+                                    date={formatDate(news.publish_date).date}
+                                    src={getServerImagePath(news.imagePath)}
+                                    text={news.content}
+                                    title={news.title}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <Error message={isError ? "Something went wrong" : null} />
+                <Loading isLoading={isLoading} />
             </Container>
         </section>
     );
 };
 
 export default Feed;
+
+function Loading({ isLoading }: { isLoading: boolean }) {
+    if (!isLoading) return null;
+
+    return <Loader isCenter={true} />;
+}
+
+function Error({ message }: { message: string | null }) {
+    if (!message) return null;
+
+    return <Alert variant="error">{message}</Alert>;
+}
