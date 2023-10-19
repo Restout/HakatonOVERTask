@@ -19,8 +19,8 @@ public class ApplicationController {
     private final ApplicationService applicationService;
 
     @GetMapping("/applications")
-    public ResponseEntity<List<ApplicationOut>> getListApplication(){
-        return ResponseEntity.ok().body(applicationService.listApplications());
+    public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int id){
+        return ResponseEntity.ok().body(applicationService.listApplications(id));
     }
 
     @GetMapping("/application/{id}")
