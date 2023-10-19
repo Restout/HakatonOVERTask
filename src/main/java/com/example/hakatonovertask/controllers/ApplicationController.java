@@ -3,6 +3,7 @@ package com.example.hakatonovertask.controllers;
 
 import com.example.hakatonovertask.models.applications.ApplicationIn;
 import com.example.hakatonovertask.models.applications.ApplicationOut;
+import com.example.hakatonovertask.models.applications.ApplicationOutById;
 import com.example.hakatonovertask.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ApplicationController {
     }
 
     @GetMapping("/application/{id}")
-    public ResponseEntity<ApplicationOut> getApplicatoinById(@PathVariable int id) {
+    public ResponseEntity<ApplicationOutById> getApplicatoinById(@PathVariable int id) {
         var result = applicationService.getApplicationById(id);
         if (result == null) {
             return ResponseEntity.ok().build();
@@ -38,7 +39,7 @@ public class ApplicationController {
     }
 
     @PostMapping("/application/create")
-    public ResponseEntity<ApplicationOut> createApplication(@RequestBody ApplicationIn app){
+    public ResponseEntity<ApplicationOutById> createApplication(@RequestBody ApplicationIn app){
         return ResponseEntity.ok().body(applicationService.createApplication(app));
     }
 

@@ -1,19 +1,18 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.applications.Application;
-import com.example.hakatonovertask.models.applications.ApplicationIn;
-import com.example.hakatonovertask.models.applications.ApplicationOut;
-import com.example.hakatonovertask.models.applications.Status;
+import com.example.hakatonovertask.models.applications.*;
 import com.example.hakatonovertask.repositories.ApplicationRepository;
 import com.example.hakatonovertask.repositories.CourseRepository;
 import com.example.hakatonovertask.repositories.users.EnroleeJpaRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ApplicationService {
 
@@ -27,7 +26,7 @@ public class ApplicationService {
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getApplicationId(),
-                    app.getCourse().getName(),
+                    app.getCourse().getCourseName(),
                     app.getEnrollee().getUserId().getFirstName(),
                     app.getEnrollee().getUserId().getLastName(),
                     app.getEnrollee().getUserId().getFatherName(),
@@ -38,23 +37,26 @@ public class ApplicationService {
         return applicationRes;
     }
 
-    public ApplicationOut getApplicationById(Integer id){
+    public ApplicationOutById getApplicationById(Integer id){
         Application app = applicationRepository.findById(id).orElse(null);
         if (app == null) return null;
-        return new ApplicationOut(app.getApplicationId(),
-                app.getCourse().getName(),
+        return new ApplicationOutById(app.getApplicationId(),
+                app.getCourse().getCourseName(),
                 app.getEnrollee().getUserId().getFirstName(),
                 app.getEnrollee().getUserId().getLastName(),
                 app.getEnrollee().getUserId().getFatherName(),
-                app.getStatus().getDescription());
+                app.getStatus().getDescription(),
+                app.getDescription());
     }
 
     public void deleteApplication(int id){applicationRepository.deleteById(id);}
 
-    public ApplicationOut createApplication(ApplicationIn applicationIn){
+    public ApplicationOutById createApplication(ApplicationIn applicationIn){
+        log.info("arraived info {} {} {}", applicationIn.getDescription(), applicationIn.getID(), applicationIn.getID());
         Application app = new Application(enrolleeRepository.getReferenceById(applicationIn.getID()),
                 courseRepository.getReferenceById(applicationIn.getCourseID()),
-                Status.FOR_APPROVAL.getDescription());
+                Status.FOR_APPROVAL.getDescription(),
+                applicationIn.getDescription());
 
         applicationRepository.save(app);
         return getApplicationById(app.getApplicationId());

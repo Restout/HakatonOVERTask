@@ -2,7 +2,7 @@ package com.example.hakatonovertask.models.applications;
 
 
 import com.example.hakatonovertask.models.Enrollee;
-import com.example.hakatonovertask.models.course.Course;
+import com.example.hakatonovertask.models.Course;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +29,13 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(name = "Status")
     private Status status;
+    @Column(name = "Description")
+    private String description;
 
-    public Application(Enrollee enrollee, Course course, String status){
+    public Application(Enrollee enrollee, Course course, String status, String description){
         this.course = course;
         this.enrollee = enrollee;
+        this.description = description;
         switch (status) {
             case "На согласовании":
                 this.status = FOR_APPROVAL;
