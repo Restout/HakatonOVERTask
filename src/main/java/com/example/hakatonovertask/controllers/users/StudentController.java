@@ -6,11 +6,13 @@ import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import com.example.hakatonovertask.service.users.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
 @RestController
+@PreAuthorize("hasAnyAuthority('ADMIN','SELLECTION_COMMITE')")
 public class StudentController implements BaseUserController<Student, StudentDao> {
     @Autowired
     private StudentService studentService;
@@ -34,6 +36,7 @@ public class StudentController implements BaseUserController<Student, StudentDao
     }
 
     @Override
+
     @PutMapping("/api/auth/user/grand/student")
     public ResponseEntity<Student> grandUserToRole(@RequestBody StudentDao roleDao) {
         Student student;
@@ -50,6 +53,7 @@ public class StudentController implements BaseUserController<Student, StudentDao
     }
 
     @Override
+
     @DeleteMapping("/api/auth/user/delete/student")
     public void deleteRoleUserById(@RequestParam int id) {
         studentService.deleteStudentByID(id);

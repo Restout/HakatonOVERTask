@@ -13,7 +13,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LessonTeacherId implements Serializable {
-    private int LessonID;
+    @Column(name = "LessonID")
+    private int lessonId;
     @ManyToOne()
     @JoinColumn(name = "ID")
     private Teacher teacher;

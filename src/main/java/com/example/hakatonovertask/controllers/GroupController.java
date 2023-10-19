@@ -6,6 +6,7 @@ import com.example.hakatonovertask.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class GroupController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/api/auth/groups/{groupId}")
     public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group){
         try {
@@ -41,7 +42,7 @@ public class GroupController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/api/auth/groups/{N}")
     public void deleteGroup(@PathVariable("N") Integer groupId){
         groupService.deleteGroup(groupId);

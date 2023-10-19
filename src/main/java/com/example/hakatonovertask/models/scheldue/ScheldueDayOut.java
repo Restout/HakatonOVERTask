@@ -8,12 +8,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class ScheldueDayOut {
-
+    private int scheldueId;
     private Date day;
     private String Lesson;
     private Date startTime;
     private Date endTime;
-    private String groupId;
     private String audience;
     private String firstName;
     private String lastname;

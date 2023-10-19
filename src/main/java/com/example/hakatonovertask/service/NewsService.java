@@ -55,12 +55,16 @@ public class NewsService {
         news.setTitle(newsDAO.getTitle());
         news.setPublish_date(new Date());
         news = newsRepository.save(news);
-        news.setImagePath(newsDAO.getFileName());
-        File file = new File("/media/"+newsDAO.getFileName());
-        file.createNewFile();
-        OutputStream os = new FileOutputStream(file);
-        os.write(newsDAO.getImage());
-        os.close();
+        String fileName ="/"+"img"+Integer.toString(news.getId())+newsDAO.getFileName().substring(newsDAO.getFileName().lastIndexOf('.'));
+        news.setImagePath(fileName);
+        File file = new File("src/main/resources/static/media/"+fileName);
+        if(file.createNewFile()){
+            OutputStream os = new FileOutputStream(file);
+            os.write(newsDAO.getImage());
+            os.close();
+        }else {
+            throw new IOException("File already exist");
+        }
         Image img = new Image(news.getId(),news,newsDAO.getImage()) ;
         imageRepository.save(img);
         return newsRepository.save(news);
