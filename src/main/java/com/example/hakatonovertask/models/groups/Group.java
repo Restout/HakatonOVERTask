@@ -1,11 +1,8 @@
 package com.example.hakatonovertask.models.groups;
 
-import com.example.hakatonovertask.models.course.Course;
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
+import com.example.hakatonovertask.models.Course;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Table(name="Groups")

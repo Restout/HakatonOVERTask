@@ -1,13 +1,9 @@
 package com.example.hakatonovertask.models;
 
-import com.example.hakatonovertask.models.course.Course;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Data
