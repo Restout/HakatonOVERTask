@@ -12,7 +12,8 @@ public enum Roles implements GrantedAuthority {
     STUDENT("STUDENT"),
     ADMIN("ADMIN"),
     SELLECTION_COMMITE("SELLECTION_COMMITE"),
-    SUPERVISOR("SUPERVISOR");
+    SUPERVISOR("SUPERVISOR"),
+    MANAGER("MANAGER");
     private final String authority;
 
     Roles(String s) {
