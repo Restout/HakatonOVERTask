@@ -7,11 +7,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Date;
 
 import static com.example.hakatonovertask.models.applications.Status.*;
 
 @Entity
-@Table(name="Applications", schema="public")
+@Table(name="Applications")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,26 +30,38 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(name = "Status")
     private Status status;
-    @Column(name = "MotivationLetter")
-    private String motivationLetter;
+    @Column(name = "ChiefID")
+    private int chiefID;
+    @Column(name = "CurrentPosition")
+    private String currentPosition;
+    @Column(name = "DepartmentName")
+    private String departmentName;
+    @Column(name = "Experience")
+    private int experience;
     @Column(name = "Merits")
     private String merits;
+    @Column(name = "MotivationLetter")
+    private String motivationLetter;
+    @Column(name="DateOfChange")
+    private Date dateOfChange;
 
-    public Application(Enrollee enrollee, Course course, String status, String motivationLetter, String merits){
+    public Application(Enrollee enrollee,
+                       Course course,
+                       int chiefID,
+                       String currentPosition,
+                       String departmentName,
+                       int experience,
+                       String motivationLetter,
+                       String merits){
         this.course = course;
         this.enrollee = enrollee;
+        this.chiefID = chiefID;
+        this.currentPosition = currentPosition;
+        this.departmentName = departmentName;
+        this.experience = experience;
         this.motivationLetter = motivationLetter;
         this.merits = merits;
-        switch (status) {
-            case "На согласовании":
-                this.status = FOR_APPROVAL;
-                break;
-            case "Отклонена":
-                this.status = REJECTED;
-                break;
-            case "Зарегистрирована":
-                this.status = REGISTERED;
-                break;
-        }
+        this.status = FOR_APPROVAL;
+        this.dateOfChange = new Date();
     }
 }

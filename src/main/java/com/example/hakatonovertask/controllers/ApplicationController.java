@@ -43,8 +43,8 @@ public class ApplicationController {
         return ResponseEntity.ok().body(applicationService.createApplication(app));
     }
 
-    @PutMapping("/applicatoin/approve/{id}")
-    public ResponseEntity approveApplicatoin(@PathVariable int id, @RequestParam boolean answer){
+    @PutMapping("/applicatoin/changestatus/{id}")
+    public ResponseEntity approveApplicatoin(@PathVariable int id, @RequestParam String answer){
         applicationService.approveApplication(id, answer);
         return ResponseEntity.ok().build();
     }
