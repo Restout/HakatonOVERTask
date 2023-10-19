@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserJpaRepository extends JpaRepository<UserModel, Integer>{
+public interface UserJpaRepository extends JpaRepository<UserModel, Integer> {
      Iterable<UserModel> findByRole(Roles role);
 
      @Modifying
@@ -20,6 +20,6 @@ public interface UserJpaRepository extends JpaRepository<UserModel, Integer>{
 
      long countAllByRole(Roles role);
 
-     UserModel findByLastName(String lastname);
+     UserModel findByEmail(String Email);
 
 }
