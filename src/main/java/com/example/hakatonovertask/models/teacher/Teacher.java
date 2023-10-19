@@ -1,5 +1,6 @@
-package com.example.hakatonovertask.models;
+package com.example.hakatonovertask.models.teacher;
 
+import com.example.hakatonovertask.models.LessonTeacher;
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
@@ -8,15 +9,9 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Setter
-
-@Getter
-
-@AllArgsConstructor
-
+@Data
 @NoArgsConstructor
-
-@ToString
+@AllArgsConstructor
 @Table(name="Teacher")
 public class Teacher {
     @Id
@@ -30,10 +25,10 @@ public class Teacher {
     private String academicDegree;
     @Column(name = "AcademicTitle")
     private String academicTitle;
-    @OneToMany(mappedBy = "teacher")
-    private List<LessonTeacher> lessons;
+    /*@OneToMany(mappedBy = "teacher")
+    private List<LessonTeacher> lessons;*/
 
-    public Teacher(int teacherId) {
+  /*  public Teacher(int teacherId) {
         this.teacherId = teacherId;
-    }
+    }*/
 }
