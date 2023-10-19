@@ -31,7 +31,7 @@ public class ScheldueDay {
     @ManyToOne
     @JoinColumn(name="GroupID")
     private Group group;
-
+    @Column(name = "Audience")
     private String audience;
 
     @ManyToOne

@@ -45,6 +45,9 @@ public class CourseService {
         course= courseRepository.save(course);
         return courseToOut(course);
     }
+    public void deleteCourse(Integer courseId){
+        courseRepository.deleteById(courseId);
+    }
     private CourseOut courseToOut(Course course){
         return new CourseOut(course.getCourseId(),course.getName());
     }
