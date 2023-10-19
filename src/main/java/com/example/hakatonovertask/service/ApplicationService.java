@@ -26,9 +26,21 @@ public class ApplicationService {
     private final UserJpaRepository userJpaRepository;
     private java.lang.Exception Exception;
 
-    public List<ApplicationOut> listApplications() {
-        List<Application> applicationList = applicationRepository.findAll();
+    public List<ApplicationOut> listApplications(int id) {
+        List<Application> applicationList = new ArrayList<>();
         List<ApplicationOut> applicationRes = new ArrayList<>();
+        UserModel user = userJpaRepository.getReferenceById(id);
+        switch (user.getRole()) {
+            case MANAGER :
+                applicationList.addAll(applicationRepository.findAllByStatusAndChiefID(Status.FOR_APPROVAL, id));
+                break;
+            case SELLECTION_COMMITE:
+                applicationList.addAll(applicationRepository.findAllByStatus(Status.UNDER_CONSIDERATION));
+                break;
+            case ADMIN:
+                applicationList.addAll(applicationRepository.findAll());
+        }
+        if (applicationList.isEmpty()) return null;
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getApplicationId(),
