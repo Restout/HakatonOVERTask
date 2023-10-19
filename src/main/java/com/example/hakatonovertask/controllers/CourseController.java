@@ -5,6 +5,7 @@ import com.example.hakatonovertask.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public class CourseController {
     }
 
     @PostMapping("/api/auth/courses")
+    @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
+
     public ResponseEntity<Course> saveCourse(@RequestBody Course course){
         try {
             return ResponseEntity.ok().body(courseService.saveCourse(course));
@@ -34,6 +37,7 @@ public class CourseController {
 
     }
     @PutMapping("/api/auth/courses/{courseId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") Integer courseId){
         try {
             return ResponseEntity.ok().body(courseService.updateCourse(course, courseId));
@@ -42,6 +46,8 @@ public class CourseController {
         }
     }
     @DeleteMapping("/api/auth/courses/{courseId}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
+
     public void deleteCourse(@PathVariable("courseId") Integer courseId){
         courseService.deleteCourse(courseId);
     }

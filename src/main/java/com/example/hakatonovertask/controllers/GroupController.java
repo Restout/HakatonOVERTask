@@ -26,6 +26,7 @@ public class GroupController {
     }
 
     @PostMapping("/api/auth/groups")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
     public ResponseEntity<GroupOut> saveGroup(@RequestBody GroupAllInfo group){
         try {
             return ResponseEntity.ok(groupService.saveGroup(group, null));
@@ -33,7 +34,7 @@ public class GroupController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
     @PutMapping("/api/auth/groups/{groupId}")
     public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group){
         try {
@@ -42,7 +43,7 @@ public class GroupController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
     @DeleteMapping("/api/auth/groups/{N}")
     public void deleteGroup(@PathVariable("N") Integer groupId){
         groupService.deleteGroup(groupId);
