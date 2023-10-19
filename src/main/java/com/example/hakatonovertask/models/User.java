@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.models;
 
+import com.example.hakatonovertask.models.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.*;
 

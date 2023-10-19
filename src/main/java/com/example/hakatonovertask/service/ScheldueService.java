@@ -1,7 +1,5 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.LessonTeacher;
-import com.example.hakatonovertask.models.Teacher;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
 import com.example.hakatonovertask.models.scheldue.ScheldueDay;
@@ -9,7 +7,6 @@ import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
 import com.example.hakatonovertask.repositories.LessonRepository;
 import com.example.hakatonovertask.repositories.LessonTeacherRepository;
 import com.example.hakatonovertask.repositories.ScheldueRepository;
-import jakarta.persistence.Table;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
