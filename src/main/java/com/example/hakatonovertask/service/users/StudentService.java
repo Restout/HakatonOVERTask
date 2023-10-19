@@ -6,6 +6,7 @@ import com.example.hakatonovertask.repositories.GroupRepository;
 import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class StudentService {
             throw new SQLException("No user with such id in DB");
         }
         UserModel userModel = userModelOptional.get();
+        userModel.setRole(Roles.STUDENT);
         userJpaRepository.deleteById(studentDao.getId());
         Student student = new Student(userModel.getId(), userModel, studentDao.getRecordBookId(), studentDao.getGroupId(),
                 groupRepository.findById(studentDao.getGroupId()).get());

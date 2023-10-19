@@ -4,6 +4,7 @@ import com.example.hakatonovertask.models.SelectionCommittee;
 import com.example.hakatonovertask.repositories.users.SelectionCommiteeJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class SelectionCommiteeService {
             throw new SQLException("No user with such id in DB");
         }
         UserModel userModel = userModelOptional.get();
+        userModel.setRole(Roles.SELLECTION_COMMITE);
         SelectionCommittee selectionCommittee = new SelectionCommittee(userModel.getId(), userModel);
         userJpaRepository.deleteById(id);
         return Optional.of(selectionCommiteeJpaRepository.save(selectionCommittee));

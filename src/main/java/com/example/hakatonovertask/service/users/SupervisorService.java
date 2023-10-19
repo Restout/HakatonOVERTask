@@ -4,6 +4,7 @@ import com.example.hakatonovertask.models.Supervisor;
 import com.example.hakatonovertask.repositories.users.SupervisorJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class SupervisorService {
             throw new SQLException("No user with such id in DB");
         }
         UserModel userModel = userModelOptional.get();
+        userModel.setRole(Roles.SUPERVISOR);
         Supervisor supervisor = new Supervisor(userModel.getId(), userModel);
         userJpaRepository.deleteById(id);
         return Optional.of(supervisor);
