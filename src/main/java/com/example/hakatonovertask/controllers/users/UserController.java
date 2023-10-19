@@ -4,6 +4,7 @@ import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import com.example.hakatonovertask.service.users.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,18 +20,18 @@ public class UserController {
 
 
     @GetMapping("/api/auth/users/all")
-    public ResponseEntity<Iterable<UserModel>> getAllUsers(Roles role) {
+    public ResponseEntity<Iterable<UserModel>> getAllUsers(Roles role, Pageable page) {
         if (role == null) {
             return ResponseEntity
                     .ok()
                     .header("user_count", String.valueOf(userService.getCountOfUsers()))
-                    .body(userService.getAllUsers());
+                    .body(userService.getAllUsers(page));
         }
         try {
             return ResponseEntity
                     .ok()
                     .header("user_count", String.valueOf(userService.getCountOfUsersByRole(role)))
-                    .body(userService.getUsersByRole(role));
+                    .body(userService.getUsersByRole(role,page));
         } catch (Exception e) {
             return ResponseEntity
                     .badRequest()
