@@ -1,54 +1,49 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.SelectionCommittee;
-import com.example.hakatonovertask.models.course.Course;
-import com.example.hakatonovertask.models.course.CourseIn;
-import com.example.hakatonovertask.models.course.CourseOut;
+import com.example.hakatonovertask.models.Course;
+import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.repositories.CourseRepository;
+import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CourseService {
 
     CourseRepository courseRepository;
+    StudentJpaRepository studentJpaRepository;
     @Autowired
     public void setCourseRepository(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
+    @Autowired
+    public void setStudentJpaRepository(StudentJpaRepository studentJpaRepository) {
+        this.studentJpaRepository = studentJpaRepository;
+    }
 
-    public List<CourseOut> getCourse(){
-        List<CourseOut> courseOuts = new ArrayList<CourseOut>();
-        List<Course> courses = courseRepository.findAll();
-        for (var course:courses) {
-            courseOuts.add(courseToOut(course));
+    public List<Course> getCourse(Integer userId){
+        List<Course> courses =courseRepository.findAll();
+        if(userId !=null){
+            Student student = studentJpaRepository.findById(userId).orElse(null);
+            Integer courseId = student.getGroup().getCourse().getCourseId();
+            for (var course:courses) {
+                if (course.getCourseId()==courseId) {
+                    course.setParticipant(true);
+                }
+            }
         }
-        return courseOuts;
+        return courses;
     }
-    public CourseOut saveCourse(CourseIn courseIn){
-        Course course = new Course(
-                courseIn.getName(),
-                new SelectionCommittee(courseIn.getSelectionCommitteeId())
-        );
-        course= courseRepository.save(course);
-        return courseToOut(course);
+    public Course saveCourse(Course course){
+        return courseRepository.save(course);
     }
-    public CourseOut updateCourse(CourseIn courseIn, Integer courseId){
-        Course course = new Course(
-                courseId,
-                courseIn.getName(),
-                new SelectionCommittee(courseIn.getSelectionCommitteeId())
-        );
-        course= courseRepository.save(course);
-        return courseToOut(course);
+    public Course updateCourse(Course course, Integer courseId){
+        course.setCourseId(courseId);
+        return courseRepository.save(course);
     }
     public void deleteCourse(Integer courseId){
         courseRepository.deleteById(courseId);
-    }
-    private CourseOut courseToOut(Course course){
-        return new CourseOut(course.getCourseId(),course.getName());
     }
 }

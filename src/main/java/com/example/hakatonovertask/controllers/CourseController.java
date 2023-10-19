@@ -1,16 +1,14 @@
 package com.example.hakatonovertask.controllers;
 
-import com.example.hakatonovertask.models.course.Course;
-import com.example.hakatonovertask.models.course.CourseIn;
-import com.example.hakatonovertask.models.course.CourseOut;
+import com.example.hakatonovertask.models.Course;
 import com.example.hakatonovertask.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CourseController {
@@ -21,12 +19,13 @@ public class CourseController {
     }
 
     @GetMapping("/api/courses")
-    public ResponseEntity<List<CourseOut>> getCourses(){
-        return ResponseEntity.ok().body(courseService.getCourse());
+    public ResponseEntity<List<Course>> getCourses(@RequestParam("userId") Optional<Integer> userId){
+
+        return ResponseEntity.ok().body(courseService.getCourse(userId.orElse(null)));
     }
 
     @PostMapping("/api/auth/courses")
-    public ResponseEntity<CourseOut> saveCourse(@RequestBody CourseIn course){
+    public ResponseEntity<Course> saveCourse(@RequestBody Course course){
         try {
             return ResponseEntity.ok().body(courseService.saveCourse(course));
         }catch (Exception e){
@@ -35,7 +34,7 @@ public class CourseController {
 
     }
     @PutMapping("/api/auth/courses/{courseId}")
-    public ResponseEntity<CourseOut> updateCourse(@RequestBody CourseIn course, @PathVariable("courseId") Integer courseId){
+    public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") Integer courseId){
         try {
             return ResponseEntity.ok().body(courseService.updateCourse(course, courseId));
         }catch (Exception e){
@@ -44,6 +43,6 @@ public class CourseController {
     }
     @DeleteMapping("/api/auth/courses/{courseId}")
     public void deleteCourse(@PathVariable("courseId") Integer courseId){
-       // courseService.deleteCourse(courseId);
+        courseService.deleteCourse(courseId);
     }
 }
