@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.models.news;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import com.example.hakatonovertask.models.Image;
@@ -19,11 +20,12 @@ public class News {
     @Column(name = "publish_date")
     private Date publish_date;
     @Column(name = "Title")
-    private String Title;
+    private String title;
     @Column(name = "Content")
-    private String Content;
+    private String content;
     @Column(name = "Image")
-    private String imagePath;
+    private String image;
+    @JsonIgnore
    @OneToOne(mappedBy = "news",cascade = CascadeType.ALL)
-    private Image image;
+    private Image img;
 }

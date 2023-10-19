@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class NewsService {
                     oneNews.getPublish_date(),
                     oneNews.getTitle(),
                     oneNews.getContent(),
-                    oneNews.getImagePath()
+                    oneNews.getImage()
             );
             newsOut.add(oneNewsOut);
         }
@@ -56,16 +57,16 @@ public class NewsService {
         news.setPublish_date(new Date());
         news = newsRepository.save(news);
         String fileName ="/"+"img"+Integer.toString(news.getId())+newsDAO.getFileName().substring(newsDAO.getFileName().lastIndexOf('.'));
-        news.setImagePath(fileName);
+        news.setImage(fileName);
         File file = new File("src/main/resources/static/media/"+fileName);
         if(file.createNewFile()){
             OutputStream os = new FileOutputStream(file);
-            os.write(newsDAO.getImage());
+            os.write(newsDAO.getImage().getBytes());
             os.close();
         }else {
             throw new IOException("File already exist");
         }
-        Image img = new Image(news.getId(),news,newsDAO.getImage()) ;
+        Image img = new Image(news.getId(),news, newsDAO.getImage().getBytes()) ;
         imageRepository.save(img);
         return newsRepository.save(news);
     }

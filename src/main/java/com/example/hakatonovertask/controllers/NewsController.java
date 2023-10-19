@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.hakatonovertask.models.news.News;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -26,8 +27,8 @@ public class NewsController {
                 .body(news);
     }
     @PostMapping("/api/auth/news")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<News> saveNews(@RequestBody NewsDAO news, HttpServletResponse response){
+    public ResponseEntity<News> saveNews(@ModelAttribute NewsDAO news){
+
         try {
             return ResponseEntity.ok()
                     .body(service.SaveNews(news));
@@ -37,7 +38,6 @@ public class NewsController {
         }
     }
     @DeleteMapping("/api/auth/news/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteNews(@PathVariable("id") Integer id ){
         service.deleteNews(id);
     }

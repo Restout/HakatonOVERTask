@@ -46,7 +46,7 @@ public class ScheldueService {
             calendar.add(Calendar.DAY_OF_YEAR, days);
             date=calendar.getTime();
         }
-        calendar.add(Calendar.DAY_OF_MONTH, 7);
+        calendar.add(Calendar.DAY_OF_MONTH, 5);
         List<ScheldueDay> days = scheldueRepository.getScheldueDaysByGroupGroupIdAndDayBetween(groupId,date,calendar.getTime());
         List<ScheldueDayOut> dayDTO =new ArrayList<ScheldueDayOut>();
         for (var day: days) {
