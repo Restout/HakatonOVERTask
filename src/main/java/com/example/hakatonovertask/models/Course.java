@@ -1,6 +1,7 @@
 package com.example.hakatonovertask.models;
 
 import com.example.hakatonovertask.models.SelectionCommittee;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Course {
     @Column(name = "Result")
     private String result;
     @Transient
+    @JsonProperty("isParticipant")
     private boolean isParticipant;
     public Course(int courseId) {
         this.courseId = courseId;
