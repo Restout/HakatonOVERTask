@@ -76,7 +76,7 @@ public class ScheldueService {
                 toSave.getEndTime(),
                 new Group(groupId),
                 toSave.getAudience(),
-                lessonTeacherRepository.getLessonTeacherByLessonLessonIDAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),toSave.getTeacherId())
+                lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
                 //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
         );
         scheldueDay = scheldueRepository.save(scheldueDay);
@@ -92,7 +92,7 @@ public class ScheldueService {
                toSave.getEndTime(),
                scheldueDay.getGroup(),
                toSave.getAudience(),
-               lessonTeacherRepository.getLessonTeacherByLessonLessonIDAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),toSave.getTeacherId())
+               lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
                //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
        );
        scheldueDay = scheldueRepository.save(scheldueDay);

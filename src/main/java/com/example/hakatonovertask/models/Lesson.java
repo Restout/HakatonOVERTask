@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,12 +13,13 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LessonID")
-    private int lessonID;
+    private int lessonId;
     @Column(name="LessonName")
     private String lessonName;
     @Column(name = "Description")
     private String description;
-    @OneToMany(mappedBy = "lesson")
+    @JsonIgnore
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
     private List<LessonTeacher> lessonTeachers;
 
 }
