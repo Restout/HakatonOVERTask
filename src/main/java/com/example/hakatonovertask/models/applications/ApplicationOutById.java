@@ -12,5 +12,6 @@ public class ApplicationOutById {
     private String lastName;
     private String fatherName;
     private String status;
-    private String description;
+    private String merits;
+    private String motivationLetter;
 }

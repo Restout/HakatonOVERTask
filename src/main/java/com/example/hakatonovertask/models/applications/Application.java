@@ -29,13 +29,16 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(name = "Status")
     private Status status;
-    @Column(name = "Description")
-    private String description;
+    @Column(name = "MotivationLetter")
+    private String motivationLetter;
+    @Column(name = "Merits")
+    private String merits;
 
-    public Application(Enrollee enrollee, Course course, String status, String description){
+    public Application(Enrollee enrollee, Course course, String status, String motivationLetter, String merits){
         this.course = course;
         this.enrollee = enrollee;
-        this.description = description;
+        this.motivationLetter = motivationLetter;
+        this.merits = merits;
         switch (status) {
             case "На согласовании":
                 this.status = FOR_APPROVAL;

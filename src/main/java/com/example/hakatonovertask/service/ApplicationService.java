@@ -46,17 +46,19 @@ public class ApplicationService {
                 app.getEnrollee().getUserId().getLastName(),
                 app.getEnrollee().getUserId().getFatherName(),
                 app.getStatus().getDescription(),
-                app.getDescription());
+                app.getMerits(),
+                app.getMotivationLetter());
     }
 
     public void deleteApplication(int id){applicationRepository.deleteById(id);}
 
     public ApplicationOutById createApplication(ApplicationIn applicationIn){
-        log.info("arraived info {} {} {}", applicationIn.getDescription(), applicationIn.getID(), applicationIn.getID());
+        log.info("arraived info {} {} {} {}", applicationIn.getMotivationLetter(), applicationIn.getMerits(), applicationIn.getID(), applicationIn.getID());
         Application app = new Application(enrolleeRepository.getReferenceById(applicationIn.getID()),
                 courseRepository.getReferenceById(applicationIn.getCourseID()),
                 Status.FOR_APPROVAL.getDescription(),
-                applicationIn.getDescription());
+                applicationIn.getMotivationLetter(),
+                applicationIn.getMerits());
 
         applicationRepository.save(app);
         return getApplicationById(app.getApplicationId());
