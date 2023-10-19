@@ -4,6 +4,7 @@ import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -16,8 +17,8 @@ public class UserService {
     @Autowired
     private UserJpaRepository userRepository;
 
-    public Iterable<UserModel> getAllUsers() {
-        return userRepository.findAll();
+    public Iterable<UserModel> getAllUsers(Pageable page) {
+        return userRepository.findAll(page).getContent();
     }
 
     public long getCountOfUsers() {
@@ -47,13 +48,13 @@ public class UserService {
         }
     }
 
-    public Iterable<UserModel> getUsersByRole(Roles role) throws HttpClientErrorException {
+    public Iterable<UserModel> getUsersByRole(Roles role, Pageable page) throws HttpClientErrorException {
         try {
             validateRole(role);
         } catch (HttpClientErrorException e) {
             throw e;
         }
-        return userRepository.findByRole(role);
+        return userRepository.findByRole(role, page).getContent();
     }
 
     public UserModel getUserByID(int id) throws SQLException {
