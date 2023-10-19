@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @GetMapping("/api/refresh")
-    public ResponseEntity<UserModel> refreshToken(@RequestParam String token) {
+    public ResponseEntity<UserModel> refreshToken(@RequestHeader(name=HttpHeaders.AUTHORIZATION) String token) {
         String email = jwtUtils.extractUsername(token);
         UserModel userModel = userJpaRepository.findByEmail(email);
         if (!jwtUtils.validateToken(token, userModel)) {
