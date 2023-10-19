@@ -5,6 +5,8 @@ import com.example.hakatonovertask.repositories.ApplicationRepository;
 import com.example.hakatonovertask.repositories.CourseRepository;
 import com.example.hakatonovertask.repositories.users.EnroleeJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
+import com.example.hakatonovertask.security.model.UserModel;
+import com.example.hakatonovertask.security.utils.Roles;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class ApplicationService {
     private final CourseRepository courseRepository;
     private final EnroleeJpaRepository enrolleeRepository;
     private final UserJpaRepository userJpaRepository;
+    private java.lang.Exception Exception;
 
     public List<ApplicationOut> listApplications() {
         List<Application> applicationList = applicationRepository.findAll();
@@ -62,11 +65,14 @@ public class ApplicationService {
 
     public void deleteApplication(int id){applicationRepository.deleteById(id);}
 
-    public ApplicationOutById createApplication(ApplicationIn applicationIn){
-        log.info("arraived info {} {} {} {}", applicationIn.getMotivationLetter(), applicationIn.getMerits(), applicationIn.getID(), applicationIn.getCourseID());
+    public ApplicationOutById createApplication(ApplicationIn applicationIn) throws Exception {
+        log.info("arraived info {} {} {} {}", applicationIn.getChiefName(), applicationIn.getMerits(), applicationIn.getID(), applicationIn.getCourseID());
+        UserModel manager = userJpaRepository.findByLastName(applicationIn.getChiefName().split(" ")[0]);
+        log.info("user {}", manager);
+        if (!manager.getRole().equals(Roles.MANAGER)) throw Exception;
         Application app = new Application(enrolleeRepository.getReferenceById(applicationIn.getID()),
                 courseRepository.getReferenceById(applicationIn.getCourseID()),
-                userJpaRepository.findByLastName(applicationIn.getChiefName().split(" ")[0]).getId(),
+                manager.getId(),
                 applicationIn.getCurrentPosition(),
                 applicationIn.getDepartmentName(),
                 applicationIn.getExperience(),

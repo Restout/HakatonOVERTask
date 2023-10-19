@@ -40,7 +40,11 @@ public class ApplicationController {
 
     @PostMapping("/application/create")
     public ResponseEntity<ApplicationOutById> createApplication(@RequestBody ApplicationIn app){
-        return ResponseEntity.ok().body(applicationService.createApplication(app));
+        try {
+            return ResponseEntity.ok().body(applicationService.createApplication(app));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/applicatoin/changestatus/{id}")
