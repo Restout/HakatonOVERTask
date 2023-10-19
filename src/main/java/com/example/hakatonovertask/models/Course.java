@@ -1,6 +1,7 @@
-package com.example.hakatonovertask.models.course;
+package com.example.hakatonovertask.models;
 
 import com.example.hakatonovertask.models.SelectionCommittee;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,16 +21,18 @@ public class Course {
     @Column(name = "CourseID")
     private int courseId;
     @Column(name = "CourseName")
-    private String name;
-    @ManyToOne
-    @JoinColumn(name = "ID")
-    private SelectionCommittee selectionCommittee;
-
-    public Course(String name, SelectionCommittee selectionCommittee) {
-        this.name = name;
-        this.selectionCommittee = selectionCommittee;
-    }
-
+    private String courseName;
+    @Column(name = "About")
+    private String about;
+    @Column(name = "Programm")
+    private String programm;
+    @Column(name = "Requirements")
+    private String requirements;
+    @Column(name = "Result")
+    private String result;
+    @Transient
+    @JsonProperty("isParticipant")
+    private boolean isParticipant;
     public Course(int courseId) {
         this.courseId = courseId;
     }

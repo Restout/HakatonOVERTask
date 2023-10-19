@@ -1,10 +1,9 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.course.Course;
+import com.example.hakatonovertask.models.Course;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.groups.GroupAllInfo;
 import com.example.hakatonovertask.models.groups.GroupOut;
-import com.example.hakatonovertask.repositories.CourseRepository;
 import com.example.hakatonovertask.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
