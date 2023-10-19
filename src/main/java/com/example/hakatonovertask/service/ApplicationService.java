@@ -40,6 +40,7 @@ public class ApplicationService {
             case ADMIN:
                 applicationList.addAll(applicationRepository.findAll());
         }
+        if (applicationList.isEmpty()) return null;
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getApplicationId(),
