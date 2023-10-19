@@ -17,7 +17,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/hackathon/registration")
+    @PostMapping("/api/registration")
     public ResponseEntity<UserModel> registrateNewUser(@RequestBody UserModel userModel) {
         if (!validate(userModel)) {
             return ResponseEntity

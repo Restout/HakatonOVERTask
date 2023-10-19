@@ -5,12 +5,13 @@ import com.example.hakatonovertask.repositories.users.SelectionCommiteeJpaReposi
 import com.example.hakatonovertask.service.users.SelectionCommiteeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
 @RestController
-
+@PreAuthorize("hasAuthority('ADMIN')")
 public class SelectionCommiteeController implements BaseUserController<SelectionCommittee, Integer> {
     @Autowired
     SelectionCommiteeService selectionCommiteeService;
