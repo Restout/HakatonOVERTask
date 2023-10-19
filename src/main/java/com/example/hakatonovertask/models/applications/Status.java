@@ -7,6 +7,7 @@ import lombok.ToString;
 @ToString
 public enum Status {
     FOR_APPROVAL("На согласовании"),
+    UNDER_CONSIDERATION("На рассмотрении"),
     REJECTED("Отклонена"),
     REGISTERED("Зарегистрирована");
 

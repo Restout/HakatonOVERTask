@@ -3,6 +3,8 @@ package com.example.hakatonovertask.models.applications;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 public class ApplicationOut {
@@ -11,5 +13,8 @@ public class ApplicationOut {
     private String firstName;
     private String lastName;
     private String fatherName;
+    private String email;
+    private String phone;
     private String status;
+    private Date dateOfChange;
 }
