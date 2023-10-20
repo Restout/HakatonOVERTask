@@ -1,7 +1,6 @@
 package com.example.hakatonovertask.models.scheldue;
 
 import com.example.hakatonovertask.models.LessonTeacher;
-import com.example.hakatonovertask.models.Teacher;
 import com.example.hakatonovertask.models.groups.Group;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +18,7 @@ import java.util.Date;
 @ToString
 @Table(name="ScheduleDay")
 @Entity
-public class ScheldueDay {
+public class ScheduleDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ScheldueID")
@@ -46,7 +45,7 @@ public class ScheldueDay {
     @Fetch(FetchMode.JOIN)
     private LessonTeacher lessonTeacher;
 
-    public ScheldueDay(Date day, Date startTime, Date endTime, Group group, String audience, LessonTeacher lessonTeacher) {
+    public ScheduleDay(Date day, Date startTime, Date endTime, Group group, String audience, LessonTeacher lessonTeacher) {
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;

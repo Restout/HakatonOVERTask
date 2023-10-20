@@ -1,10 +1,9 @@
 package com.example.hakatonovertask.service;
 
 import com.example.hakatonovertask.models.Lesson;
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
+import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import com.example.hakatonovertask.repositories.LessonRepository;
 import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
-import jakarta.persistence.Access;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +24,9 @@ public class LessonService {
     }
 
     public List<Lesson> getLessons(Integer userId){
-        List<ScheldueDay> scheldueDays = studentJpaRepository.findById(userId).orElse(null).getGroup().getScheldueDay();
+        List<ScheduleDay> scheduleDays = studentJpaRepository.findById(userId).orElse(null).getGroup().getScheduleDay();
         List<Lesson> lessons = new ArrayList<Lesson>();
-        for (var scheldue:scheldueDays) {
+        for (var scheldue: scheduleDays) {
             lessons.add(scheldue.getLessonTeacher().getLesson());
         }
         return lessons;
