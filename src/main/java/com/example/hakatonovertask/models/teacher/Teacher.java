@@ -1,7 +1,6 @@
 package com.example.hakatonovertask.models.teacher;
 
 import com.example.hakatonovertask.models.LessonTeacher;
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;

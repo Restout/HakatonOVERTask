@@ -11,6 +11,8 @@ public class Container {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ContainerID")
     private int containerId;
+    @Column(name = "LessonID",insertable = false,updatable = false)
+    private int lessonId;
     @ManyToOne
     @JoinColumns(
             {
