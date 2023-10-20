@@ -95,4 +95,7 @@ public class MaterialService {
         material.setContainer(materialsRepository.findById(materialId).orElse(null).getContainer());
         return materialsRepository.save(material);
     }
+    public void deleteMaterial(Integer materilaId){
+        materialsRepository.deleteById(materilaId);
+    }
 }

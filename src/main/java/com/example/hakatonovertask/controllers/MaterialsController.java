@@ -50,4 +50,8 @@ public class MaterialsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping("/api/auth/material/{materialId}")
+    public void deleteMaterial( @PathVariable("materialId") Integer materialId){
+        materialService.deleteMaterial(materialId);
+    }
 }
