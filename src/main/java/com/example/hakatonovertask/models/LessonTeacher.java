@@ -31,7 +31,7 @@ public class LessonTeacher {
     @JoinColumn(name = "ID")
     private Teacher teacher;
     @OneToMany(mappedBy = "lessonTeacher")
-    private List<ScheldueDay> scheldueDay;
+    private List<ScheduleDay> scheldueDay;
     @ManyToOne
     @JoinColumn(name = "LessonID")
     @Fetch(FetchMode.JOIN)
