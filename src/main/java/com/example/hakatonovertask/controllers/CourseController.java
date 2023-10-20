@@ -24,6 +24,11 @@ public class CourseController {
 
         return ResponseEntity.ok().body(courseService.getCourse(userId.orElse(null)));
     }
+    @GetMapping("/api/courses/{courseId}")
+    public ResponseEntity<Course> getCourseById( @PathVariable("courseId") Integer courseId){
+
+        return ResponseEntity.ok().body(courseService.getCourseById(courseId));
+    }
 
     @PostMapping("/api/auth/courses")
     @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
