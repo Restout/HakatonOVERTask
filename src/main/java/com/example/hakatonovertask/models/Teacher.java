@@ -1,6 +1,5 @@
 package com.example.hakatonovertask.models;
 
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
