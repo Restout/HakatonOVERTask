@@ -18,7 +18,7 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    @GetMapping("/api/applications")
+    @GetMapping("/api/auth/applications")
     public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId, Pageable pageable){
         List<ApplicationOut> applicationOutList = applicationService.listApplications(userId, pageable);
         return ResponseEntity.ok().header("countApplications", (applicationOutList == null) ? "0" : ""+applicationOutList.size()).body(applicationOutList);
