@@ -1,0 +1,12 @@
+.loaderWrapper,
+.alertWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.alertWrapper {
+    margin: 0 auto;
+    max-width: 300px;
+}

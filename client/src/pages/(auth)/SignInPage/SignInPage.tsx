@@ -1,6 +1,6 @@
-import { FC, useImperativeHandle, useState } from "react";
+import { FC, useImperativeHandle } from "react";
 
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import {
     Control,
     FieldError as FieldErrorType,
@@ -9,19 +9,25 @@ import {
     UseFormRegister,
     useForm,
 } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
 import { FieldError } from "components/ui/FieldError";
 import { FieldGroup } from "components/ui/FieldGroup";
 import { Input } from "components/ui/Input";
 import { Label } from "components/ui/Label";
 
+import { setUser } from "store/user/userSlice";
+
 import useFocus from "hooks/shared/useFocus";
+import useTypedDispatch from "hooks/shared/useTypedDispatch";
+
+import UserService from "services/UserService";
+
+import { LoginCredentials } from "types/user.interface";
 
 import { formErrors } from "constants/formErrors";
-import { SIGN_UP_PATH } from "constants/routesPathnames";
+import { HOME_PATH, SIGN_UP_PATH } from "constants/routesPathnames";
 
 import styles from "./signInPage.module.scss";
 
@@ -34,21 +40,42 @@ interface FieldProps {
     register: UseFormRegister<SignInState>;
     error?: FieldErrorType;
     control?: Control<SignInState>;
+    isDisabled?: boolean;
 }
 
 const SignInPage: FC = () => {
-    const [error, setError] = useState<string | null>(null);
+    const dispatch = useTypedDispatch();
+    const navigate = useNavigate();
+
+    const { mutate, isLoading } = useMutation(
+        (credentials: LoginCredentials) => UserService.login(credentials),
+        {
+            onSuccess(response) {
+                dispatch(setUser(response.data));
+                navigate(HOME_PATH);
+                const token = response.headers.authorization.split(" ")[1];
+                localStorage.setItem("accessToken", token);
+            },
+        },
+    );
+
     const {
         handleSubmit: submitHandlerWrapper,
         register,
         reset,
-        control,
         formState: { errors },
     } = useForm<SignInState>();
 
     const handleSubmit: SubmitHandler<SignInState> = async (data) => {
-        console.log(data);
-        // const response = await axios.post("/hackathon/auth/login");
+        const email = data.email.trim();
+        const password = data.password.trim();
+
+        if (!email || !password) {
+            return;
+        }
+
+        mutate({ email, password });
+        reset();
     };
 
     return (
@@ -59,12 +86,21 @@ const SignInPage: FC = () => {
                     className={styles.form}
                     onSubmit={submitHandlerWrapper(handleSubmit)}
                 >
-                    <Email register={register} error={errors.email} />
-                    <Password register={register} error={errors.password} />
+                    <Email
+                        register={register}
+                        error={errors.email}
+                        isDisabled={isLoading}
+                    />
+                    <Password
+                        register={register}
+                        error={errors.password}
+                        isDisabled={isLoading}
+                    />
                     <Button
                         className={styles.button}
                         variant="dark-blue"
                         type="submit"
+                        disabled={isLoading}
                     >
                         Войти
                     </Button>
@@ -81,7 +117,7 @@ const SignInPage: FC = () => {
 
 export default SignInPage;
 
-function Email({ register, error }: FieldProps) {
+function Email({ register, error, isDisabled }: FieldProps) {
     const LENGTH_LIMIT = 25;
 
     const emailRef = useFocus<HTMLInputElement>();
@@ -108,6 +144,7 @@ function Email({ register, error }: FieldProps) {
                 id="email"
                 type="email"
                 ref={emailRef}
+                disabled={isDisabled}
                 aria-invalid={error ? "true" : "false"}
             />
             {error && <FieldError>{error.message}</FieldError>}
@@ -115,7 +152,7 @@ function Email({ register, error }: FieldProps) {
     );
 }
 
-function Password({ register, error }: FieldProps) {
+function Password({ register, error, isDisabled }: FieldProps) {
     const LENGTH_LIMIT = 25;
 
     const { required, maxLengthLimit } = formErrors;
@@ -136,6 +173,7 @@ function Password({ register, error }: FieldProps) {
             <Input
                 className={styles.input}
                 placeholder="Пароль"
+                disabled={isDisabled}
                 {...register("password", fieldOptions)}
                 id="password"
                 type="password"

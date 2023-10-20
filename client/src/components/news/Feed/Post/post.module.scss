@@ -6,13 +6,6 @@
         opacity: 0.5;
     }
 
-    img {
-        display: block;
-        height: auto;
-        width: 100%;
-        object-fit: cover;
-        margin-bottom: 10px;
-    }
     h5 {
         font-family: var(--font-family);
         color: var(--color-black);
@@ -21,10 +14,23 @@
         font-weight: 400;
         margin-bottom: 2px;
     }
+
     p {
         color: var(--color-grey);
         font-size: 15px;
         line-height: 1.25;
+    }
+}
+
+.imageWrapper {
+    height: 178px;
+    margin-bottom: 10px;
+
+    img {
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
     }
 }
 

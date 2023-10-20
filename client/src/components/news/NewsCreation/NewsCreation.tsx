@@ -3,7 +3,6 @@ import { FC } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import cn from "clsx";
 
-import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
 
 import NewsService from "services/NewsService";
@@ -14,25 +13,23 @@ import styles from "./newsCreation.module.scss";
 
 interface Props {
     className?: string;
+    close: () => void;
 }
 
-const NewsCreation: FC<Props> = ({ className }) => {
+const NewsCreation: FC<Props> = ({ className, close }) => {
     const queryClient = useQueryClient();
 
-    const { mutate, data } = useMutation({
+    const { mutate } = useMutation({
         mutationFn: (data: FormData) => {
             return NewsService.post(data);
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["news"]);
+            close()
         },
     });
 
-    console.log(data?.data)
-
     const handleSubmit = async (data: NewsFormState) => {
-        console.log(data);
-
         const formData = new FormData();
 
         formData.append("content", data.description);

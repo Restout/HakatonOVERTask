@@ -4,10 +4,12 @@ import cn from "clsx";
 
 import styles from "./badge.module.scss";
 
+export type BadgeVariantType = "warning" | "danger" | "success" | "info";
+
 interface Props {
     children: ReactNode;
     className?: string;
-    variant: "warning" | "danger" | "success";
+    variant: BadgeVariantType;
 }
 
 const Badge: FC<Props> = ({ children, variant, className }) => {

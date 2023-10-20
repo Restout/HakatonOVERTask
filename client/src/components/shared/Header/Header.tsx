@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 
+import { useLogout } from "hooks/auth/useLogout";
+
 import {
     ADMIN_PATHNAME,
     BIDS_PATHNAME,
@@ -24,6 +26,8 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ className }) => {
+    const logout = useLogout();
+
     return (
         <header className={cn(styles.header, className)}>
             <Container>
@@ -54,6 +58,9 @@ const Header: FC<Props> = ({ className }) => {
                             Админ панель
                         </Link>
                         <ProfileButton className={styles.link} />
+                        <button className={styles.link} onClick={logout}>
+                            Выйти
+                        </button>
                     </div>
                 </div>
             </Container>

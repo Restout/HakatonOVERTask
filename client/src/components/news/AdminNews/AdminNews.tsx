@@ -47,7 +47,12 @@ const AdminNews: FC = () => {
                         {isAdding ? "Отменить" : "Добавить"}
                     </Button>
                 </header>
-                {isAdding && <NewsCreation className={styles.creation} />}
+                {isAdding && (
+                    <NewsCreation
+                        className={styles.creation}
+                        close={() => setIsAdding(false)}
+                    />
+                )}
                 {isSuccess && (
                     <ul className={styles.feedList}>
                         {data.map((news) => (

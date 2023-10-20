@@ -46,7 +46,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
 
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryFn: () => ScheduleService.get(groupId, date),
-        queryKey: ["schedule", date],
+        queryKey: ["schedule", date, groupId],
         select: (data) => data.data,
     });
 

@@ -16,15 +16,15 @@ import { SchedulePage } from "pages/(schedule)/SchedulePage";
 import { HomePage } from "pages/HomePage";
 import { MissingPage } from "pages/MissingPage";
 
-import { Bids } from "components/bids/Bids";
+import { AdminBids } from "components/bids/AdminBids";
+import { AdminCourses } from "components/courses/AdminCourses";
 import { Answer } from "components/courses/Answer";
-import { Courses } from "components/courses/Courses";
 import { MainLayout } from "components/layouts/MainLayout";
 import { SubNavLayout } from "components/layouts/SubNavLayout";
 import { AdminNews } from "components/news/AdminNews";
+import { AdminUsers } from "components/users/AdminUsers";
 import { Profile } from "components/users/Profile";
 import { ProfileCourses } from "components/users/ProfileCourses";
-import { Users } from "components/users/Users";
 
 import {
     ADMIN_PATHNAME,
@@ -96,14 +96,14 @@ const Router: FC = () => {
                     path={"/" + ADMIN_PATHNAME}
                     element={<SubNavLayout navLinks={adminSubNavLinks} />}
                 >
-                    <Route path={BIDS_PATHNAME} element={<Bids />} />
-                    <Route path={USERS_PATHNAME} element={<Users />} />
+                    <Route path={BIDS_PATHNAME} element={<AdminBids />} />
+                    <Route path={USERS_PATHNAME} element={<AdminUsers />} />
                     <Route
                         path={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}/:userId`}
                         element={<FullUserPage />}
                     />
                     <Route path={NEWS_PATHNAME} element={<AdminNews />} />
-                    <Route path={COURSES_PATHNAME} element={<Courses />} />
+                    <Route path={COURSES_PATHNAME} element={<AdminCourses />} />
                 </Route>
 
                 <Route path={"/" + BIDS_PATHNAME} element={<BidsPage />} />

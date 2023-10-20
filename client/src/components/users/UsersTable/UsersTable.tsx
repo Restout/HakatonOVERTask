@@ -1,14 +1,25 @@
 import { FC } from "react";
 
+import cn from "clsx";
 import { useNavigate } from "react-router-dom";
+
+import { formatDate } from "utils/formatDate";
+import { getRoleName } from "utils/getRoleName";
+
+import { IUser } from "types/user.interface";
 
 import styles from "./usersTable.module.scss";
 
-const UsersTable: FC = () => {
+interface Props {
+    users: IUser[];
+    isDisabled: boolean;
+}
+
+const UsersTable: FC<Props> = ({ users, isDisabled }) => {
     return (
         <table className={styles.table}>
             <TableHead />
-            <TableBody bids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]} />
+            <TableBody users={users} isDisabled={isDisabled} />
         </table>
     );
 };
@@ -19,30 +30,36 @@ function TableHead() {
     return (
         <thead className={styles.tableHead}>
             <tr>
-                <th style={{ width: 70 }}>id</th>
-                <th>дата рождения</th>
                 <th>ФИО</th>
                 <th>email</th>
                 <th>телефон</th>
+                <th>дата рождения</th>
                 <th style={{ width: 150 }}>статус</th>
             </tr>
         </thead>
     );
 }
 
-function TableBody({ bids }: { bids: number[] }) {
+function TableBody({
+    users,
+    isDisabled,
+}: {
+    users: IUser[];
+    isDisabled: boolean;
+}) {
     const navigate = useNavigate();
 
     return (
-        <tbody className={styles.tableBody}>
-            {bids.map((value) => (
-                <tr key={value} onClick={() => navigate(`${value}`)}>
-                    <td data-label>13</td>
-                    <td data-label>13.13.1313</td>
-                    <td data-label>Легендов Михуил Бэкэндович</td>
-                    <td data-label>mi.xuil@mail.ru</td>
-                    <td data-label>+1313131313</td>
-                    <td data-label>Студент</td>
+        <tbody className={cn(styles.tableBody, isDisabled && styles.disabled)}>
+            {users.map((user) => (
+                <tr key={user.id} onClick={() => navigate(`${user.id}`)}>
+                    <td data-label>
+                        {user.lastName} {user.firstName} {user.fatherName}
+                    </td>
+                    <td data-label>{user.email}</td>
+                    <td data-label>{user.phone}</td>
+                    <td data-label>{formatDate(user.birthday).date}</td>
+                    <td data-label>{getRoleName(user.role)}</td>
                 </tr>
             ))}
         </tbody>

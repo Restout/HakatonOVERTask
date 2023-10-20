@@ -5,3 +5,21 @@
     background-color: var(--color-bg-blue);
     padding: 20px 0;
 }
+
+.loader {
+    display: block;
+    margin: auto;
+}
+
+.alertWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.alert {
+    max-width: 300px;
+    margin: 0 auto;
+}

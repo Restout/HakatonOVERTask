@@ -1,9 +1,10 @@
 .section {
+    padding: 40px 0;
     display: flex;
     align-items: center;
     position: relative;
-    max-height: 400px;
-    height: 100%;
+    min-height: 400px;
+    max-height: 500px;
     z-index: 2;
     &::before {
         content: "";
@@ -37,7 +38,7 @@
     color: var(--color-white);
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 .subtitle {

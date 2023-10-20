@@ -1,5 +1,6 @@
 import { FC, useImperativeHandle, useState } from "react";
 
+import { useMutation } from "@tanstack/react-query";
 import {
     Control,
     Controller,
@@ -22,7 +23,12 @@ import { Label } from "components/ui/Label";
 
 import useFocus from "hooks/shared/useFocus";
 
-import { BaseUser } from "types/user.interface";
+import UserService from "services/UserService";
+
+import { checkEmptyValidity } from "utils/checkEmptyValidity";
+import { transformDate } from "utils/transformDate";
+
+import { RegisterCredentials } from "types/user.interface";
 
 import { formErrors } from "constants/formErrors";
 import { SIGN_IN_PATH } from "constants/routesPathnames";
@@ -32,12 +38,12 @@ import styles from "./signUpPage.module.scss";
 interface SignUpState {
     firstName: string;
     lastName: string;
+    fatherName: string;
     email: string;
     password: string;
     passwordConfirm: string;
-    birthdate: Date;
+    birthday: Date;
     phone: string;
-    patronymic: string;
 }
 
 interface FieldProps {
@@ -47,31 +53,37 @@ interface FieldProps {
 }
 
 const SignUpPage: FC = () => {
-    const [error, setError] = useState<string | null>(null);
     const {
         handleSubmit: submitHandlerWrapper,
         register,
-        reset,
         control,
         formState: { errors },
     } = useForm<SignUpState>();
 
+    const { mutate, isSuccess } = useMutation(
+        (credentials: RegisterCredentials) => UserService.register(credentials),
+    );
+
+    const [error, setError] = useState<string | null>(null);
+
     const handleSubmit: SubmitHandler<SignUpState> = (data: SignUpState) => {
-        console.log(data);
         setError(null);
         const firstName = data.firstName.trim();
         const lastName = data.lastName.trim();
-        const patronymic = data.patronymic.trim();
+        const fatherName = data.fatherName.trim();
         const email = data.email.trim();
         const phone = data.phone.trim();
         const password = data.password.trim();
 
         if (
-            firstName !== lastName ||
-            !patronymic ||
-            !email ||
-            !phone ||
-            !password
+            !checkEmptyValidity([
+                firstName,
+                lastName,
+                fatherName,
+                email,
+                phone,
+                password,
+            ])
         ) {
             setError("Неверные форматы данных");
             return;
@@ -81,74 +93,99 @@ const SignUpPage: FC = () => {
             setError("Пароли должны совпадать");
         }
 
-        const user: BaseUser = {
-            birthdate: data.birthdate.toLocaleDateString(),
+        const credentials: RegisterCredentials = {
+            birthday: transformDate(data.birthday),
             email,
             firstName,
             lastName,
-            patronymic,
+            fatherName,
             phone,
+            password,
         };
-        console.log(user);
 
-        // reset();
+        mutate(credentials);
     };
 
     return (
         <div className={styles.page}>
             <div className={styles.wrapper}>
-                <h1 className={styles.title}>Регистрация</h1>
-                <form
-                    className={styles.form}
-                    onSubmit={submitHandlerWrapper(handleSubmit)}
-                    onChange={() => setError(null)}
-                >
-                    {error && (
-                        <Alert className={styles.alert} variant="error">
-                            {error}
-                        </Alert>
-                    )}
-                    <FieldRow className={styles.row}>
-                        <FirstName
-                            register={register}
-                            error={errors.firstName}
-                        />
-                        <LastName register={register} error={errors.lastName} />
-                    </FieldRow>
-                    <FieldRow className={styles.row}>
-                        <Patronymic
-                            register={register}
-                            error={errors.patronymic}
-                        />
-                        <Email register={register} error={errors.email} />
-                    </FieldRow>
-                    <FieldRow className={styles.row}>
-                        <Phone register={register} error={errors.phone} />
-                        <Birthdate
-                            register={register}
-                            error={errors.birthdate}
-                            control={control}
-                        />
-                    </FieldRow>
-                    <FieldRow className={styles.row}>
-                        <Password register={register} error={errors.password} />
-                        <PasswordConfirm
-                            register={register}
-                            error={errors.passwordConfirm}
-                        />
-                    </FieldRow>
-                    <Button
-                        className={styles.button}
-                        variant="dark-blue"
-                        type="submit"
-                    >
-                        Регистрация
-                    </Button>
-                    <footer className={styles.footer}>
-                        <span>Уже есть аккаунт? </span>
-                        <Link to={SIGN_IN_PATH}>Вход</Link>
-                    </footer>
-                </form>
+                {isSuccess && (
+                    <Alert variant="success" className={styles.successAlert}>
+                        <p>Регистрация прошла успешно.</p>
+                        <p>
+                            Перейдите <Link to={SIGN_IN_PATH}>по ссылке</Link>,
+                            чтобы войти в аккаунт{" "}
+                        </p>
+                    </Alert>
+                )}
+                {!isSuccess && (
+                    <>
+                        <h1 className={styles.title}>Регистрация</h1>
+                        <form
+                            className={styles.form}
+                            onSubmit={submitHandlerWrapper(handleSubmit)}
+                            onChange={() => setError(null)}
+                        >
+                            {error && (
+                                <Alert className={styles.alert} variant="error">
+                                    {error}
+                                </Alert>
+                            )}
+                            <FieldRow className={styles.row}>
+                                <FirstName
+                                    register={register}
+                                    error={errors.firstName}
+                                />
+                                <LastName
+                                    register={register}
+                                    error={errors.lastName}
+                                />
+                            </FieldRow>
+                            <FieldRow className={styles.row}>
+                                <Patronymic
+                                    register={register}
+                                    error={errors.fatherName}
+                                />
+                                <Email
+                                    register={register}
+                                    error={errors.email}
+                                />
+                            </FieldRow>
+                            <FieldRow className={styles.row}>
+                                <Phone
+                                    register={register}
+                                    error={errors.phone}
+                                />
+                                <Birthday
+                                    register={register}
+                                    error={errors.birthday}
+                                    control={control}
+                                />
+                            </FieldRow>
+                            <FieldRow className={styles.row}>
+                                <Password
+                                    register={register}
+                                    error={errors.password}
+                                />
+                                <PasswordConfirm
+                                    register={register}
+                                    error={errors.passwordConfirm}
+                                />
+                            </FieldRow>
+                            <Button
+                                className={styles.button}
+                                variant="dark-blue"
+                                type="submit"
+                            >
+                                Регистрация
+                            </Button>
+                            <footer className={styles.footer}>
+                                <span>Уже есть аккаунт? </span>
+                                <Link to={SIGN_IN_PATH}>Вход</Link>
+                            </footer>
+                        </form>
+                    </>
+                )}
             </div>
         </div>
     );
@@ -226,7 +263,7 @@ function Patronymic({ register, error }: FieldProps) {
 
     const { required, maxLengthLimit } = formErrors;
 
-    const fieldOptions: RegisterOptions<SignUpState, "patronymic"> = {
+    const fieldOptions: RegisterOptions<SignUpState, "fatherName"> = {
         required: required,
         maxLength: {
             value: LENGTH_LIMIT,
@@ -236,14 +273,14 @@ function Patronymic({ register, error }: FieldProps) {
 
     return (
         <FieldGroup className={styles.group}>
-            <Label isRequired={true} htmlFor="patronymic">
+            <Label isRequired={true} htmlFor="fatherName">
                 Ваше отчество
             </Label>
             <Input
                 className={styles.input}
                 placeholder="Отчество"
-                {...register("patronymic", fieldOptions)}
-                id="patronymic"
+                {...register("fatherName", fieldOptions)}
+                id="fatherName"
                 type="text"
                 aria-invalid={error ? "true" : "false"}
             />
@@ -314,14 +351,14 @@ function Phone({ register, error }: FieldProps) {
     );
 }
 
-function Birthdate({ control }: FieldProps) {
+function Birthday({ control }: FieldProps) {
     return (
         <FieldGroup className={styles.group}>
-            <Label isRequired={true} htmlFor="birthdate">
+            <Label isRequired={true} htmlFor="birthday">
                 Дата рождения
             </Label>
             <Controller
-                name="birthdate"
+                name="birthday"
                 control={control}
                 render={({ field: { value, onChange, ...field } }) => {
                     return (
@@ -329,7 +366,7 @@ function Birthdate({ control }: FieldProps) {
                             {...field}
                             selected={value}
                             onChange={(date) => onChange(date)}
-                            id="birthdate"
+                            id="birthday"
                             placeholderText="Дата рождения"
                             className={styles.date}
                         />

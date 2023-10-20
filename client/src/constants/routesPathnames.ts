@@ -15,6 +15,6 @@ export const USERS_PATHNAME = "users";
 export const NEWS_PATHNAME = "news";
 
 export const HOME_PATH = "/";
-export const SIGN_IN_PATH = "/auth/login";
-export const SIGN_UP_PATH = "/auth/registration";
+export const SIGN_IN_PATH = "/login";
+export const SIGN_UP_PATH = "/registration";
 export const MISSING_PATH = "/missing";

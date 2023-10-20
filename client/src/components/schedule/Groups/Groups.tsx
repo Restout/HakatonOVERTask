@@ -10,14 +10,12 @@ import { Title } from "components/ui/typography/Title";
 
 import GroupsService from "services/GroupsService";
 
-import { SCHEDULE_PATHNAME } from "constants/routesPathnames";
-
 import styles from "./groups.module.scss";
 
 const Groups: FC = () => {
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ["groups"],
-        queryFn: GroupsService.getAll,
+        queryFn: () => GroupsService.getAll(),
         select(data) {
             return data.data;
         },
@@ -26,7 +24,9 @@ const Groups: FC = () => {
     return (
         <section className={styles.section}>
             <Container>
-                <Title className={styles.title}>Учебные группы</Title>
+                <header className={styles.header}>
+                    <Title className={styles.title}>Учебные группы</Title>
+                </header>
                 {isSuccess && (
                     <ul className={styles.groupsList}>
                         {data.map(({ groupId, groupName }) => (

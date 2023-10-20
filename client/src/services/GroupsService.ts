@@ -1,16 +1,16 @@
 import { api, authApi } from "api";
 
-import { IGroup } from "types/group.interface";
+import { GroupDTO, IGroup } from "types/group.interface";
 
 const PATH_NAME = "/groups";
 
 class GroupsService {
-    static getAll = async () => {
-        return api.get<IGroup[]>(PATH_NAME);
+    static getAll = async (courseId?: number) => {
+        return api.get<IGroup[]>(PATH_NAME, { params: { courseId } });
     };
 
-    static post = async (post: string) => {
-        return authApi.post<IGroup>(post);
+    static post = async (data: GroupDTO) => {
+        return authApi.post<IGroup>(PATH_NAME, data);
     };
 }
 

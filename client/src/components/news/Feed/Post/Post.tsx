@@ -1,6 +1,8 @@
 import React from "react";
 
 import cn from "clsx";
+import WithAuth from "hocs/WithAuth";
+import { useLocation } from "react-router-dom";
 
 import deleteSrc from "assets/img/icons/delete.svg";
 
@@ -25,6 +27,8 @@ const Post: React.FC<PostProps> = ({
     className,
     onDeleteClick,
 }) => {
+    const location = useLocation();
+    const isAdminPage = location.pathname.includes("admin");
     return (
         <article
             className={cn(
@@ -33,16 +37,25 @@ const Post: React.FC<PostProps> = ({
                 className,
             )}
         >
-            <img src={src} alt={title} height={308} width={540} />
+            <div className={styles.imageWrapper}>
+                <img src={src} alt={title} height={178} width={267} />
+            </div>
             <div className={styles.date}>{date}</div>
             <h5 className={styles.title}>{title}</h5>
             <p className={styles.text}>{text}</p>
-            <button
-                className={styles.deleteBtn}
-                onClick={() => onDeleteClick?.()}
-            >
-                <img src={deleteSrc} alt="Удалить" />
-            </button>
+            {isAdminPage && (
+                <WithAuth
+                    authChildren={
+                        <button
+                            className={styles.deleteBtn}
+                            onClick={() => onDeleteClick?.()}
+                        >
+                            <img src={deleteSrc} alt="Удалить" />
+                        </button>
+                    }
+                    unAuthChildren={null}
+                />
+            )}
         </article>
     );
 };

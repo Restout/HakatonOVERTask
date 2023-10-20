@@ -101,7 +101,7 @@ public class SecurityConfiguration {
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedOriginPatterns("*")
                         .allowedHeaders("*")
-                        .exposedHeaders("User_count","user_count","attendance_count","content_count", "Authorization");
+                        .exposedHeaders("user_count", "countApplications", "Authorization");
             }
         };
     }
