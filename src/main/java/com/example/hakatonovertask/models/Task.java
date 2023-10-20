@@ -26,7 +26,7 @@ public class Task {
     private String title;
     @Column(name = "Grade")
     private int grade= -1;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "Answer",
             joinColumns = {@JoinColumn(name = "TaskID")},
