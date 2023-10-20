@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +20,9 @@ public class ApplicationController {
 
     @GetMapping("/api/auth/applications")
     public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId, Pageable pageable){
-        List<ApplicationOut> applicationOutList = applicationService.listApplications(userId, pageable);
-        return ResponseEntity.ok().header("countApplications", (applicationOutList == null) ? "0" : ""+applicationOutList.size()).body(applicationOutList);
+        AtomicLong count = new AtomicLong(0);
+        List<ApplicationOut> applicationOutList = applicationService.listApplications(userId, pageable, count);
+        return ResponseEntity.ok().header("countApplications",""+count).body(applicationOutList);
     }
 
     @GetMapping("/api/auth/application/{id}")
