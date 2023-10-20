@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class GroupController {
@@ -20,9 +21,13 @@ public class GroupController {
     }
 
     @GetMapping("/api/groups")
-    public ResponseEntity<List<GroupOut>> getGroups(){
+    public ResponseEntity<List<GroupOut>> getGroups(@RequestParam("courseId") Optional<Integer> courseId){
+        if(courseId.isEmpty()){
+            return ResponseEntity.ok().body(groupService.getAll());
+        }else {
+            return ResponseEntity.ok().body(groupService.getGroupByCourse(courseId.orElse(null)));
+        }
 
-        return ResponseEntity.ok().body(groupService.getAll());
     }
 
     @PostMapping("/api/auth/groups")
