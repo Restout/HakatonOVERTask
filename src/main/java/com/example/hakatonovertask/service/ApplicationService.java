@@ -8,7 +8,6 @@ import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class ApplicationService {
 
@@ -81,9 +79,7 @@ public class ApplicationService {
     public void deleteApplication(int id){applicationRepository.deleteById(id);}
 
     public ApplicationOutById createApplication(ApplicationIn applicationIn) throws Exception {
-        log.info("arraived info {} {} {} {}", applicationIn.getChiefName(), applicationIn.getMerits(), applicationIn.getID(), applicationIn.getCourseID());
         UserModel manager = userJpaRepository.findByLastName(applicationIn.getChiefName().split(" ")[0]);
-        log.info("user {}", manager);
         if (!manager.getRole().equals(Roles.MANAGER)) throw Exception;
         Application app = new Application(enrolleeRepository.getReferenceById(applicationIn.getID()),
                 courseRepository.getReferenceById(applicationIn.getCourseID()),
