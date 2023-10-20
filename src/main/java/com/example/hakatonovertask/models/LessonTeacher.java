@@ -1,7 +1,8 @@
 package com.example.hakatonovertask.models;
 
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
+
 import com.example.hakatonovertask.models.teacher.Teacher;
+import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -30,7 +31,7 @@ public class LessonTeacher {
     @JoinColumn(name = "ID")
     private Teacher teacher;
     @OneToMany(mappedBy = "lessonTeacher")
-    private List<ScheldueDay> scheldueDay;
+    private List<ScheduleDay> scheldueDay;
     @ManyToOne
     @JoinColumn(name = "LessonID")
     @Fetch(FetchMode.JOIN)

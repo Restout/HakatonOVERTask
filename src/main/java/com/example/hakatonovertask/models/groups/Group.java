@@ -1,8 +1,11 @@
 package com.example.hakatonovertask.models.groups;
 
 import com.example.hakatonovertask.models.Course;
+import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="Groups")
@@ -20,8 +23,8 @@ public class Group {
     @Column(name="GroupID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupId;
-  /*  @OneToMany(mappedBy = "group")
-    private List<ScheldueDay> scheldueDay;*/
+    @OneToMany(mappedBy = "group")
+    private List<ScheduleDay> scheduleDay;
     @ManyToOne
     @JoinColumn(name = "CourseID")
     private Course course;
