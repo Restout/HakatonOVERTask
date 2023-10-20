@@ -9,10 +9,11 @@ import lombok.Data;
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FileID")
-    private int fileId;
+    @Column(name = "FilesID")
+    private Integer fileId;
     @Column(name = "FileName")
     private String fileName;
     @Column(name = "File")
     private byte[] file;
+
 }

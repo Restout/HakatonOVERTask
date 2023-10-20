@@ -37,7 +37,7 @@ public class CourseService {
         return courses;
     }
     public Course getCourseById(Integer courseId){
-        return courseRepository.getReferenceById(courseId);
+        return courseRepository.findById(courseId).orElse(null);
     }
     public Course saveCourse(Course course){
         return courseRepository.save(course);
