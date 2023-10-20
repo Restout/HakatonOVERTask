@@ -2,7 +2,7 @@ package com.example.hakatonovertask.service;
 
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
-import com.example.hakatonovertask.models.scheldue.ScheldueDay;
+import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
 import com.example.hakatonovertask.repositories.LessonRepository;
 import com.example.hakatonovertask.repositories.LessonTeacherRepository;
@@ -47,7 +47,7 @@ public class ScheldueService {
             date=calendar.getTime();
         }
         calendar.add(Calendar.DAY_OF_MONTH, 5);
-        List<ScheldueDay> days = scheldueRepository.getScheldueDaysByGroupGroupIdAndDayBetween(groupId,date,calendar.getTime());
+        List<ScheduleDay> days = scheldueRepository.getScheldueDaysByGroupGroupIdAndDayBetween(groupId,date,calendar.getTime());
         List<ScheldueDayOut> dayDTO =new ArrayList<ScheldueDayOut>();
         for (var day: days) {
             dayDTO.add( new ScheldueDayOut(
@@ -67,7 +67,7 @@ public class ScheldueService {
     }
 
     public ScheldueDayOut saveScheldue(Integer groupId, ScheldueInfoToSave toSave){
-        ScheldueDay scheldueDay = new ScheldueDay(
+        ScheduleDay scheduleDay = new ScheduleDay(
                 toSave.getDay(),
                 toSave.getStartTime(),
                 toSave.getEndTime(),
@@ -76,28 +76,28 @@ public class ScheldueService {
                 lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
                 //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
         );
-        scheldueDay = scheldueRepository.save(scheldueDay);
+        scheduleDay = scheldueRepository.save(scheduleDay);
 
-        return scheldueDayToOut(scheldueDay.getScheldueId()) ;
+        return scheldueDayToOut(scheduleDay.getScheldueId()) ;
     }
    public ScheldueDayOut updateScheldueDay(Integer scheldueId, ScheldueInfoToSave toSave){
-       ScheldueDay scheldueDay = scheldueRepository.getReferenceById(scheldueId);
-       scheldueDay = new ScheldueDay(
-               scheldueDay.getScheldueId(),
+       ScheduleDay scheduleDay = scheldueRepository.getReferenceById(scheldueId);
+       scheduleDay = new ScheduleDay(
+               scheduleDay.getScheldueId(),
                toSave.getDay(),
                toSave.getStartTime(),
                toSave.getEndTime(),
-               scheldueDay.getGroup(),
+               scheduleDay.getGroup(),
                toSave.getAudience(),
                lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
                //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
        );
-       scheldueDay = scheldueRepository.save(scheldueDay);
+       scheduleDay = scheldueRepository.save(scheduleDay);
 
-       return scheldueDayToOut(scheldueDay.getScheldueId()) ;
+       return scheldueDayToOut(scheduleDay.getScheldueId()) ;
    }
     public ScheldueDayOut scheldueDayToOut(int id){
-        ScheldueDay day = scheldueRepository.getReferenceById(id);
+        ScheduleDay day = scheldueRepository.getReferenceById(id);
         ScheldueDayOut out =new ScheldueDayOut(
                 day.getScheldueId(),
                 day.getDay(),
