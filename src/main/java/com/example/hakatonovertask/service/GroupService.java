@@ -39,13 +39,18 @@ public class GroupService {
     }
     public List<GroupOut> getGroupByCourse(Integer courseId){
         List<GroupOut> groupOuts = new ArrayList<GroupOut>();
-        groupOuts.add(groupToDTO(groupRepository.getGroupByCourseCourseId(courseId)));
-        return groupOuts;
+        if (groupRepository.getGroupByCourseCourseId(courseId)==null){
+            return groupOuts;
+        }else {
+            groupOuts.add(groupToDTO(groupRepository.getGroupByCourseCourseId(courseId)));
+            return groupOuts;
+        }
     }
     public void deleteGroup(Integer GroupId){
         groupRepository.deleteById(GroupId);
     }
     private GroupOut groupToDTO(Group group){
+
         return new GroupOut(group.getGroupId(),group.getGroupName());
     }
 }
