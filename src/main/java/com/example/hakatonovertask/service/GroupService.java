@@ -39,10 +39,12 @@ public class GroupService {
     }
     public List<GroupOut> getGroupByCourse(Integer courseId){
         List<GroupOut> groupOuts = new ArrayList<GroupOut>();
-        if (groupRepository.getGroupByCourseCourseId(courseId)==null){
+        if (groupRepository.getGroupsByCourseCourseId(courseId)==null){
             return groupOuts;
         }else {
-            groupOuts.add(groupToDTO(groupRepository.getGroupByCourseCourseId(courseId)));
+            for (var group:groupRepository.getGroupsByCourseCourseId(courseId)) {
+                groupOuts.add(groupToDTO(group));
+            }
             return groupOuts;
         }
     }
