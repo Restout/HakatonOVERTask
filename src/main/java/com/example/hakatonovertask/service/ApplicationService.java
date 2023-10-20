@@ -9,6 +9,7 @@ import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,20 +27,23 @@ public class ApplicationService {
     private final UserJpaRepository userJpaRepository;
     private java.lang.Exception Exception;
 
-    public List<ApplicationOut> listApplications(int id) {
+    public List<ApplicationOut> listApplications(int id, Pageable pageable) {
+        pageable = pageable.withPage(pageable.getPageNumber() - 1);
         List<Application> applicationList = new ArrayList<>();
         List<ApplicationOut> applicationRes = new ArrayList<>();
         UserModel user = userJpaRepository.getReferenceById(id);
         switch (user.getRole()) {
-            case MANAGER :
-                applicationList.addAll(applicationRepository.findAllByStatusAndChiefID(Status.FOR_APPROVAL, id));
+            case MANAGER:
+                applicationList.addAll(applicationRepository.findAllByStatusAndChiefID(Status.FOR_APPROVAL, id, pageable).getContent());
+
                 break;
             case SELLECTION_COMMITE:
-                applicationList.addAll(applicationRepository.findAllByStatus(Status.UNDER_CONSIDERATION));
+                applicationList.addAll(applicationRepository.findAllByStatus(Status.UNDER_CONSIDERATION, pageable).getContent());
                 break;
             case ADMIN:
-                applicationList.addAll(applicationRepository.findAll());
+                applicationList.addAll(applicationRepository.findAll(pageable).getContent());
         }
+        if (applicationList.isEmpty()) return null;
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getApplicationId(),

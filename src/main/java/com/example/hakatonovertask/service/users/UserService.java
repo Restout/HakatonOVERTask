@@ -18,6 +18,7 @@ public class UserService {
     private UserJpaRepository userRepository;
 
     public Iterable<UserModel> getAllUsers(Pageable page) {
+        page = page.withPage(page.getPageNumber() - 1);
         return userRepository.findAll(page).getContent();
     }
 
@@ -41,7 +42,6 @@ public class UserService {
                 isRole = true;
                 break;
             }
-
         }
         if (!isRole) {
             throw new HttpClientErrorException(HttpStatusCode.valueOf(404));
@@ -54,6 +54,7 @@ public class UserService {
         } catch (HttpClientErrorException e) {
             throw e;
         }
+        page = page.withPage(page.getPageNumber() - 1);
         return userRepository.findByRole(role, page).getContent();
     }
 

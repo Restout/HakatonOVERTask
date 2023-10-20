@@ -6,24 +6,25 @@ import com.example.hakatonovertask.models.applications.ApplicationOut;
 import com.example.hakatonovertask.models.applications.ApplicationOutById;
 import com.example.hakatonovertask.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    @GetMapping("/applications")
-    public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int id){
-        return ResponseEntity.ok().body(applicationService.listApplications(id));
+    @GetMapping("/api/auth/applications")
+    public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId, Pageable pageable){
+        return ResponseEntity.ok().body(applicationService.listApplications(userId, pageable));
     }
 
-    @GetMapping("/application/{id}")
+    @GetMapping("/api/auth/application/{id}")
     public ResponseEntity<ApplicationOutById> getApplicatoinById(@PathVariable int id) {
         var result = applicationService.getApplicationById(id);
         if (result == null) {
@@ -32,13 +33,13 @@ public class ApplicationController {
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping("/application/delete")
+    @DeleteMapping("/api/auth/application/delete")
     public ResponseEntity deleteApplication(@RequestParam int id){
         applicationService.deleteApplication(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/application/create")
+    @PostMapping("/api/auth/application/create")
     public ResponseEntity<ApplicationOutById> createApplication(@RequestBody ApplicationIn app){
         try {
             return ResponseEntity.ok().body(applicationService.createApplication(app));
@@ -47,7 +48,7 @@ public class ApplicationController {
         }
     }
 
-    @PutMapping("/applicatoin/changestatus/{id}")
+    @PutMapping("/api/auth/applicatoin/changestatus/{id}")
     public ResponseEntity approveApplicatoin(@PathVariable int id, @RequestParam String answer){
         applicationService.approveApplication(id, answer);
         return ResponseEntity.ok().build();
