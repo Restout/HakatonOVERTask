@@ -8,12 +8,13 @@ import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
@@ -25,23 +26,19 @@ public class ApplicationService {
     private final UserJpaRepository userJpaRepository;
     private java.lang.Exception Exception;
 
-    public List<ApplicationOut> listApplications(int id, Pageable pageable) {
+    public List<ApplicationOut> listApplications(int id, Pageable pageable, AtomicLong count) {
         pageable = pageable.withPage(pageable.getPageNumber() - 1);
-        List<Application> applicationList = new ArrayList<>();
+        Page<Application> applicationList = Page.empty();
         List<ApplicationOut> applicationRes = new ArrayList<>();
         UserModel user = userJpaRepository.getReferenceById(id);
-        switch (user.getRole()) {
-            case MANAGER:
-                applicationList.addAll(applicationRepository.findAllByStatusAndChiefID(Status.FOR_APPROVAL, id, pageable).getContent());
-
-                break;
-            case SELLECTION_COMMITE:
-                applicationList.addAll(applicationRepository.findAllByStatus(Status.UNDER_CONSIDERATION, pageable).getContent());
-                break;
-            case ADMIN:
-                applicationList.addAll(applicationRepository.findAll(pageable).getContent());
-        }
+        applicationList = switch (user.getRole()) {
+            case MANAGER -> applicationRepository.findAllByStatusAndChiefID(Status.FOR_APPROVAL, id, pageable);
+            case SELLECTION_COMMITE -> applicationRepository.findAllByStatus(Status.UNDER_CONSIDERATION, pageable);
+            case ADMIN -> applicationRepository.findAll(pageable);
+            default -> applicationList;
+        };
         if (applicationList.isEmpty()) return null;
+        count.set(applicationList.getTotalElements());
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getApplicationId(),
