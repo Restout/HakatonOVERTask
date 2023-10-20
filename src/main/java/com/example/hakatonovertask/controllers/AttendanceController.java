@@ -5,9 +5,7 @@ import com.example.hakatonovertask.models.Attendance.AttendanceOut;
 import com.example.hakatonovertask.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +24,14 @@ public class AttendanceController {
         return ResponseEntity.ok().body(attendanceService.getAttendacne(scheduledId));
     }
 
+    @PostMapping("/api/attendance/create/{scheduledId}")
+    public ResponseEntity<List<AttendanceDAO>> createAttendance(@RequestBody List<AttendanceDAO> list, @PathVariable int scheduledId) {
+        return ResponseEntity.ok().body(attendanceService.createAttendance(list, scheduledId));
+    }
 
-
-
-
+    @DeleteMapping("/api/attendance/delete/{scheduledId}")
+    public ResponseEntity deleteAttendance(@PathVariable int scheduledId) {
+        attendanceService.deleteAttendance(scheduledId);
+        return ResponseEntity.ok().build();
+    }
 }

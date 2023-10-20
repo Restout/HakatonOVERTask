@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
     List<Attendance> findAllByScheduleDayScheldueId(int scheldueId);
+    void deleteAllByScheduleDayScheldueId(int scheduleId);
 }

@@ -6,7 +6,6 @@ import com.example.hakatonovertask.models.Attendance.AttendanceOut;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.repositories.AttendanceRepository;
-import com.example.hakatonovertask.repositories.GroupRepository;
 import com.example.hakatonovertask.repositories.ScheldueRepository;
 import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,4 +41,16 @@ public class AttendanceService {
         }
         return attendanceDAOList;
     }
+
+    public List<AttendanceDAO> createAttendance(List<AttendanceDAO> list, int scheduledId) {
+        for (var att : list) {
+            attendanceRepository.save(new Attendance(att.isHas_been(),
+                    studentJpaRepository.findById(att.getStudentId()).get(),
+                    scheldueRepository.findById(scheduledId).get()));
+        }
+        return getAttendacne(scheduledId);
+    }
+
+
+    public void deleteAttendance(int scheduledId) { attendanceRepository.deleteAllByScheduleDayScheldueId(scheduledId);}
 }

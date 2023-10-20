@@ -26,4 +26,10 @@ public class Attendance {
     @ManyToOne
     @JoinColumn(name = "ScheduleID", columnDefinition = "int4")
     private ScheduleDay scheduleDay;
+
+    public Attendance(boolean hasBeen, Student student, ScheduleDay scheduleDay) {
+        this.has_been = hasBeen;
+        this.student = student;
+        this.scheduleDay = scheduleDay;
+    }
 }
