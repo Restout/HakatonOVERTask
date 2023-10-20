@@ -1,0 +1,29 @@
+@import "/src/assets/styles/mixins.scss";
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.link {
+    font-size: 1rem;
+    padding: 0.4rem 0.64rem;
+    background-color: var(--color-white);
+    color: var(--color-dark-blue);
+    border: 1px solid var(--color-grey);
+    cursor: pointer;
+    border-radius: 8px;
+    &:hover {
+        background-color: rgba(var(--color-light-blue--rgb), 0.05);
+    }
+}
+
+.active {
+    color: var(--color-white);
+    background-color: var(--color-dark-blue);
+    &:hover {
+        background-color: var(--color-dark-blue);
+        cursor: default;
+    }
+}

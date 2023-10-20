@@ -1,13 +1,41 @@
 import { FC } from "react";
 
-import cn from "clsx";
+import WithAuth from "hocs/WithAuth";
+import { Link } from "react-router-dom";
 
-import styles from "./profileButton.module.scss";
+import {
+    LK_PATHNAME,
+    PROFILE_PATHNAME,
+    SIGN_IN_PATH,
+} from "constants/routesPathnames";
 
-interface Props {}
+interface Props {
+    className?: string;
+}
 
-const ProfileButton: FC<Props> = () => {
-    return <div>Профиль</div>;
+const ProfileButton: FC<Props> = ({ className }) => {
+    return (
+        <WithAuth
+            authChildren={<AuthLink className={className} />}
+            unAuthChildren={<UnAuthLink className={className} />}
+        />
+    );
 };
 
 export default ProfileButton;
+
+function AuthLink({ className }: { className?: string }) {
+    return (
+        <Link to={`/${LK_PATHNAME}/${PROFILE_PATHNAME}`} className={className}>
+            Профиль
+        </Link>
+    );
+}
+
+function UnAuthLink({ className }: { className?: string }) {
+    return (
+        <Link to={SIGN_IN_PATH} className={className}>
+            Войти
+        </Link>
+    );
+}

@@ -1,22 +1,47 @@
 import { FC } from "react";
 
+import { Link } from "react-router-dom";
+
 import { Container } from "components/shared/Container";
 import { Button } from "components/ui/Button";
 
+import { ICourse } from "types/course.interface";
+
 import styles from "./fullCourseIntro.module.scss";
 
-interface Props {}
+interface Props {
+    openEnrol: () => void;
+    isEnrolling: boolean;
+    course: ICourse;
+}
 
-const FullCourseIntro: FC<Props> = () => {
+const FullCourseIntro: FC<Props> = ({ openEnrol, isEnrolling, course }) => {
     return (
         <section className={styles.section}>
             <Container>
                 <div className={styles.content}>
-                    <h1 className={styles.title}>
-                        Метамодернизм и современная русская проза
-                    </h1>
-                    <p className={styles.subtitle}>09.03.02</p>
-                    <Button variant="light-blue">Записаться на курс</Button>
+                    <h1 className={styles.title}>{course.courseName}</h1>
+                    {course.isParticipant ? (
+                        <Link to={""}>
+                            <Button
+                                variant="light-blue"
+                                onClick={openEnrol}
+                                disabled={isEnrolling}
+                            >
+                                Перейти к материалам курса
+                            </Button>
+                        </Link>
+                    ) : (
+                        <Button
+                            variant="light-blue"
+                            onClick={openEnrol}
+                            disabled={isEnrolling}
+                        >
+                            {isEnrolling
+                                ? "Заполните форму"
+                                : "Записаться на курс"}
+                        </Button>
+                    )}
                 </div>
             </Container>
         </section>

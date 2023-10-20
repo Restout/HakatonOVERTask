@@ -1,53 +1,58 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import cn from "clsx";
 import { Link } from "react-router-dom";
-import NewsService from "services/NewsService";
 
 import { Container } from "components/shared/Container";
+import { Alert } from "components/ui/Alert";
+import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
-import { SCHEDULE_PATH } from "constants/routesPathnames";
+import GroupsService from "services/GroupsService";
 
 import styles from "./groups.module.scss";
 
-interface Props {}
-
-const groupsList = [
-    "513123",
-    "123154",
-    "123999",
-    "213855",
-    "123562",
-    "958543",
-    "456423",
-    "654145",
-    "324534",
-];
-
-const Groups: FC<Props> = () => {
-    // const {} = useQuery({
-    //     queryKey: ["todos"],
-    //     queryFn: NewsService.getNews,
-    // });
+const Groups: FC = () => {
+    const { data, isLoading, isError, isSuccess } = useQuery({
+        queryKey: ["groups"],
+        queryFn: () => GroupsService.getAll(),
+        select(data) {
+            return data.data;
+        },
+    });
 
     return (
         <section className={styles.section}>
             <Container>
-                <Title className={styles.title}>Учебные группы</Title>
-                <ul className={styles.groupsList}>
-                    {groupsList.map((group) => (
-                        <li key={group}>
-                            <Link to={`${SCHEDULE_PATH}/${group}`}>
-                                {group}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                <header className={styles.header}>
+                    <Title className={styles.title}>Учебные группы</Title>
+                </header>
+                {isSuccess && (
+                    <ul className={styles.groupsList}>
+                        {data.map(({ groupId, groupName }) => (
+                            <li key={groupId}>
+                                <Link to={`${groupId}`}>{groupName}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <Error message={isError ? "Something went wrong" : null} />
+                <Loading isLoading={isLoading} />
             </Container>
         </section>
     );
 };
 
 export default Groups;
+
+function Loading({ isLoading }: { isLoading: boolean }) {
+    if (!isLoading) return null;
+
+    return <Loader isCenter={true} />;
+}
+
+function Error({ message }: { message: string | null }) {
+    if (!message) return null;
+
+    return <Alert variant="error">{message}</Alert>;
+}

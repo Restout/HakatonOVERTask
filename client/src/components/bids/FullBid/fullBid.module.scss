@@ -9,9 +9,14 @@
 
 .bid {
     width: 100%;
+    transition: opacity 0.2s ease;
+    &.opacity {
+        opacity: 0.5;
+    }
 }
 
 .body {
+    background-color: var(--color-white);
     font-family: var(--font-mont);
     border-radius: 8px;
     overflow: hidden;
@@ -101,5 +106,31 @@
     overflow-x: auto;
     @include mobileMiddle {
         font-size: 20px;
+    }
+}
+
+.errorAlert {
+    margin-bottom: 20px;
+}
+
+.editRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    div {
+        font-size: 17px;
+        max-width: 200px;
+        width: 100%;
+        font-weight: 700;
+        @include mobileMiddle {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+    }
+
+    select {
+        max-width: 230px;
+        margin-right: auto;
     }
 }

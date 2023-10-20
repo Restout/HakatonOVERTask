@@ -5,9 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "components/shared/Container";
 import { Button } from "components/ui/Button";
 
+import { formatDate } from "utils/formatDate";
+import { getRoleName } from "utils/getRoleName";
+
+import { IUser } from "types/user.interface";
+
 import styles from "./fullUser.module.scss";
 
-const FullUser: FC = () => {
+interface Props {
+    user: IUser;
+}
+
+const FullUser: FC<Props> = ({ user }) => {
     const navigate = useNavigate();
 
     return (
@@ -22,17 +31,23 @@ const FullUser: FC = () => {
                             </button>
                         </header>
                         <div className={styles.description}>
-                            <UserRow name="Id" value="13" />
-                            <UserRow name="Дата рождения" value="11.09.2023" />
-                            <UserRow name="Услуга" value="Какая-то" />
-                            <UserRow name="Имя" value="Артем" />
-                            <UserRow name="Фамилия" value="Артемов" />
-                            <UserRow name="Email" value="artemka@mail.ru" />
-                            <UserRow name="Телефон" value="483248948" />
-                            <UserRow name="Статус" value="Студент" />
+                            <UserRow name="Фамилия" value={user.lastName} />
+                            <UserRow name="Имя" value={user.firstName} />
+                            <UserRow name="Отчество" value={user.fatherName} />
+                            <UserRow name="Email" value={user.email} />
+                            <UserRow name="Телефон" value={user.phone} />
+                            <UserRow
+                                name="Дата рождения"
+                                value={formatDate(user.birthday).date}
+                            />
+                            <UserRow
+                                name="Статус"
+                                value={getRoleName(user.role)}
+                            />
                         </div>
                         <footer className={styles.footer}>
                             <Button variant="light-blue">Редактировать</Button>
+                            <Button variant="red">Удалить</Button>
                         </footer>
                     </div>
                 </Container>

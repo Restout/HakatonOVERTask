@@ -47,6 +47,12 @@
 }
 
 .tableBody {
+    transition: opacity 0.2s ease;
+    &.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
     tr {
         background-color: var(--color-white);
         border: 1px solid #ddd;
@@ -62,7 +68,7 @@
             margin-bottom: 0.625em;
         }
     }
-    
+
     td {
         padding: 0.625em 0.2em;
         text-align: center;

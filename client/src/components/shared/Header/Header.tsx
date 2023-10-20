@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 
+import { useLogout } from "hooks/auth/useLogout";
+
 import {
-    ADMIN_PATH,
-    BIDS_PATH,
-    COURSES_PATH,
+    ADMIN_PATHNAME,
+    BIDS_PATHNAME,
+    COURSES_PATHNAME,
     HOME_PATH,
-    SCHEDULE_PATH,
-    USERS_PATH,
+    SCHEDULE_PATHNAME,
+    USERS_PATHNAME,
 } from "constants/routesPathnames";
 
 import logo from "assets/img/logo.svg";
@@ -24,6 +26,8 @@ interface Props {
 }
 
 const Header: FC<Props> = ({ className }) => {
+    const logout = useLogout();
+
     return (
         <header className={cn(styles.header, className)}>
             <Container>
@@ -32,22 +36,31 @@ const Header: FC<Props> = ({ className }) => {
                         <img src={logo} alt="Logo" />
                     </Link>
                     <div className={styles.controls}>
-                        <Link className={styles.link} to={SCHEDULE_PATH}>
+                        <Link
+                            className={styles.link}
+                            to={"/" + SCHEDULE_PATHNAME}
+                        >
                             Расписание
                         </Link>
-                        <Link className={styles.link} to={COURSES_PATH}>
+                        <Link
+                            className={styles.link}
+                            to={"/" + COURSES_PATHNAME}
+                        >
                             Курсы
                         </Link>
-                        <Link className={styles.link} to={BIDS_PATH}>
+                        <Link className={styles.link} to={"/" + BIDS_PATHNAME}>
                             Заявки
                         </Link>
                         <Link
                             className={styles.link}
-                            to={`${ADMIN_PATH}/${USERS_PATH}`}
+                            to={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}`}
                         >
                             Админ панель
                         </Link>
-                        <ProfileButton />
+                        <ProfileButton className={styles.link} />
+                        <button className={styles.link} onClick={logout}>
+                            Выйти
+                        </button>
                     </div>
                 </div>
             </Container>

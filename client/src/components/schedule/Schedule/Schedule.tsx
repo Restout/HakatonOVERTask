@@ -1,82 +1,85 @@
-import { FC } from "react";
+import { FC, Fragment, useMemo } from "react";
+
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
+import { Alert } from "components/ui/Alert";
+import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
-import { ILesson } from "types/lesson.interface";
+import ScheduleService from "services/ScheduleService";
 
+import { formatDate } from "utils/formatDate";
+import { formatTime } from "utils/formatTime";
+import { getInterval } from "utils/getInterval";
+
+import { ISchedule } from "types/schedule.interface";
+
+import {
+    getNextMonday,
+    getPreviousMonday,
+    getPreviousWeekMonday,
+} from "./getMonday";
 import styles from "./schedule.module.scss";
+
+const DATE_SEARCH_NAME = "date";
 
 interface Props {
     groupId: string;
 }
 
-const data: ILesson[] = [
-    {
-        audience: "Дистанционно",
-        day: "2023-10-09",
-        startTime: "10:00",
-        endTime: "11:30",
-        firstName: "Иванов",
-        lastName: "Олег",
-        id: "1",
-        lesson: "Математика",
-    },
-    {
-        audience: "513",
-        day: "2023-10-10",
-        endTime: "15:30",
-        firstName: "Егор",
-        id: "2",
-        lastName: "Степанов",
-        lesson: "Русский язык",
-        startTime: "14:00",
-    },
-    {
-        audience: "234",
-        day: "2023-10-11",
-        endTime: "9:30",
-        firstName: "Григорий",
-        id: "3",
-        lastName: "Свистунов",
-        lesson: "Физкультура",
-        startTime: "8:00",
-    },
-    {
-        audience: "432",
-        day: "2023-10-12",
-        endTime: "13:30",
-        firstName: "Александр",
-        id: "4",
-        lastName: "Лебедов",
-        lesson: "Иностранный язык",
-        startTime: "12:00",
-    },
-    {
-        audience: "111",
-        day: "2023-10-13",
-        endTime: "17:30",
-        firstName: "Виктория",
-        id: "5",
-        lastName: "Баженова",
-        lesson: "Математический анализ",
-        startTime: "16:00",
-    },
-    {
-        audience: "Дистанционно",
-        day: "2023-10-14",
-        endTime: "11:30",
-        firstName: "Генадий",
-        id: "6",
-        lastName: "Громов",
-        lesson: "Физика",
-        startTime: "10:00",
-    },
-];
-
 const Schedule: FC<Props> = ({ groupId }) => {
-    const { startTime, endTime, lesson, lastName, firstName, audience, day } =
-        data[0];
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const date = searchParams.get(DATE_SEARCH_NAME) ?? getPreviousMonday();
+
+    const handleNextClick = () => {
+        searchParams.set(DATE_SEARCH_NAME, getNextMonday(date));
+        setSearchParams(searchParams);
+    };
+
+    const handlePreviousClick = () => {
+        searchParams.set(DATE_SEARCH_NAME, getPreviousWeekMonday(date));
+        setSearchParams(searchParams);
+    };
+
+    const { data, isLoading, isError, isSuccess } = useQuery({
+        queryFn: () => ScheduleService.get(groupId, date),
+        queryKey: ["schedule", date, groupId],
+        select: (data) => data.data,
+    });
+
+    const filteredSchedule = useMemo(() => {
+        const result: {
+            dayOfWeek: number;
+            lessons: ISchedule[];
+            date: string;
+        }[] = [
+            { dayOfWeek: 0, lessons: [], date: "" },
+            { dayOfWeek: 1, lessons: [], date: "" },
+            { dayOfWeek: 2, lessons: [], date: "" },
+            { dayOfWeek: 3, lessons: [], date: "" },
+            { dayOfWeek: 4, lessons: [], date: "" },
+            { dayOfWeek: 5, lessons: [], date: "" },
+        ];
+
+        if (!data) return result;
+
+        data.forEach((schedule) => {
+            const { dayOfWeek } = formatDate(schedule.day);
+            result[dayOfWeek].lessons.push(schedule);
+            result[dayOfWeek].date = formatDate(schedule.day).date;
+        });
+
+        return result;
+    }, [data]);
+
+    const isEmpty = useMemo(() => {
+        return filteredSchedule.every(
+            (schedule) => schedule.lessons.length < 1,
+        );
+    }, [filteredSchedule]);
 
     return (
         <section className={styles.section}>
@@ -84,136 +87,68 @@ const Schedule: FC<Props> = ({ groupId }) => {
                 <Title className={styles.title}>
                     Расписание занятий группы: {groupId}
                 </Title>
-                <Controls interval="09.10 - 14.10" />
-                <div className={styles.schedule}>
-                    <div className={styles.day}>
-                        <span>{day}</span>
-                    </div>
-                    <ul>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div className={styles.schedule}>
-                    <div className={styles.day}>
-                        <span>{day}</span>
-                    </div>
-                    <ul>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <div className={styles.schedule}>
-                    <div className={styles.day}>
-                        <span>{day}</span>
-                    </div>
-                    <ul>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className={styles.time}>
-                                {startTime}-{endTime}
-                            </div>
-                            <div>
-                                <h5>{lesson}</h5>
-                                <p>
-                                    {lastName} {firstName}
-                                </p>
-                                <p>{audience}</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <Controls
+                    interval={getInterval(date)}
+                    next={handleNextClick}
+                    previous={handlePreviousClick}
+                />
+                {isSuccess && (
+                    <>
+                        {filteredSchedule.map((scheduleData) => (
+                            <Fragment key={scheduleData.dayOfWeek}>
+                                {scheduleData.lessons.length > 0 && (
+                                    <div className={styles.schedule}>
+                                        <div className={styles.day}>
+                                            <span>{scheduleData.date}</span>
+                                        </div>
+                                        <ul>
+                                            {scheduleData.lessons.map(
+                                                (lesson) => (
+                                                    <li key={lesson.scheldueId}>
+                                                        <div
+                                                            className={
+                                                                styles.time
+                                                            }
+                                                        >
+                                                            {formatTime(
+                                                                lesson.startTime,
+                                                            )}
+                                                            -
+                                                            {formatTime(
+                                                                lesson.endTime,
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <h5>
+                                                                {lesson.lesson}
+                                                            </h5>
+                                                            <p>
+                                                                {
+                                                                    lesson.lastname
+                                                                }{" "}
+                                                                {
+                                                                    lesson.firstName
+                                                                }
+                                                            </p>
+                                                            <p>
+                                                                {
+                                                                    lesson.audience
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                ),
+                                            )}
+                                        </ul>
+                                    </div>
+                                )}
+                            </Fragment>
+                        ))}
+                    </>
+                )}
+                <EmptyAlert isEmpty={isEmpty} isLoading={isLoading} />
+                <Error message={isError ? "Something went wrong" : null} />
+                <Loading isLoading={isLoading} />
             </Container>
         </section>
     );
@@ -221,14 +156,46 @@ const Schedule: FC<Props> = ({ groupId }) => {
 
 export default Schedule;
 
-function Controls({ interval }: { interval: string }) {
+function Controls({
+    interval,
+    next,
+    previous,
+}: {
+    interval: string;
+    next: () => void;
+    previous: () => void;
+}) {
     return (
         <div className={styles.controls}>
             <div>
-                <button>Предыдущая неделя</button>
+                <button onClick={previous}>Предыдущая неделя</button>
                 <p>{interval}</p>
-                <button>Следующая неделя</button>
+                <button onClick={next}>Следующая неделя</button>
             </div>
         </div>
     );
+}
+
+function Loading({ isLoading }: { isLoading: boolean }) {
+    if (!isLoading) return null;
+
+    return <Loader isCenter={true} />;
+}
+
+function Error({ message }: { message: string | null }) {
+    if (!message) return null;
+
+    return <Alert variant="error">{message}</Alert>;
+}
+
+function EmptyAlert({
+    isEmpty,
+    isLoading,
+}: {
+    isEmpty: boolean;
+    isLoading: boolean;
+}) {
+    if (!isEmpty || isLoading) return null;
+
+    return <Alert variant="info">На этой неделе занятий нет</Alert>;
 }

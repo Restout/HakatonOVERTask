@@ -13,4 +13,9 @@
     &.success {
         background-color: var(--color-green);
     }
+    &.info {
+        color: #052c65;
+        background-color: #cfe2ff;
+        border-color: #9ec5fe;
+    }
 }

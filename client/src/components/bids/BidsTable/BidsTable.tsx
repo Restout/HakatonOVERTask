@@ -1,16 +1,28 @@
 import { FC } from "react";
 
+import cn from "clsx";
 import { useNavigate } from "react-router-dom";
 
-import { Badge } from "components/shared/Badge";
+import { Badge, BadgeVariantType } from "components/shared/Badge";
+
+import { formatDate } from "utils/formatDate";
+
+import { IApplicationContacts } from "types/application.interface";
+
+import { BidStatus } from "constants/bidsStatus";
 
 import styles from "./bidsTable.module.scss";
 
-const BidsTable: FC = () => {
+interface Props {
+    isDisabled: boolean;
+    bids: IApplicationContacts[];
+}
+
+const BidsTable: FC<Props> = ({ isDisabled, bids }) => {
     return (
         <table className={styles.table}>
             <TableHead />
-            <TableBody bids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]} />
+            <TableBody bids={bids} isDisabled={isDisabled} />
         </table>
     );
 };
@@ -21,44 +33,66 @@ function TableHead() {
     return (
         <thead className={styles.tableHead}>
             <tr>
-                <th style={{ width: 70 }}>id</th>
-                <th style={{ width: 110 }}>дата</th>
-                <th style={{ width: 170 }}>услуга</th>
-                <th>имя</th>
-                <th>email</th>
-                <th>телефон</th>
-                <th style={{ width: 150 }}>статус</th>
+                <th>ФИО</th>
+                <th>Дата</th>
+                <th>Направление</th>
+                <th>Email</th>
+                <th>Телефон</th>
+                <th>статус</th>
             </tr>
         </thead>
     );
 }
 
-function TableBody({ bids }: { bids: number[] }) {
+function TableBody({
+    bids,
+    isDisabled,
+}: {
+    bids: IApplicationContacts[];
+    isDisabled: boolean;
+}) {
     const navigate = useNavigate();
 
     return (
-        <tbody className={styles.tableBody}>
-            {bids.map((value) => (
-                <tr key={value} onClick={() => navigate(`/bids/${value}`)}>
-                    <td data-label>13</td>
-                    <td data-label>13.13.1313</td>
-                    <td data-label>Что-то</td>
-                    <td data-label>Легендов Михуил</td>
-                    <td data-label>mi.xuil@mail.ru</td>
-                    <td data-label>+1313131313</td>
+        <tbody className={cn(styles.tableBody, isDisabled && styles.disabled)}>
+            {bids.map((bid) => (
+                <tr
+                    key={bid.applicationID}
+                    onClick={() => navigate(`/bids/${bid.applicationID}`)}
+                >
                     <td data-label>
-                        {value % 3 === 0 && (
-                            <Badge variant="success">Зарегистрирована</Badge>
-                        )}
-                        {value % 3 === 1 && (
-                            <Badge variant="warning">На согласовании</Badge>
-                        )}
-                        {value % 3 === 2 && (
-                            <Badge variant="danger">Отклонена</Badge>
-                        )}
+                        {bid.lastName} {bid.firstName} {bid.fatherName}
+                    </td>
+                    <td data-label>{formatDate(bid.dateOfChange).date}</td>
+                    <td data-label>{bid.courseName}</td>
+                    <td data-label>{bid.email}</td>
+                    <td data-label>{bid.phone}</td>
+                    <td data-label>
+                        <StatusBadge status={bid.status} />
                     </td>
                 </tr>
             ))}
         </tbody>
     );
+}
+
+function StatusBadge({ status }: { status: BidStatus }) {
+    let badgeVariant: BadgeVariantType = "info";
+
+    switch (status) {
+        case BidStatus.FOR_APPROVAL:
+            badgeVariant = "info";
+            break;
+        case BidStatus.UNDER_CONSIDERATION:
+            badgeVariant = "warning";
+            break;
+        case BidStatus.REGISTERED:
+            badgeVariant = "success";
+            break;
+        case BidStatus.REJECTED:
+            badgeVariant = "danger";
+            break;
+    }
+
+    return <Badge variant={badgeVariant}>{status}</Badge>;
 }

@@ -51,3 +51,16 @@
         }
     }
 }
+
+.successAlert {
+    font-size: 19px;
+
+    p {
+        margin-bottom: 6px;
+    }
+
+    a {
+        text-decoration: underline;
+        color: var(--color-light-blue);
+    }
+}

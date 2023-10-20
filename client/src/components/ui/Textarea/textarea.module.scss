@@ -9,10 +9,15 @@
     border-radius: 0.5rem;
     border: 1px solid rgba(var(--color-grey--rgb), 0.3);
     background-color: var(--color-white);
-    transition: border-color 0.15s ease;
+    transition:
+        border-color 0.15s ease,
+        opacity 0.15s ease;
     white-space: pre-wrap;
     resize: none;
     &:focus {
         border-color: var(--color-light-blue);
+    }
+    &:disabled {
+        opacity: 0.6;
     }
 }
