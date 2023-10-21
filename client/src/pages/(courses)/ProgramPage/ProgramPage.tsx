@@ -8,26 +8,29 @@ import { Container } from "components/shared/Container";
 
 import useTypedSelector from "hooks/shared/useTypedSelector";
 
+import LessonService from "services/LessonService";
 import MaterialsService from "services/MaterialsService";
 
 import styles from "./programPage.module.scss";
-import LessonService from "services/LessonService";
 
 const ProgramPage: FC = () => {
     const { lessonId = "" } = useParams();
     const userId = useTypedSelector((state) => state.user.user?.id);
 
-    const { data } = useQuery({
+    const { data: lesson } = useQuery({
+        queryFn: () => LessonService.getById(parseInt(lessonId)),
+        queryKey: ["materials", lessonId],
+        select: (data) => data.data,
+    });
+    const { data: materials } = useQuery({
         queryFn: () =>
             MaterialsService.get(parseInt(lessonId), userId as number),
         queryKey: ["materials", lessonId, userId],
+        select: (data) => data.data,
     });
 
-    // const {  } = useQuery({
-    //     queryFn: () => LessonService
-    // })
-
-    console.log(data);
+    console.log(lesson);
+    console.log(materials);
 
     return (
         <>

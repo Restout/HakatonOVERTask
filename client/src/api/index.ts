@@ -2,12 +2,14 @@ import axios from "axios";
 
 import { LocalStorageKeys } from "constants/localStorageKeys";
 
+export const API_URL = window.location.origin;
+
 export const api = axios.create({
-    baseURL: `${process.env.REACT_APP_SERVER_URL}/api`,
+    baseURL: `${API_URL}/api`,
 });
 
 export const authApi = axios.create({
-    baseURL: `${process.env.REACT_APP_SERVER_URL}/api/auth`,
+    baseURL: `${API_URL}/api/auth`,
 });
 
 authApi.interceptors.request.use((config) => {
