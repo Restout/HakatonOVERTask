@@ -6,30 +6,32 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.io.Serializable;
 
-import java.util.UUID;
 
 @Table(name="Attendance")
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@IdClass(CompositePK.class)
 public class Attendance {
-    @Id
-    @Column
-    private UUID uuid;
+
     @Column(name = "has_been")
     private boolean has_been;
+    @Id
     @ManyToOne
     @JoinColumn(name = "StudentID")
     private Student student;
+    @Id
     @ManyToOne
-    @JoinColumn(name = "ScheduleID", columnDefinition = "int4")
+    @JoinColumn(name = "ScheduleID")
     private ScheduleDay scheduleDay;
 
-    public Attendance(boolean hasBeen, Student student, ScheduleDay scheduleDay) {
-        this.has_been = hasBeen;
-        this.student = student;
-        this.scheduleDay = scheduleDay;
-    }
 }
+
+class CompositePK implements Serializable {
+    private Student student;
+    private ScheduleDay scheduleDay;
+}
+

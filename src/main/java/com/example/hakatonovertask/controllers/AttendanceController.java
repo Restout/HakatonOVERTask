@@ -14,22 +14,22 @@ import java.util.List;
 public class AttendanceController {
     final private AttendanceService attendanceService;
 
-    @GetMapping("/api/attendance/create/{scheduledId}")
+    @GetMapping("/api/auth/attendance/create/{scheduledId}")
     public ResponseEntity<List<AttendanceOut>> getListStudent(@PathVariable int scheduledId) {
         return ResponseEntity.ok().body(attendanceService.getListStudent(scheduledId));
     }
 
-    @GetMapping("/api/attendance/{scheduledId}")
+    @GetMapping("/api/auth/attendance/{scheduledId}")
     public ResponseEntity<List<AttendanceDAO>> getAttendance(@PathVariable int scheduledId) {
         return ResponseEntity.ok().body(attendanceService.getAttendacne(scheduledId));
     }
 
-    @PostMapping("/api/attendance/create/{scheduledId}")
+    @PostMapping("/api/auth/attendance/create/{scheduledId}")
     public ResponseEntity<List<AttendanceDAO>> createAttendance(@RequestBody List<AttendanceDAO> list, @PathVariable int scheduledId) {
         return ResponseEntity.ok().body(attendanceService.createAttendance(list, scheduledId));
     }
 
-    @DeleteMapping("/api/attendance/delete/{scheduledId}")
+    @DeleteMapping("/api/auth/attendance/delete/{scheduledId}")
     public ResponseEntity deleteAttendance(@PathVariable int scheduledId) {
         attendanceService.deleteAttendance(scheduledId);
         return ResponseEntity.ok().build();

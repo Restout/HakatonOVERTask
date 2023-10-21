@@ -8,6 +8,7 @@ import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.repositories.AttendanceRepository;
 import com.example.hakatonovertask.repositories.ScheldueRepository;
 import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,6 @@ public class AttendanceService {
         return getAttendacne(scheduledId);
     }
 
-
+    @Transactional
     public void deleteAttendance(int scheduledId) { attendanceRepository.deleteAllByScheduleDayScheldueId(scheduledId);}
 }
