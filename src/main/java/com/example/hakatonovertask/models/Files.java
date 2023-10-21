@@ -2,12 +2,14 @@ package com.example.hakatonovertask.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "files")
+@AllArgsConstructor
 @NoArgsConstructor
 public class Files {
     @Id

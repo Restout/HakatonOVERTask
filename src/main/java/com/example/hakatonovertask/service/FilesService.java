@@ -21,9 +21,16 @@ public class FilesService {
     public void setFileRepository(FileRepository fileRepository) {
         this.fileRepository = fileRepository;
     }
-    public Files updateFile(Integer fileId, Files file){
-        file.setFileId(fileId);
-        return fileRepository.save(file);
+    public Files updateFile(Integer fileId, FileIn fileIn){
+        Files files=null;
+        try {
+            files = new Files(fileId,fileIn.getFileName(),fileIn.getFile().getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return fileRepository.save(files);
     }
     public Files saveFile(FileIn file,Integer materialId){
         Material material = materialsRepository.findById(materialId).orElse(null);

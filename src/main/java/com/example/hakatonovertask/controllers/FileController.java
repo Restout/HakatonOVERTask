@@ -19,7 +19,7 @@ public class FileController {
         return ResponseEntity.ok().body(filesService.saveFile(file,materialId));
     }
     @PutMapping("/api/auth/files/{fileId}")
-    public ResponseEntity<Files> updateFile(@PathVariable("fileId")Integer fileId, @RequestBody Files files){
+    public ResponseEntity<Files> updateFile(@PathVariable("fileId")Integer fileId, @ModelAttribute FileIn files){
         return ResponseEntity.ok().body(filesService.updateFile(fileId,files));
     }
     @DeleteMapping("/api/auth/files/{fileId}")
