@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.9fad82bf.css",
-    "main.js": "/static/js/main.b286d389.js",
+    "main.js": "/static/js/main.582f0930.js",
     "static/media/studying.jpg": "/static/media/studying.c880ff6a6d81056d7ca7.jpg",
     "static/media/course-bg-3.png": "/static/media/course-bg-3.55efd5bec65529a4e8af.png",
     "static/media/file.svg": "/static/media/file.708dc93cb2ea4c9c5c975c402d45adc0.svg",
@@ -17,10 +17,10 @@
     "static/media/practice.svg": "/static/media/practice.9ac86fd7dbdbe4062a6a91a775707b56.svg",
     "static/media/check.svg": "/static/media/check.5c65a3362ae6f3b56f5c67d25bfb111a.svg",
     "main.9fad82bf.css.map": "/static/css/main.9fad82bf.css.map",
-    "main.b286d389.js.map": "/static/js/main.b286d389.js.map"
+    "main.582f0930.js.map": "/static/js/main.582f0930.js.map"
   },
   "entrypoints": [
     "static/css/main.9fad82bf.css",
-    "static/js/main.b286d389.js"
+    "static/js/main.582f0930.js"
   ]
 }
