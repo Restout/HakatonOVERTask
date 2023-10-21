@@ -3,10 +3,12 @@ package com.example.hakatonovertask.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "files")
+@NoArgsConstructor
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +20,8 @@ public class Files {
     @Column(name = "File")
     private byte[] file;
 
+    public Files(String fileName, byte[] file) {
+        this.fileName = fileName;
+        this.file = file;
+    }
 }

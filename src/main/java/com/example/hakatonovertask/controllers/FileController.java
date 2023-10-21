@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.controllers;
 
+import com.example.hakatonovertask.models.FileIn;
 import com.example.hakatonovertask.models.Files;
 import com.example.hakatonovertask.service.FilesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,10 @@ public class FileController {
     public void setFilesService(FilesService filesService) {
         this.filesService = filesService;
     }
-
+    @PostMapping("/api/auth/files")
+    public ResponseEntity<Files> saveFile(@RequestBody FileIn file,@RequestParam("materialId")Integer materialId){
+        return ResponseEntity.ok().body(filesService.saveFile(file,materialId));
+    }
     @PutMapping("/api/auth/files/{fileId}")
     public ResponseEntity<Files> updateFile(@PathVariable("fileId")Integer fileId, @RequestBody Files files){
         return ResponseEntity.ok().body(filesService.updateFile(fileId,files));
