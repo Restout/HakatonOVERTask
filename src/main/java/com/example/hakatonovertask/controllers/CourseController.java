@@ -34,21 +34,12 @@ public class CourseController {
     @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
 
     public ResponseEntity<Course> saveCourse(@RequestBody Course course){
-        try {
             return ResponseEntity.ok().body(courseService.saveCourse(course));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
     }
     @PutMapping("/api/auth/courses/{courseId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
     public ResponseEntity<Course> updateCourse(@RequestBody Course course, @PathVariable("courseId") Integer courseId){
-        try {
-            return ResponseEntity.ok().body(courseService.updateCourse(course, courseId));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok().body(courseService.updateCourse(course, courseId));
     }
     @DeleteMapping("/api/auth/courses/{courseId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")

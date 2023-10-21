@@ -29,24 +29,14 @@ public class ScheldueController {
     }
     @PostMapping("/api/auth/scheldue/{groupid}")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
-
     public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        try {
-            return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+        return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
     }
     @PutMapping("/api/auth/scheldue/{scheldueId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
 
     public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("scheldueId") Integer scheldueId,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        try {
-            return ResponseEntity.ok().body(scheldueService.updateScheldueDay(scheldueId, scheldueInfoToSave));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok().body(scheldueService.updateScheldueDay(scheldueId, scheldueInfoToSave));
     }
     @DeleteMapping("/api/auth/scheldue/{scheldueId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")

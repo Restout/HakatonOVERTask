@@ -19,27 +19,21 @@ public class LessonController {
 
     @GetMapping("/api/auth/lesson/{userId}")
     public ResponseEntity<List<Lesson>> getLessons(@PathVariable Integer userId){
-        try {
-            return ResponseEntity.ok().body(lessonService.getLessons(userId));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+        return ResponseEntity.ok().body(lessonService.getLessons(userId));
+
     }
     @PostMapping("/api/auth/lesson")
     public ResponseEntity<Lesson> saveLesson(@RequestBody Lesson lesson){
-        try {
-            return ResponseEntity.ok().body(lessonService.saveLesson(lesson));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+        return ResponseEntity.ok().body(lessonService.saveLesson(lesson));
+
     }
     @PutMapping("/api/auth/lesson/{lessonId}")
     public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson,@PathVariable("lessonId") Integer lessonId){
-        try {
-            return ResponseEntity.ok().body(lessonService.updateLesson(lesson,lessonId));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+
+        return ResponseEntity.ok().body(lessonService.updateLesson(lesson,lessonId));
+
     }
     @DeleteMapping("/api/auth/lesson/{lessonId}")
     public void deleteLesson(@PathVariable("lessonId") Integer lessonId){
