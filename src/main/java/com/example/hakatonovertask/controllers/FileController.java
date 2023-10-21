@@ -15,7 +15,7 @@ public class FileController {
         this.filesService = filesService;
     }
     @PostMapping("/api/auth/files")
-    public ResponseEntity<Files> saveFile(@RequestBody FileIn file,@RequestParam("materialId")Integer materialId){
+    public ResponseEntity<Files> saveFile(@ModelAttribute FileIn file,@RequestParam("materialId")Integer materialId){
         return ResponseEntity.ok().body(filesService.saveFile(file,materialId));
     }
     @PutMapping("/api/auth/files/{fileId}")

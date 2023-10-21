@@ -6,12 +6,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FileIn {
     private String directory;
-
     private String fileName;
-    private byte[] file;
+    private MultipartFile file;
 
 }

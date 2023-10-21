@@ -27,7 +27,13 @@ public class FilesService {
     }
     public Files saveFile(FileIn file,Integer materialId){
         Material material = materialsRepository.findById(materialId).orElse(null);
-        Files files = new Files(file.getFileName(),file.getFile());
+        Files files = null;
+        try {
+            files = new Files(file.getFileName(),file.getFile().getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         switch (file.getDirectory()){
             case "Practical":
                 material.getPractical().add(files);
