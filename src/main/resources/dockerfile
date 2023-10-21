@@ -1,6 +1,6 @@
 FROM openjdk:17-alpine
-WORKDIR /app
-COPY /target/HakatonOVERTask-0.0.1-SNAPSHOT.war /app.war
+VOLUME /target
+COPY HakatonOVERTask-0.0.1-SNAPSHOT.war ./app.war
 LABEL name=HackhatonSovCom
 LABEL autor=IT_LEGENDS
 EXPOSE 8097

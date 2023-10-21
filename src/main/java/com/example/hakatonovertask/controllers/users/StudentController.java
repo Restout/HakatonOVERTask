@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 @RestController
 @PreAuthorize("hasAnyAuthority('ADMIN','SELLECTION_COMMITE')")
@@ -18,6 +19,19 @@ public class StudentController implements BaseUserController<Student, StudentDao
     private StudentService studentService;
     @Autowired
     private StudentJpaRepository studentJpaRepository;
+
+    @GetMapping("/api/auth/user/data/student/{studentId}")
+    public ResponseEntity<Student> getStudent(@PathVariable(name = "studentId") int studentId) {
+        Optional<Student> student = studentJpaRepository.findById(studentId);
+        if (student.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .build();
+        }
+        return ResponseEntity
+                .ok()
+                .body(student.get());
+    }
 
     @Override
     @GetMapping("/api/auth/user/data/student")
