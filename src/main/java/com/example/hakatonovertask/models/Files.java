@@ -20,6 +20,7 @@ public class Files {
     @Column(name = "FileName")
     private String fileName;
     @Column(name = "File")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private byte[] file;
 
     public Files(String fileName, byte[] file) {

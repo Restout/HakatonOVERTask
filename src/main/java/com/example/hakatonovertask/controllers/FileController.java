@@ -2,17 +2,26 @@ package com.example.hakatonovertask.controllers;
 
 import com.example.hakatonovertask.models.FileIn;
 import com.example.hakatonovertask.models.Files;
+import com.example.hakatonovertask.repositories.FileRepository;
 import com.example.hakatonovertask.service.FilesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FileController {
+    @Autowired
+    FileRepository fileRepository;
     FilesService filesService;
     @Autowired
     public void setFilesService(FilesService filesService) {
         this.filesService = filesService;
+    }
+    @GetMapping("/api/auth/files/{fileId}")
+    public ResponseEntity<ByteArrayResource> getFile(@PathVariable("fileId") Integer fileId){
+        ByteArrayResource byteArrayResource = new ByteArrayResource(fileRepository.findById(fileId).orElse(null).getFile());
+        return ResponseEntity.ok().body(byteArrayResource);
     }
     @PostMapping("/api/auth/files")
     public ResponseEntity<Files> saveFile(@ModelAttribute FileIn file,@RequestParam("materialId")Integer materialId){
