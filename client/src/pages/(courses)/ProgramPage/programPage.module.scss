@@ -1,0 +1,28 @@
+.intro {
+    padding: 30px;
+    background-color: var(--color-dark-blue);
+    min-height: 300px;
+    display: flex;
+
+    h2 {
+        font-size: 32px;
+        color: var(--color-white);
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 40px;
+        color: var(--color-white);
+        margin-bottom: 15px;
+    }
+
+    p {
+        color: #d5d5d5;
+    }
+}
+
+.introContent {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}

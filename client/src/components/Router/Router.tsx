@@ -69,7 +69,7 @@ const Router: FC = () => {
                     element={<FullCoursePage />}
                 />
                 <Route
-                    path={`/${COURSES_PATHNAME}/:courseId/${PROGRAM_PATHNAME}`}
+                    path={`/${COURSES_PATHNAME}/:courseId/${PROGRAM_PATHNAME}/:lessonId`}
                     element={<ProgramPage />}
                 />
                 <Route
