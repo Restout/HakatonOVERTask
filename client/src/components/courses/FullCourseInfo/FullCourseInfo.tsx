@@ -1,7 +1,9 @@
 import { FC, FormEvent, useEffect, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import cn from "clsx";
 import WithAuth from "hocs/WithAuth";
+import { Link } from "react-router-dom";
 
 import { CourseForm, CourseFormState } from "components/courses/CourseForm";
 import { Container } from "components/shared/Container";
@@ -16,6 +18,7 @@ import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import ApplicationsService from "services/ApplicationsService";
 import GroupsService from "services/GroupsService";
+import LessonService from "services/LessonService";
 
 import { checkEmptyValidity } from "utils/checkEmptyValidity";
 
@@ -24,7 +27,12 @@ import { ICourse } from "types/course.interface";
 import { GroupDTO } from "types/group.interface";
 
 import { Role } from "constants/role.enum";
+import { PROGRAM_PATHNAME } from "constants/routesPathnames";
 
+import deleteSrc from "assets/img/icons/delete.svg";
+import studyingSrc from "assets/img/studying.jpg";
+
+import { CourseTabs } from "../CourseTabs";
 import styles from "./fullCourseInfo.module.scss";
 
 interface Props {
@@ -36,6 +44,7 @@ interface Props {
 const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
     const user = useTypedSelector((state) => state.user.user);
     const queryClient = useQueryClient();
+    const [activeTab, setActiveTab] = useState(1);
 
     const { mutate, isSuccess, isError, isLoading } = useMutation(
         (data: ApplicationDTO) => ApplicationsService.create(data),
@@ -120,33 +129,26 @@ const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
                                 )}
                             </div>
                         )}
-                        <Subsection title="О курсе" content={course.about} />
-                        <Subsection
-                            title="Программа курса"
-                            content={course.programm}
+                        <CourseTabs
+                            activeTab={activeTab}
+                            tabClick={(number: number) => setActiveTab(number)}
                         />
-                        <Subsection
-                            title="Требования"
-                            content={course.requirements}
-                        />
-                        <Subsection
-                            title="Результаты обучения"
-                            content={course.requirements}
-                        />
+                        {activeTab === 0 && <Information course={course} />}
+                        {activeTab === 1 && (
+                            <Subjects userId={user?.id as number} />
+                        )}
                     </div>
-                    {user && (
-                        <WithAuth
-                            authChildren={
-                                <Groups
-                                    courseId={course.courseId}
-                                    userId={user.id}
-                                    role={user.role}
-                                />
-                            }
-                            unAuthChildren={null}
-                            allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
-                        />
-                    )}
+                    <WithAuth
+                        authChildren={
+                            <Groups
+                                courseId={course.courseId}
+                                userId={user?.id as number}
+                                role={user?.role as Role}
+                            />
+                        }
+                        unAuthChildren={null}
+                        allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
+                    />
                 </div>
             </Container>
         </section>
@@ -154,6 +156,59 @@ const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
 };
 
 export default FullCourseInfo;
+
+function Information({ course }: { course: ICourse }) {
+    return (
+        <>
+            <Subsection title="О курсе" content={course.about} />
+            <Subsection title="Программа курса" content={course.programm} />
+            <Subsection title="Требования" content={course.requirements} />
+            <Subsection
+                title="Результаты обучения"
+                content={course.requirements}
+            />
+        </>
+    );
+}
+
+function Subjects({ userId }: { userId: number }) {
+    const { data, isSuccess, isLoading, isError } = useQuery({
+        queryFn: () => LessonService.getAll(userId),
+        queryKey: ["lessons", userId],
+        select: (data) => data.data,
+    });
+
+    return (
+        <div className={styles.subjects}>
+            <h5>Учебные предметы:</h5>
+            {isError && (
+                <Alert variant="error">
+                    Что-то пошло не так, попробуйте еще раз позже
+                </Alert>
+            )}
+            {isSuccess && data.length < 1 && (
+                <Alert variant="info">Нет ни одного предмета</Alert>
+            )}
+            {isLoading && <Loader isCenter={true} />}
+            {isSuccess && data.length > 0 && (
+                <ul className={styles.lessonsList}>
+                    {data.map((lesson) => (
+                        <li key={lesson.lessonId}>
+                            <Link to={`${PROGRAM_PATHNAME}/${lesson.lessonId}`}>
+                                <div className={styles.lessonImage}>
+                                    <img src={studyingSrc} alt="Предмет" />
+                                </div>
+                                <div className={styles.lessonContent}>
+                                    <h5>{lesson.lessonName}</h5>
+                                </div>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
 
 function Groups({
     courseId,
@@ -165,12 +220,22 @@ function Groups({
     role: Role;
 }) {
     const [isAdding, setIsAdding] = useState(false);
+    const queryClient = useQueryClient();
 
     const { data, isSuccess, isError, isLoading } = useQuery({
         queryFn: () => GroupsService.getAll(courseId),
         queryKey: ["groups", courseId],
         select: (response) => response.data,
     });
+
+    const { mutate, isLoading: isDeleteLoading } = useMutation(
+        (groupId: number) => GroupsService.delete(groupId),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["groups"]);
+            },
+        },
+    );
 
     return (
         <div className={styles.groups}>
@@ -204,7 +269,17 @@ function Groups({
                 {isSuccess && data.length > 0 && (
                     <ul>
                         {data.map((group) => (
-                            <li>{group.groupName}</li>
+                            <li
+                                key={group.groupId}
+                                className={cn(
+                                    isDeleteLoading && styles.disabled,
+                                )}
+                            >
+                                <span>{group.groupName}</span>
+                                <button onClick={() => mutate(group.groupId)}>
+                                    <img src={deleteSrc} alt="Удалить" />
+                                </button>
+                            </li>
                         ))}
                     </ul>
                 )}

@@ -2,8 +2,16 @@
     padding: 20px 0;
 }
 
-.title {
-    margin-bottom: 25px;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.creation {
+    margin-bottom: 35px;
 }
 
 .schedule {
@@ -13,7 +21,9 @@
         flex-direction: column;
         border: 1px solid rgba(var(--color-grey--rgb), 0.3);
     }
+
     li {
+        position: relative;
         display: flex;
         gap: 24px;
         padding: 20px 20px;
@@ -80,4 +90,9 @@
         border-right: 1px solid rgba(var(--color-grey--rgb), 0.3);
         border-left: 1px solid rgba(var(--color-grey--rgb), 0.3);
     }
+}
+
+.deleteButton {
+    top: 15px;
+    right: 15px;
 }

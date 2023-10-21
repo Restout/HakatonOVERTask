@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9fad82bf.css",
+    "main.js": "/static/js/main.582f0930.js",
+    "static/media/studying.jpg": "/static/media/studying.c880ff6a6d81056d7ca7.jpg",
+    "static/media/course-bg-3.png": "/static/media/course-bg-3.55efd5bec65529a4e8af.png",
+    "static/media/file.svg": "/static/media/file.708dc93cb2ea4c9c5c975c402d45adc0.svg",
+    "static/media/task.svg": "/static/media/task.8f793c08d196164c93d12ce1ef294089.svg",
+    "static/media/logo.svg": "/static/media/logo.083693f6bf5deec06c9649a05b365f91.svg",
+    "static/media/work.svg": "/static/media/work.1f946cec1d209b70f117b0ff6cf904df.svg",
+    "static/media/link.svg": "/static/media/link.a7f39609f0803ad538e2442e5cd1d92e.svg",
+    "static/media/student-cap.svg": "/static/media/student-cap.3afd7e35eacddff41d221cea40c3c10f.svg",
+    "static/media/book.svg": "/static/media/book.79bb64c5658a039b1bdd80d58032a393.svg",
+    "static/media/delete.svg": "/static/media/delete.545b4049bbc5669bd7bc868c28a7e448.svg",
+    "static/media/close.svg": "/static/media/close.a70eb78225164de03fca4d63d512ba9d.svg",
+    "index.html": "/index.html",
+    "static/media/practice.svg": "/static/media/practice.9ac86fd7dbdbe4062a6a91a775707b56.svg",
+    "static/media/check.svg": "/static/media/check.5c65a3362ae6f3b56f5c67d25bfb111a.svg",
+    "main.9fad82bf.css.map": "/static/css/main.9fad82bf.css.map",
+    "main.582f0930.js.map": "/static/js/main.582f0930.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9fad82bf.css",
+    "static/js/main.582f0930.js"
+  ]
+}

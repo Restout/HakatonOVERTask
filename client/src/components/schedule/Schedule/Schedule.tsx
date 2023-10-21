@@ -1,12 +1,17 @@
-import { FC, Fragment, useMemo } from "react";
+import { FC, Fragment, useMemo, useState } from "react";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import WithAuth from "hocs/WithAuth";
 import { useSearchParams } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
+import { Button } from "components/ui/Button";
+import { DeleteButton } from "components/ui/DeleteButton";
 import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
+
+import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import ScheduleService from "services/ScheduleService";
 
@@ -16,6 +21,9 @@ import { getInterval } from "utils/getInterval";
 
 import { ISchedule } from "types/schedule.interface";
 
+import { Role } from "constants/role.enum";
+
+import { ScheduleCreation } from "../ScheduleCreation";
 import {
     getNextMonday,
     getPreviousMonday,
@@ -31,6 +39,9 @@ interface Props {
 
 const Schedule: FC<Props> = ({ groupId }) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [isAdding, setIsAdding] = useState(false);
+    const user = useTypedSelector((state) => state.user.user);
+    const queryClient = useQueryClient();
 
     const date = searchParams.get(DATE_SEARCH_NAME) ?? getPreviousMonday();
 
@@ -49,6 +60,15 @@ const Schedule: FC<Props> = ({ groupId }) => {
         queryKey: ["schedule", date, groupId],
         select: (data) => data.data,
     });
+
+    const { mutate } = useMutation(
+        (id: number) => ScheduleService.delete(id),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["schedule"]);
+            },
+        },
+    );
 
     const filteredSchedule = useMemo(() => {
         const result: {
@@ -84,9 +104,34 @@ const Schedule: FC<Props> = ({ groupId }) => {
     return (
         <section className={styles.section}>
             <Container>
-                <Title className={styles.title}>
-                    Расписание занятий группы: {groupId}
-                </Title>
+                <header className={styles.header}>
+                    <Title>Расписание занятий группы: {groupId}</Title>
+                    <WithAuth
+                        authChildren={
+                            <Button
+                                variant="dark-blue"
+                                onClick={() => setIsAdding((prev) => !prev)}
+                            >
+                                {isAdding ? "Отменить" : "Добавить"}
+                            </Button>
+                        }
+                        unAuthChildren={null}
+                        allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
+                    />
+                </header>
+                {user && isAdding && (
+                    <WithAuth
+                        authChildren={
+                            <ScheduleCreation
+                                className={styles.creation}
+                                close={() => setIsAdding(false)}
+                                groupId={parseInt(groupId)}
+                            />
+                        }
+                        unAuthChildren={null}
+                        allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
+                    />
+                )}
                 <Controls
                     interval={getInterval(date)}
                     next={handleNextClick}
@@ -135,6 +180,16 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                     lesson.audience
                                                                 }
                                                             </p>
+                                                            <DeleteButton
+                                                                onClick={() =>
+                                                                    mutate(
+                                                                        lesson.scheldueId,
+                                                                    )
+                                                                }
+                                                                className={
+                                                                    styles.deleteButton
+                                                                }
+                                                            />
                                                         </div>
                                                     </li>
                                                 ),
