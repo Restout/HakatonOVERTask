@@ -1,7 +1,7 @@
-FROM ubuntu:latest
+FROM openjdk:17-alpine
+WORKDIR /app
+COPY /target/HakatonOVERTask-0.0.1-SNAPSHOT.war /app.war
 LABEL name=HackhatonSovCom
 LABEL autor=IT_LEGENDS
 EXPOSE 8097
-RUN sudo apt install maven
-RUN sudo apt install default-jdk
-CMD["java","-jar","HakatonOVERTask-0.0.1-SNAPSHOT.war"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "app.war"]
