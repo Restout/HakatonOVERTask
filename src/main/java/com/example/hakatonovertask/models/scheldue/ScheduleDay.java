@@ -15,7 +15,6 @@ import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name="ScheduleDay")
 @Entity
 public class ScheduleDay {
@@ -35,7 +34,7 @@ public class ScheduleDay {
     @Column(name = "Audience")
     private String audience;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumns(
             {
                     @JoinColumn(name ="LessonID", referencedColumnName = "LessonID"),

@@ -6,6 +6,8 @@ import { Title } from "components/ui/typography/Title";
 import styles from "./profile.module.scss";
 
 const Profile: FC = () => {
+    
+
     return (
         <section className={styles.section}>
             <Container>

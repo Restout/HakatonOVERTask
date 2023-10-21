@@ -1,12 +1,15 @@
 package com.example.hakatonovertask.service;
 
+import com.example.hakatonovertask.models.LessonTeacher;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
 import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
+import com.example.hakatonovertask.models.teacher.Teacher;
 import com.example.hakatonovertask.repositories.LessonRepository;
 import com.example.hakatonovertask.repositories.LessonTeacherRepository;
 import com.example.hakatonovertask.repositories.ScheldueRepository;
+import com.example.hakatonovertask.repositories.users.TeacherJpaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +21,15 @@ import java.util.List;
 @Transactional
 @Service
 public class ScheldueService {
+    private TeacherJpaRepository teacherJpaRepository;
     private ScheldueRepository scheldueRepository;
     private LessonRepository lessonRepository;
     private LessonTeacherRepository lessonTeacherRepository;
+    @Autowired
+    public void setTeacherJpaRepository(TeacherJpaRepository teacherJpaRepository) {
+        this.teacherJpaRepository = teacherJpaRepository;
+    }
+
     @Autowired
     public void setScheldueRepository(ScheldueRepository scheldueRepository) {
         this.scheldueRepository = scheldueRepository;
@@ -67,21 +76,35 @@ public class ScheldueService {
     }
 
     public ScheldueDayOut saveScheldue(Integer groupId, ScheldueInfoToSave toSave){
+        LessonTeacher lessonTeacher;
+        if(lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())==null){
+            lessonTeacher = new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()),teacherJpaRepository.findById(toSave.getTeacherId()).orElse(null));
+        }else {
+            lessonTeacher=lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId());
+        }
         ScheduleDay scheduleDay = new ScheduleDay(
                 toSave.getDay(),
                 toSave.getStartTime(),
                 toSave.getEndTime(),
                 new Group(groupId),
                 toSave.getAudience(),
-                lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
-                //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
-        );
+                lessonTeacher
+                );
         scheduleDay = scheldueRepository.save(scheduleDay);
 
         return scheldueDayToOut(scheduleDay.getScheldueId()) ;
     }
+    @Transactional
    public ScheldueDayOut updateScheldueDay(Integer scheldueId, ScheldueInfoToSave toSave){
+       LessonTeacher lessonTeacher;
+       if(lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())==null){
+           lessonTeacher = new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()),teacherJpaRepository.findById(toSave.getTeacherId()).orElse(null));
+           lessonTeacherRepository.save(lessonTeacher);
+       }else {
+           lessonTeacher=lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId());
+       }
        ScheduleDay scheduleDay = scheldueRepository.getReferenceById(scheldueId);
+
        scheduleDay = new ScheduleDay(
                scheduleDay.getScheldueId(),
                toSave.getDay(),
@@ -89,9 +112,8 @@ public class ScheldueService {
                toSave.getEndTime(),
                scheduleDay.getGroup(),
                toSave.getAudience(),
-               lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId())
-               //new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonID(),new Teacher(toSave.getTeacherId()))
-       );
+               lessonTeacher
+               );
        scheduleDay = scheldueRepository.save(scheduleDay);
 
        return scheldueDayToOut(scheduleDay.getScheldueId()) ;

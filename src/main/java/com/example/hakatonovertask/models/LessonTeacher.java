@@ -14,31 +14,26 @@ import java.util.List;
 @Setter
 
 @Getter
-
 @AllArgsConstructor
-
 @NoArgsConstructor
-
-@ToString
-@IdClass(LessonTeacherId.class)
 @Table(name = "LessonTeacher")
+@IdClass(LessonTeacherId.class)
 public class LessonTeacher {
-    @Id
-    @Column(name = "LessonID")
-    private int lessonId;
     @Id
     @ManyToOne()
     @JoinColumn(name = "ID")
     private Teacher teacher;
     @OneToMany(mappedBy = "lessonTeacher")
     private List<ScheduleDay> scheldueDay;
+    @Id
     @ManyToOne
     @JoinColumn(name = "LessonID")
     @Fetch(FetchMode.JOIN)
     private Lesson lesson;
 
-    public LessonTeacher(int lessonID, Teacher teacher) {
-        lessonId = lessonID;
+    public LessonTeacher(Lesson lesson, Teacher teacher) {
+
+        this.lesson= lesson;
         this.teacher = teacher;
     }
 }

@@ -1,0 +1,48 @@
+.group {
+    margin-bottom: 15px;
+}
+
+.input {
+    width: 100%;
+}
+
+.textarea {
+    width: 100%;
+}
+
+.submitButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 200px;
+    width: 100%;
+    margin-left: auto;
+}
+
+.lessonRow {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.scheduleRow {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.audienceRow {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.date {
+    width: 100%;
+}
+
+.alert {
+    margin-bottom: 10px;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.checkboxGroup {
+    margin-bottom: 10px;
+}

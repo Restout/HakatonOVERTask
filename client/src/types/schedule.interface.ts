@@ -8,3 +8,12 @@ export interface ISchedule {
     lastname: string;
     lesson: string;
 }
+
+export interface ScheduleDTO {
+    day: string;
+    lesson: string;
+    startTime: string;
+    endTime: string;
+    teacherId: number;
+    audience: string;
+}
