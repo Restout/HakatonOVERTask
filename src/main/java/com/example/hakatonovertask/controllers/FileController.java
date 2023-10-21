@@ -9,6 +9,8 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 public class FileController {
     @Autowired
@@ -24,15 +26,20 @@ public class FileController {
         return ResponseEntity.ok().body(byteArrayResource);
     }
     @PostMapping("/api/auth/files")
-    public ResponseEntity<Files> saveFile(@ModelAttribute FileIn file,@RequestParam("materialId")Integer materialId){
-        return ResponseEntity.ok().body(filesService.saveFile(file,materialId));
+    public ResponseEntity<Files> saveFile(@ModelAttribute FileIn file,
+                                          @RequestParam("materialId")Optional<Integer> materialId,
+                                          @RequestParam("taskId")Optional<Integer> taskId){
+        return ResponseEntity.ok().body(filesService.saveFile(file,materialId.orElse(null),taskId.orElse(null)));
     }
     @PutMapping("/api/auth/files/{fileId}")
     public ResponseEntity<Files> updateFile(@PathVariable("fileId")Integer fileId, @ModelAttribute FileIn files){
         return ResponseEntity.ok().body(filesService.updateFile(fileId,files));
     }
     @DeleteMapping("/api/auth/files/{fileId}")
-    public void deleteFile(@PathVariable("fileId")Integer fileId){
-        filesService.deleteFile(fileId);
+    public void deleteFile(@PathVariable("fileId")Integer fileId,
+                           @RequestParam("materialId") Optional<Integer> materialId,
+                           @RequestParam("taskId")Optional<Integer> taskId){
+
+        filesService.deleteFile(fileId,materialId.orElse(null),taskId.orElse(null));
     }
 }
