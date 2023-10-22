@@ -122,6 +122,7 @@ public class ApplicationService {
         if (applicationList.isEmpty()) return null;
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
+                    app.getEnrollee().getUserId().getId(),
                     app.getApplicationId(),
                     app.getCourse().getCourseName(),
                     app.getEnrollee().getUserId().getFirstName(),
