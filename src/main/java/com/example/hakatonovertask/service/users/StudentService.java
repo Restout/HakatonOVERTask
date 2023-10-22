@@ -26,7 +26,7 @@ public class StudentService {
     public Optional<Student> saveStudent(Student student) {
         return Optional.of(studentJpaRepository.save(student));
     }
-@Transactional
+
     public Optional<Student> creatStudentFromUserAndSave(StudentDao studentDao) throws SQLException {
         Optional<UserModel> userModelOptional = userJpaRepository.findById(studentDao.getId());
         if (userModelOptional.isEmpty()) {
