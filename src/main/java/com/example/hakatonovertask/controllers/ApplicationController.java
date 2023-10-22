@@ -18,11 +18,17 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
 
-    @GetMapping("/api/auth/applications")
+    @GetMapping("/api/applications")
     public ResponseEntity<List<ApplicationOut>> getListApplication(@RequestParam int userId, Pageable pageable){
         AtomicLong count = new AtomicLong(0);
         List<ApplicationOut> applicationOutList = applicationService.listApplications(userId, pageable, count);
         return ResponseEntity.ok().header("countApplications",""+count).body(applicationOutList);
+    }
+
+    @GetMapping("/api/studentapplications")
+    public ResponseEntity<List<ApplicationOut>> getListStudentApplication(@RequestParam int userId){
+        List<ApplicationOut> applicationOutList = applicationService.listStudentApplications(userId);
+        return ResponseEntity.ok().body(applicationOutList);
     }
 
     @GetMapping("/api/auth/application/{id}")
