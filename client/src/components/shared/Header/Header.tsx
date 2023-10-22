@@ -1,24 +1,27 @@
 import { FC } from "react";
 
 import cn from "clsx";
+import WithAuth from "hocs/WithAuth";
 import { Link } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 
 import { useLogout } from "hooks/auth/useLogout";
 
+import { Role } from "constants/role.enum";
 import {
     ADMIN_PATHNAME,
     BIDS_PATHNAME,
     COURSES_PATHNAME,
     HOME_PATH,
+    LK_PATHNAME,
+    PROFILE_PATHNAME,
     SCHEDULE_PATHNAME,
     USERS_PATHNAME,
 } from "constants/routesPathnames";
 
 import logo from "assets/img/logo.svg";
 
-import { ProfileButton } from "./ProfileButton";
 import styles from "./header.module.scss";
 
 interface Props {
@@ -48,19 +51,71 @@ const Header: FC<Props> = ({ className }) => {
                         >
                             Курсы
                         </Link>
-                        <Link className={styles.link} to={"/" + BIDS_PATHNAME}>
-                            Заявки
-                        </Link>
-                        <Link
-                            className={styles.link}
-                            to={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}`}
-                        >
-                            Админ панель
-                        </Link>
-                        <ProfileButton className={styles.link} />
-                        <button className={styles.link} onClick={logout}>
-                            Выйти
-                        </button>
+                        <WithAuth
+                            authChildren={
+                                <Link
+                                    className={styles.link}
+                                    to={"/" + BIDS_PATHNAME}
+                                >
+                                    Заявки
+                                </Link>
+                            }
+                            unAuthChildren={null}
+                            allowedRoles={[
+                                Role.MANAGER,
+                                Role.SELLECTION_COMMITE,
+                            ]}
+                        />
+                        <WithAuth
+                            authChildren={
+                                <Link
+                                    className={styles.link}
+                                    to={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}`}
+                                >
+                                    Админ панель
+                                </Link>
+                            }
+                            unAuthChildren={null}
+                            allowedRoles={[Role.ADMIN]}
+                        />
+                        <WithAuth
+                            authChildren={
+                                <Link
+                                    className={styles.link}
+                                    to={`/${LK_PATHNAME}/${PROFILE_PATHNAME}`}
+                                >
+                                    Профиль
+                                </Link>
+                            }
+                            unAuthChildren={null}
+                            allowedRoles={[
+                                Role.ADMIN,
+                                Role.ENROLLEE,
+                                Role.MANAGER,
+                                Role.SELLECTION_COMMITE,
+                                Role.STUDENT,
+                                Role.SUPERVISOR,
+                                Role.TEACHER,
+                            ]}
+                        />
+                        <WithAuth
+                            authChildren={
+                                <button
+                                    className={styles.link}
+                                    onClick={logout}
+                                >
+                                    Выйти
+                                </button>
+                            }
+                            unAuthChildren={
+                                <button
+                                    className={styles.link}
+                                    onClick={logout}
+                                >
+                                    Войти
+                                </button>
+                            }
+                        />
                     </div>
                 </div>
             </Container>

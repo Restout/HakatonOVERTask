@@ -74,7 +74,6 @@
         gap: 10px;
         font-size: 24px;
         font-weight: 500;
-        margin-bottom: 14px;
 
         img {
             width: 25px;
@@ -111,4 +110,84 @@
             height: 21px;
         }
     }
+}
+
+.materialsHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 14px;
+
+    button {
+        padding: 5px 10px;
+    }
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    input {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    button {
+        padding: 5px 10px;
+    }
+
+    footer {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+}
+
+.deleteBtn {
+    position: static;
+}
+
+.tasksHeadControls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+
+    button {
+        padding: 7px 13px;
+    }
+}
+
+.taskForm {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+    border-radius: 10px;
+    max-width: 432px;
+    input {
+        display: block;
+        width: 100%;
+        max-width: 300px;
+    }
+    textarea {
+        max-width: 400px;
+        width: 100%;
+    }
+
+    button {
+        padding: 7px 10px;
+    }
+}
+
+.fieldGroup {
+    margin-bottom: 10px;
+}
+
+.tasksControls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: flex-end;
 }

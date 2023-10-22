@@ -88,6 +88,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
 
         data.forEach((schedule) => {
             const { dayOfWeek } = formatDate(schedule.day);
+            console.log(dayOfWeek)
             result[dayOfWeek].lessons.push(schedule);
             result[dayOfWeek].date = formatDate(schedule.day).date;
         });

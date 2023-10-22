@@ -1,0 +1,24 @@
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.tabs ul {
+  display: flex;
+  align-items: center;
+}
+.tabs button {
+  display: block;
+  padding: 15px 20px;
+  color: var(--color-black);
+  font-size: 18px;
+  font-family: var(--font-family);
+  border-bottom: 2px solid transparent;
+}
+.tabs button.active {
+  border-color: var(--color-dark-blue);
+  pointer-events: none;
+}
+.tabs button:hover {
+  background-color: rgba(var(--color-light-blue--rgb), 0.1);
+}/*# sourceMappingURL=courseTabs.module.css.map */

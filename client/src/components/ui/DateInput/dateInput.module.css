@@ -1,0 +1,20 @@
+.wrapper {
+  display: block;
+}
+
+.dateInput {
+  display: block;
+  color: var(--color-black);
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+  padding: 0.55rem 0.75rem;
+  line-height: 1.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  background-color: var(--color-dark-grey);
+  transition: border-color 0.15s ease;
+}
+
+.button {
+  margin: 0 0 0 auto;
+}/*# sourceMappingURL=dateInput.module.css.map */

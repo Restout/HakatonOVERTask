@@ -9,6 +9,8 @@ import { Alert } from "components/ui/Alert";
 import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
+import useTypedSelector from "hooks/shared/useTypedSelector";
+
 import CoursesService from "services/CoursesService";
 
 import { COURSES_PATHNAME } from "constants/routesPathnames";
@@ -16,9 +18,11 @@ import { COURSES_PATHNAME } from "constants/routesPathnames";
 import styles from "./profileCourses.module.scss";
 
 const ProfileCourses: FC = () => {
+    const userId = useTypedSelector((state) => state.user.user?.id) as number;
+
     const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: ["courses"],
-        queryFn: CoursesService.getAll,
+        queryKey: ["courses", userId],
+        queryFn: () => CoursesService.getSupervisiorCourses(userId),
         select(data) {
             return data.data;
         },
@@ -28,11 +32,16 @@ const ProfileCourses: FC = () => {
         <section className={styles.section}>
             <Container>
                 <Title className={styles.title}>Мои курсы</Title>
+                {isSuccess && data.length < 1 && (
+                    <Alert variant="info">Нет доступных курсов</Alert>
+                )}
                 {isSuccess && (
                     <ul className={styles.coursesList}>
                         {data.map((course) => (
                             <li key={course.courseId}>
-                                <Link to={`/${COURSES_PATHNAME}/1`}>
+                                <Link
+                                    to={`/${COURSES_PATHNAME}/${course.courseId}`}
+                                >
                                     <CoursePlate
                                         course={course}
                                         isParticipant={true}
@@ -42,7 +51,13 @@ const ProfileCourses: FC = () => {
                         ))}
                     </ul>
                 )}
-                <Error message={isError ? "Something went wrong" : null} />
+                <Error
+                    message={
+                        isError
+                            ? "Что-то пошло не так, попробуйте еще раз"
+                            : null
+                    }
+                />
                 <Loading isLoading={isLoading} />
             </Container>
         </section>

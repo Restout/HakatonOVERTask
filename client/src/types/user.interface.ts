@@ -11,6 +11,16 @@ export interface IUser {
     role: Role;
 }
 
+export interface IStudent extends IUser {
+    recordBookId: number;
+    groupId: number;
+}
+
+export interface ITeacher extends IUser {
+    academicTitle: string;
+    academicDegree: string;
+}
+
 export interface LoginCredentials {
     email: string;
     password: string;

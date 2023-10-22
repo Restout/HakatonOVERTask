@@ -1,0 +1,14 @@
+.section {
+  height: 100%;
+  background-color: var(--color-bg-blue);
+  padding-top: 30px;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}/*# sourceMappingURL=bids.module.css.map */

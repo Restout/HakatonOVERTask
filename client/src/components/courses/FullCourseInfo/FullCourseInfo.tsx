@@ -44,7 +44,7 @@ interface Props {
 const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
     const user = useTypedSelector((state) => state.user.user);
     const queryClient = useQueryClient();
-    const [activeTab, setActiveTab] = useState(1);
+    const [activeTab, setActiveTab] = useState(0);
 
     const { mutate, isSuccess, isError, isLoading } = useMutation(
         (data: ApplicationDTO) => ApplicationsService.create(data),
@@ -129,14 +129,22 @@ const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
                                 )}
                             </div>
                         )}
-                        <CourseTabs
-                            activeTab={activeTab}
-                            tabClick={(number: number) => setActiveTab(number)}
-                        />
-                        {activeTab === 0 && <Information course={course} />}
+                        {user &&
+                            (course.isParticipant ||
+                                [Role.ADMIN, Role.TEACHER].includes(
+                                    user.role,
+                                )) && (
+                                <CourseTabs
+                                    activeTab={activeTab}
+                                    tabClick={(number: number) =>
+                                        setActiveTab(number)
+                                    }
+                                />
+                            )}
                         {activeTab === 1 && (
                             <Subjects userId={user?.id as number} />
                         )}
+                        {activeTab === 0 && <Information course={course} />}
                     </div>
                     <WithAuth
                         authChildren={
@@ -194,7 +202,9 @@ function Subjects({ userId }: { userId: number }) {
                 <ul className={styles.lessonsList}>
                     {data.map((lesson) => (
                         <li key={lesson.lessonId}>
-                            <Link to={`${PROGRAM_PATHNAME}/${lesson.lessonId}`}>
+                            <Link
+                                to={`/${PROGRAM_PATHNAME}/${lesson.lessonId}`}
+                            >
                                 <div className={styles.lessonImage}>
                                     <img src={studyingSrc} alt="Предмет" />
                                 </div>

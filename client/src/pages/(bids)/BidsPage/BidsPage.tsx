@@ -19,22 +19,23 @@ const BidsPage: FC = () => {
 
     const page = searchParams.get("page") ?? 1;
 
-    const { data, isLoading, isError, isSuccess, isPreviousData } = useQuery({
-        queryKey: ["users", page],
-        queryFn: () =>
-            ApplicationsService.getByUserId(user ? user.id : -1, {
-                limit: LIMIT,
-                page,
-            }),
-        select(response) {
-            const totalUsers = response.headers["user_count"];
-            return {
-                users: response.data,
-                totalCount: parseInt(totalUsers),
-            };
-        },
-        keepPreviousData: true,
-    });
+    const { data, isLoading, isError, isSuccess, isPreviousData, isFetching } =
+        useQuery({
+            queryKey: ["users", page],
+            queryFn: () =>
+                ApplicationsService.getByUserId(user ? user.id : -1, {
+                    limit: LIMIT,
+                    page,
+                }),
+            select(response) {
+                const totalUsers = response.headers["user_count"];
+                return {
+                    users: response.data,
+                    totalCount: parseInt(totalUsers),
+                };
+            },
+            keepPreviousData: true,
+        });
 
     const totalPages = data?.totalCount
         ? Math.ceil(data.totalCount / LIMIT)
@@ -51,7 +52,7 @@ const BidsPage: FC = () => {
                 pageCount={totalPages}
                 isError={isError}
                 isFetching={isPreviousData}
-                isLoading={isLoading}
+                isLoading={isLoading || isFetching}
                 isSuccess={isSuccess}
             />
         </div>

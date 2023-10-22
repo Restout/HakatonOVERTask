@@ -24,6 +24,12 @@ class CoursesService {
     static add = async (course: CourseDTO) => {
         return authApi.post(PATH_NAME, course);
     };
+
+    static getSupervisiorCourses = (id: number) => {
+        return authApi.get<ICourse[]>(
+            `${PATH_NAME}/getSupervisiorCourse/${id}`,
+        );
+    };
 }
 
 export default CoursesService;

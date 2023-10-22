@@ -73,7 +73,6 @@ const ScheduleCreation: FC<Props> = ({ close, className, groupId }) => {
             teacherId: parseInt(teacherId),
         };
 
-        console.log(newSchedule);
         mutate(newSchedule);
     };
 

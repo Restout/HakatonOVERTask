@@ -24,6 +24,12 @@ class ApplicationsService {
         return authApi.get<IApplicationInfo>(`/application/${id}`);
     };
 
+    static getStudentApplications = (studentId: number) => {
+        return authApi.get<IApplicationInfo[]>(`/studentapplications`, {
+            params: { userId: studentId },
+        });
+    };
+
     static create = async (application: ApplicationDTO) => {
         return authApi.post<IApplicationInfo>(
             "/application/create",

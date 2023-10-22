@@ -8,6 +8,7 @@ interface ApplicationBase {
     fatherName: string;
     status: BidStatus;
     dateOfChange: string;
+    userId: number;
 }
 
 export interface IApplicationContacts extends ApplicationBase {

@@ -1,48 +1,59 @@
 import { FC, useState } from "react";
 
 import { Container } from "components/shared/Container";
+import { Button } from "components/ui/Button";
+
+import { IMaterial } from "types/material.interface";
 
 import { MaterialBlock } from "../MaterialBlock";
+import { MaterialsCreation } from "../MaterialsCreation";
 import styles from "./materials.module.scss";
 
-const Materials: FC = () => {
-    const [opened, setOpened] = useState([true, false, true]);
+interface Props {
+    lessonId: number;
+    materials: IMaterial[];
+}
+
+const Materials: FC<Props> = ({ materials, lessonId }) => {
+    const [opened, setOpened] = useState<boolean[]>(() =>
+        new Array(materials.length).fill(true),
+    );
+    const [isAdding, setIsAdding] = useState(false);
 
     const handleToggleOpened = (index: number) => {
         setOpened((prev) => {
-            console.log(index);
-            console.log(prev);
             const newArray = [...prev];
             newArray[index] = !prev[index];
-            console.log(newArray);
             return newArray;
         });
     };
 
-    // console.log(opened);
-
     return (
         <section className={styles.section}>
             <Container>
+                {!isAdding && (
+                    <header className={styles.creationHeader}>
+                        <Button
+                            variant="light-blue"
+                            onClick={() => setIsAdding(true)}
+                        >
+                            Добавить блок
+                        </Button>
+                    </header>
+                )}
+                {isAdding && (
+                    <MaterialsCreation lessonId={lessonId} close={() => setIsAdding(false)} />
+                )}
                 <ul className={styles.blocks}>
-                    <li>
-                        <MaterialBlock
-                            isOpened={opened[0]}
-                            toggle={() => handleToggleOpened(0)}
-                        />
-                    </li>
-                    <li>
-                        <MaterialBlock
-                            isOpened={opened[1]}
-                            toggle={() => handleToggleOpened(1)}
-                        />
-                    </li>
-                    <li>
-                        <MaterialBlock
-                            isOpened={opened[2]}
-                            toggle={() => handleToggleOpened(2)}
-                        />
-                    </li>
+                    {materials.map((material, index) => (
+                        <li key={material.materialId}>
+                            <MaterialBlock
+                                material={material}
+                                isOpened={opened[index]}
+                                toggle={() => handleToggleOpened(index)}
+                            />
+                        </li>
+                    ))}
                 </ul>
             </Container>
         </section>

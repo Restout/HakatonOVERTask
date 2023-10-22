@@ -10,7 +10,7 @@ import {
     UseFormRegister,
     useForm,
 } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
@@ -21,6 +21,7 @@ import { FieldRow } from "components/ui/FieldRow";
 import { Input } from "components/ui/Input";
 import { Label } from "components/ui/Label";
 
+import { useAuth } from "hooks/auth/useAuth";
 import useFocus from "hooks/shared/useFocus";
 
 import UserService from "services/UserService";
@@ -31,7 +32,7 @@ import { transformDate } from "utils/transformDate";
 import { RegisterCredentials } from "types/user.interface";
 
 import { formErrors } from "constants/formErrors";
-import { SIGN_IN_PATH } from "constants/routesPathnames";
+import { HOME_PATH, SIGN_IN_PATH } from "constants/routesPathnames";
 
 import styles from "./signUpPage.module.scss";
 
@@ -53,6 +54,8 @@ interface FieldProps {
 }
 
 const SignUpPage: FC = () => {
+    const { isAuth } = useAuth();
+
     const {
         handleSubmit: submitHandlerWrapper,
         register,
@@ -105,6 +108,10 @@ const SignUpPage: FC = () => {
 
         mutate(credentials);
     };
+
+    if (isAuth) {
+        return <Navigate to={HOME_PATH} />;
+    }
 
     return (
         <div className={styles.page}>

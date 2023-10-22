@@ -1,6 +1,8 @@
 import { api, authApi } from "api";
 
 import {
+    IStudent,
+    ITeacher,
     IUser,
     LoginCredentials,
     RegisterCredentials,
@@ -36,8 +38,30 @@ class UserService {
         });
     };
 
-    static getById = async (userId: number) => {
+    static grandStudent = async ({
+        groupId,
+        userId,
+    }: {
+        userId: number;
+        groupId: number;
+    }) => {
+        return authApi.post("user/grand/student", {
+            userId,
+            groupId,
+            recordBookId: 1,
+        });
+    };
+
+    static getUserById = async (userId: number) => {
         return authApi.get<IUser>(`/users/one`, { params: { id: userId } });
+    };
+
+    static getStudent = async (studentId: number) => {
+        return authApi.get<IStudent>(`/user/data/student/${studentId}`);
+    };
+
+    static getTeacher = async (teacherId: number) => {
+        return authApi.get<ITeacher>(`/user/data/teacher/${teacherId}`);
     };
 }
 

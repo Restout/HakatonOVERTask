@@ -16,7 +16,7 @@ const FullUserPage: FC = () => {
 
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ["user"],
-        queryFn: () => UserService.getById(Number(userId)),
+        queryFn: () => UserService.getUserById(Number(userId)),
         select(data) {
             return data.data;
         },

@@ -1,0 +1,37 @@
+.form {
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  background-color: var(--color-light-white);
+}
+
+.alert {
+  margin-bottom: 15px;
+}
+
+.group {
+  margin-bottom: 15px;
+}
+
+.input {
+  width: 100%;
+}
+
+.button {
+  width: 100%;
+  max-width: 200px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid rgba(var(--color-grey--rgb), 0.3);
+}
+
+.row {
+  margin-bottom: 15px;
+}/*# sourceMappingURL=courseForm.module.css.map */

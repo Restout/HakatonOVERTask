@@ -10,7 +10,11 @@ class LessonService {
     };
 
     static getById = async (lessonId: number) => {
-        return authApi.get(PATH, { params: { lessonId } });
+        return authApi.get<ILesson>(PATH, { params: { lessonId } });
+    };
+
+    static getByUserId = async (userId: number) => {
+        return authApi.get<ILesson[]>(`${PATH}/${userId}`);
     };
 
     static create = async (lesson: Omit<ILesson, "lessonId">) => {
@@ -19,6 +23,10 @@ class LessonService {
 
     static delete = async (lessonId: number) => {
         return authApi.delete(`${PATH}/${lessonId}`);
+    };
+
+    static getTeacherLessons = (teacherId: number) => {
+        return authApi.get<ILesson[]>(`${PATH}/teachersLesson/${teacherId}`);
     };
 }
 

@@ -1,6 +1,6 @@
 import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import cn from "clsx";
 import WithAuth from "hocs/WithAuth";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,14 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
+import { Loader } from "components/ui/Loader";
 import { Option, Select } from "components/ui/Select";
 
 import { useAuth } from "hooks/auth/useAuth";
 
 import ApplicationsService from "services/ApplicationsService";
+import GroupsService from "services/GroupsService";
+import UserService from "services/UserService";
 
 import { formatDate } from "utils/formatDate";
 
@@ -54,6 +57,7 @@ const FullBid: FC<Props> = ({ bid, isFetching }) => {
     const [error, setError] = useState<string | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const queryClient = useQueryClient();
+    const [isChoosing, setIsChoosing] = useState(false);
 
     const option =
         options.find((option) => option.value === bid.status) ?? options[0];
@@ -81,69 +85,102 @@ const FullBid: FC<Props> = ({ bid, isFetching }) => {
             <div className={cn(styles.bid, isFetching && styles.opacity)}>
                 <Container>
                     <div className={styles.body}>
-                        <header className={styles.header}>
-                            <h5>Заявка №{bid.applicationID}</h5>
-                            <button onClick={() => navigate(-1)}>
-                                Все заявки
-                            </button>
-                        </header>
-                        <div className={styles.description}>
-                            {error && (
-                                <Alert
-                                    className={styles.errorAlert}
-                                    variant="error"
-                                >
-                                    {error}
-                                </Alert>
-                            )}
-                            <BidRow
-                                name="Дата"
-                                value={formatDate(bid.dateOfChange).date}
-                            />
-                            <BidRow name="Фамилия" value={bid.lastName} />
-                            <BidRow name="Имя" value={bid.firstName} />
-                            <BidRow name="Отчество" value={bid.fatherName} />
-                            <BidRow
-                                name="Должность"
-                                value={bid.currentPosition}
-                            />
-                            <BidRow
-                                name="Подразделение"
-                                value={bid.departmentName}
-                            />
-                            <BidRow name="Руководитель" value={bid.chiefName} />
-                            <BidRow name="Курс" value={bid.courseName} />
-                            <WithAuth
-                                authChildren={
-                                    <StatusBidRow
-                                        isEditing={isEditing}
-                                        status={status}
-                                        setStatus={(value: string) =>
-                                            setStatus(value as BidStatus)
+                        {!isChoosing && (
+                            <>
+                                <header className={styles.header}>
+                                    <h5>Заявка №{bid.applicationID}</h5>
+                                    <button onClick={() => navigate(-1)}>
+                                        Все заявки
+                                    </button>
+                                </header>
+                                <div className={styles.description}>
+                                    {error && (
+                                        <Alert
+                                            className={styles.errorAlert}
+                                            variant="error"
+                                        >
+                                            {error}
+                                        </Alert>
+                                    )}
+                                    <BidRow
+                                        name="Дата"
+                                        value={
+                                            formatDate(bid.dateOfChange).date
                                         }
-                                        option={option}
                                     />
-                                }
-                                unAuthChildren={
-                                    <BidRow name="Статус" value={bid.status} />
-                                }
-                                allowedRoles={[Role.ADMIN]}
-                            />
+                                    <BidRow
+                                        name="Фамилия"
+                                        value={bid.lastName}
+                                    />
+                                    <BidRow name="Имя" value={bid.firstName} />
+                                    <BidRow
+                                        name="Отчество"
+                                        value={bid.fatherName}
+                                    />
+                                    <BidRow
+                                        name="Должность"
+                                        value={bid.currentPosition}
+                                    />
+                                    <BidRow
+                                        name="Подразделение"
+                                        value={bid.departmentName}
+                                    />
+                                    <BidRow
+                                        name="Руководитель"
+                                        value={bid.chiefName}
+                                    />
+                                    <BidRow
+                                        name="Курс"
+                                        value={bid.courseName}
+                                    />
+                                    <WithAuth
+                                        authChildren={
+                                            <StatusBidRow
+                                                isEditing={isEditing}
+                                                status={status}
+                                                setStatus={(value: string) =>
+                                                    setStatus(
+                                                        value as BidStatus,
+                                                    )
+                                                }
+                                                option={option}
+                                            />
+                                        }
+                                        unAuthChildren={
+                                            <BidRow
+                                                name="Статус"
+                                                value={bid.status}
+                                            />
+                                        }
+                                        allowedRoles={[Role.ADMIN]}
+                                    />
 
-                            <BidRow name="Заслуги" value={bid.merits} />
-                            <BidRow
-                                name="Мотивационное письмо"
-                                value={bid.motivationLetter}
+                                    <BidRow name="Заслуги" value={bid.merits} />
+                                    <BidRow
+                                        name="Мотивационное письмо"
+                                        value={bid.motivationLetter}
+                                    />
+                                </div>
+                                <Controls
+                                    openChoice={() => setIsChoosing(true)}
+                                    applicationId={bid.applicationID}
+                                    closeError={() => setError(null)}
+                                    displayError={(message) =>
+                                        setError(message)
+                                    }
+                                    isEditing={isEditing}
+                                    openEditing={() => setIsEditing(true)}
+                                    handleSave={() => mutate()}
+                                />
+                            </>
+                        )}
+                        {isChoosing && (
+                            <GroupChoice
+                                applicationId={bid.applicationID}
+                                closeChoice={() => setIsChoosing(false)}
+                                userId={bid.userId}
                             />
-                        </div>
-                        <Controls
-                            applicationId={bid.applicationID}
-                            closeError={() => setError(null)}
-                            displayError={(message) => setError(message)}
-                            isEditing={isEditing}
-                            openEditing={() => setIsEditing(true)}
-                            handleSave={() => mutate()}
-                        />
+                        )}
                     </div>
                 </Container>
             </div>
@@ -152,6 +189,102 @@ const FullBid: FC<Props> = ({ bid, isFetching }) => {
 };
 
 export default FullBid;
+
+function GroupChoice({
+    applicationId,
+    closeChoice,
+    userId,
+}: {
+    applicationId: number;
+    closeChoice: () => void;
+    userId: number;
+}) {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const [isConfirmError, setIsConfirmError] = useState(false);
+    const [isConfirmLoading, setIsConfirmLoading] = useState(false);
+
+    const { data, isSuccess, isError, isLoading } = useQuery({
+        queryFn: () => GroupsService.getAll(),
+        queryKey: ["groups"],
+        select: (data) => data.data,
+    });
+
+    const { mutateAsync: updateBid, isLoading: isUpdatingLoading } =
+        useMutation(
+            () => {
+                return ApplicationsService.updateStatus(
+                    applicationId,
+                    BidStatus.REGISTERED,
+                );
+            },
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries(["bids", applicationId]);
+                    navigate(-1);
+                },
+            },
+        );
+
+    const { mutateAsync: createStudent } = useMutation(
+        (groupId: number) => UserService.createStudent({ groupId, userId }),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["users"]);
+            },
+        },
+    );
+
+    const handleConfirmBid = async (groupId: number) => {
+        try {
+            setIsConfirmError(false);
+            setIsConfirmLoading(true);
+            await Promise.all([createStudent(groupId), updateBid()]);
+        } catch (error) {
+            console.log(error);
+            setIsConfirmError(true);
+        } finally {
+            setIsConfirmLoading(false);
+        }
+    };
+
+    return (
+        <div className={styles.choice}>
+            <header>
+                <h5>Выберите группу:</h5>
+                <Button
+                    variant="light-blue"
+                    onClick={closeChoice}
+                    disabled={isConfirmLoading}
+                >
+                    Вернуться назад
+                </Button>
+            </header>
+            {(isError || isConfirmError) && (
+                <Alert variant="error">
+                    Что-то пошло не так, попробуйте еще раз позже
+                </Alert>
+            )}
+            {isSuccess && data.length < 1 && (
+                <Alert variant="info">Нет существующих групп</Alert>
+            )}
+            {isLoading && <Loader isCenter={true} />}
+            {isSuccess && data.length > 0 && (
+                <ul>
+                    {data.map((group) => (
+                        <li
+                            key={group.groupId}
+                            onClick={() => handleConfirmBid(group.groupId)}
+                            className={cn(isUpdatingLoading && styles.disabled)}
+                        >
+                            <span>{group.groupName}</span>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
 
 function BidRow({ name, value }: { name: string; value: string }) {
     return (
@@ -199,6 +332,7 @@ function Controls({
     openEditing,
     handleSave,
     isEditing,
+    openChoice,
 }: {
     applicationId: number;
     displayError: (message: string) => void;
@@ -206,6 +340,7 @@ function Controls({
     openEditing: () => void;
     isEditing: boolean;
     handleSave: () => void;
+    openChoice: () => void;
 }) {
     const { role } = useAuth();
     const navigate = useNavigate();
@@ -265,11 +400,7 @@ function Controls({
         >
             Согласовать
         </Button>,
-        <Button
-            variant="green"
-            disabled={isLoading}
-            onClick={() => handleUpdateButtonClick(BidStatus.REGISTERED)}
-        >
+        <Button variant="green" disabled={isLoading} onClick={openChoice}>
             Принять
         </Button>,
         <Button

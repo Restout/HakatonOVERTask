@@ -8,3 +8,29 @@
     padding-top: 40px;
     padding-bottom: 50px;
 }
+
+.section {
+    padding-top: 40px;
+    p {
+        margin-bottom: 20px;
+        font-size: 18px;
+        line-height: 1.4;
+        color: var(--color-dark-blue);
+        font-family: var(--font-mont);
+        font-weight: 500;
+
+        span {
+            font-weight: 700;
+        }
+    }
+}
+
+.title {
+    text-align: center;
+    font-size: 70px;
+    font-weight: 700;
+    background: linear-gradient(to right, #2196f3, #0d47a1, #64b5f6);
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,28 @@
+.group {
+  margin-bottom: 15px;
+}
+
+.input {
+  width: 100%;
+}
+
+.row {
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 15px;
+}
+
+.date {
+  width: 100%;
+}
+
+.alert {
+  margin-bottom: 10px;
+}
+
+.controls {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: flex-end;
+}/*# sourceMappingURL=materialsForm.module.css.map */

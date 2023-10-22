@@ -1,34 +1,96 @@
-import { FC } from "react";
+import { FC, FormEvent, MouseEvent, useState } from "react";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import cn from "clsx";
+import WithAuth from "hocs/WithAuth";
 import { Collapse } from "react-collapse";
 import { Link } from "react-router-dom";
 
-import { ANSWER_PATHNAME, TEST_PATHNAME } from "constants/routesPathnames";
+import { Button } from "components/ui/Button";
+import { DeleteButton } from "components/ui/DeleteButton";
+import { FieldGroup } from "components/ui/FieldGroup";
+import { Input } from "components/ui/Input";
+import { Label } from "components/ui/Label";
+import { Textarea } from "components/ui/Textarea";
+
+import FilesService from "services/FilesService";
+import TasksService from "services/TasksService";
+
+import { fetchFile } from "utils/downloadFile";
+import { formatDate } from "utils/formatDate";
+
+import { IMaterial, MaterialFileCategory } from "types/material.interface";
+import { ITask } from "types/task.interface";
+
+import { Role } from "constants/role.enum";
+import { ANSWER_PATHNAME } from "constants/routesPathnames";
 
 import book from "assets/img/icons/book.svg";
-import file from "assets/img/icons/file.svg";
-import link from "assets/img/icons/link.svg";
-import practice from "assets/img/icons/practice.svg";
+import fileSrc from "assets/img/icons/file.svg";
 import studentCap from "assets/img/icons/student-cap.svg";
 import task from "assets/img/icons/task.svg";
 import work from "assets/img/icons/work.svg";
 
 import styles from "./materialBlock.module.scss";
 
+interface FileData {
+    file: File;
+    directory: MaterialFileCategory;
+}
+
+interface MaterialProps {
+    deleteFile: (fileId: number) => void;
+    material: IMaterial;
+    createFile: (data: FileData) => void;
+}
+
 interface Props {
     isOpened: boolean;
     toggle: () => void;
+    material: IMaterial;
 }
 
-const MaterialBlock: FC<Props> = ({ isOpened, toggle }) => {
+const MaterialBlock: FC<Props> = ({ isOpened, toggle, material }) => {
+    const queryClient = useQueryClient();
+
+    const invalidateMaterials = () =>
+        queryClient.invalidateQueries(["materials"]);
+
+    const { mutate: postFile } = useMutation(
+        (data: FormData) => FilesService.create(material.materialId, data),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["materials"]);
+            },
+        },
+    );
+
+    const createFile = (data: FileData) => {
+        const { directory, file } = data;
+
+        const formData = new FormData();
+
+        formData.append("file", file);
+        formData.append("fileName", file.name);
+        formData.append("directory", directory);
+
+        postFile(formData);
+    };
+
+    const { mutate: deleteFile } = useMutation(
+        (fileId: number) => FilesService.delete(fileId),
+        {
+            onSuccess: invalidateMaterials,
+        },
+    );
+
     return (
         <div className={styles.block}>
             <header
                 className={cn(styles.header, isOpened && styles.active)}
                 onClick={toggle}
             >
-                <h3>1. Верстка сайта</h3>
+                <h3>{material.title}</h3>
                 <svg
                     width="30px"
                     height="30px"
@@ -44,81 +106,29 @@ const MaterialBlock: FC<Props> = ({ isOpened, toggle }) => {
             </header>
             <Collapse isOpened={isOpened} className={styles.collapseContainer}>
                 <div className={styles.content}>
-                    <p className={styles.date}>28 August - 3 September</p>
-                    <p className={styles.description}>
-                        Общие понятия верстки сайта.
+                    <p className={styles.date}>
+                        {formatDate(material.dateStart).date}
+                        {" - "}
+                        {formatDate(material.dateEnd).date}
                     </p>
+                    <p className={styles.description}>{material.description}</p>
                     <div className={styles.subsections}>
-                        <div>
-                            <h5>
-                                <img src={studentCap} alt="Theory" />
-                                Теоретические материалы
-                            </h5>
-                            <ul>
-                                <li>
-                                    <img src={link} alt="Ссылка" />
-                                    <a
-                                        href="https://habr.com/ru/articles/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Статья о верстке
-                                    </a>
-                                </li>
-                                <li>
-                                    <img src={file} alt="Файл" />
-                                    <p>Filename.pdf</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>
-                                <img src={task} alt="Задание" />
-                                Практическое задание
-                            </h5>
-                            <ul>
-                                <li>
-                                    <img src={practice} alt="Тест" />
-                                    <Link to={`${TEST_PATHNAME}/${1432}`}>
-                                        Тест по теории
-                                    </Link>
-                                </li>
-                                <li>
-                                    <img src={book} alt="Задание" />
-                                    <Link to={`${ANSWER_PATHNAME}/${4324}`}>
-                                        Сверстать картинку
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>
-                                <img src={work} alt="Работа" />
-                                Самостоятельная работа
-                            </h5>
-                            <ul>
-                                <li>
-                                    <img src={link} alt="Ссылка" />
-                                    <a
-                                        href="https://habr.com/ru/articles/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Сверстать сайт
-                                    </a>
-                                </li>
-                                <li>
-                                    <img src={link} alt="Ссылка" />
-                                    <a
-                                        href="https://habr.com/ru/articles/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        Сверстать картинку
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <TheoreticalMaterials
+                            material={material}
+                            deleteFile={deleteFile}
+                            createFile={createFile}
+                        />
+                        <PracticalMaterials
+                            material={material}
+                            deleteFile={deleteFile}
+                            createFile={createFile}
+                            invalidateMaterials={invalidateMaterials}
+                        />
+                        <SelfMaterials
+                            material={material}
+                            deleteFile={deleteFile}
+                            createFile={createFile}
+                        />
                     </div>
                 </div>
             </Collapse>
@@ -127,3 +137,376 @@ const MaterialBlock: FC<Props> = ({ isOpened, toggle }) => {
 };
 
 export default MaterialBlock;
+
+function PracticalMaterials({
+    material,
+    deleteFile,
+    createFile,
+    invalidateMaterials,
+}: MaterialProps & { invalidateMaterials: () => void }) {
+    const [isAddingMaterial, setIsAddingMaterial] = useState(false);
+    const [isAddingTask, setIsAddingTask] = useState(false);
+
+    const [file, setFile] = useState<File | null>(null);
+
+    const [taskName, setTaskName] = useState("");
+    const [taskDescription, setTaskDescription] = useState("");
+
+    const { mutate: createTask } = useMutation(
+        (data: Omit<ITask, "taskId">) =>
+            TasksService.create(material.materialId, data),
+        {
+            onSuccess: () => {
+                invalidateMaterials();
+                setIsAddingTask(false);
+            },
+        },
+    );
+
+    const { mutate: deleteTask } = useMutation(
+        (taskId: number) => TasksService.delete(taskId),
+        {
+            onSuccess: invalidateMaterials,
+        },
+    );
+
+    const handleDeleteTask = (
+        event: MouseEvent<HTMLButtonElement>,
+        taskId: number,
+    ) => {
+        event.stopPropagation();
+        deleteTask(taskId);
+    };
+
+    const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            setFile(null);
+            return;
+        }
+
+        const file = event.target.files[0];
+        setFile(file);
+    };
+
+    const handleSubmitMaterial = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!file) return;
+
+        createFile({ file, directory: "Practical" });
+        setIsAddingMaterial(false);
+    };
+
+    const handleSubmitTask = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const name = taskName.trim();
+        const description = taskDescription.trim();
+
+        if (name.length < 1 || description.length < 1) {
+            return;
+        }
+
+        createTask({ answers: [], description, grade: -1, title: taskName });
+        setIsAddingTask(false);
+    };
+
+    const handleDelete = (
+        event: MouseEvent<HTMLButtonElement>,
+        fileId: number,
+    ) => {
+        event.stopPropagation();
+        deleteFile(fileId);
+    };
+
+    return (
+        <div>
+            <header className={styles.materialsHeader}>
+                <h5>
+                    <img src={task} alt="Задание" />
+                    Практическое задание
+                </h5>
+            </header>
+            <WithAuth
+                authChildren={
+                    <div className={styles.tasksHeadControls}>
+                        <Button
+                            variant="light-blue"
+                            onClick={() => setIsAddingMaterial(true)}
+                        >
+                            Добавить материал
+                        </Button>
+                        <Button
+                            variant="dark-blue"
+                            onClick={() => setIsAddingTask(true)}
+                        >
+                            Добавить задание
+                        </Button>
+                    </div>
+                }
+                unAuthChildren={null}
+                allowedRoles={[Role.ADMIN, Role.TEACHER]}
+            />
+            {isAddingMaterial && (
+                <form
+                    className={styles.controls}
+                    onSubmit={handleSubmitMaterial}
+                >
+                    <Input onChange={handleSelectFile} type="file" />
+                    <footer>
+                        <Button variant="green" type="submit">
+                            Добавить
+                        </Button>
+                        <Button
+                            variant="red"
+                            type="submit"
+                            onClick={() => setIsAddingMaterial(false)}
+                        >
+                            Отменить
+                        </Button>
+                    </footer>
+                </form>
+            )}
+            {isAddingTask && (
+                <form className={styles.taskForm} onSubmit={handleSubmitTask}>
+                    <div>
+                        <FieldGroup className={styles.fieldGroup}>
+                            <Label htmlFor="taskName">Название задания</Label>
+                            <Input
+                                required
+                                type="text"
+                                name="taskName"
+                                placeholder="Название"
+                                id="taskName"
+                                value={taskName}
+                                onChange={(event) =>
+                                    setTaskName(event.target.value)
+                                }
+                            />
+                        </FieldGroup>
+                        <FieldGroup className={styles.fieldGroup}>
+                            <Label htmlFor="taskDescription">
+                                Описание задания
+                            </Label>
+                            <Textarea
+                                required
+                                name="taskDescription"
+                                placeholder="Описание"
+                                value={taskDescription}
+                                id="taskDescription"
+                                onChange={(event) =>
+                                    setTaskDescription(event.target.value)
+                                }
+                            />
+                        </FieldGroup>
+                        <div className={styles.tasksControls}>
+                            <Button variant="green" type="submit">
+                                Добавить
+                            </Button>
+                            <Button
+                                variant="red"
+                                type="button"
+                                onClick={() => setIsAddingTask(false)}
+                            >
+                                Отменить
+                            </Button>
+                        </div>
+                    </div>
+                </form>
+            )}
+            <ul>
+                {material.practical.map(({ fileId, fileName }) => (
+                    <li
+                        key={fileId}
+                        onClick={() => fetchFile(fileId, fileName)}
+                    >
+                        <img src={fileSrc} alt="Файл" />
+                        <p>{fileName}</p>
+                        <DeleteButton
+                            className={styles.deleteBtn}
+                            onClick={(event) => handleDelete(event, fileId)}
+                        />
+                    </li>
+                ))}
+                {material.tasks.map(({ taskId, title }) => (
+                    <li key={taskId}>
+                        <img src={book} alt="Задание" />
+                        <Link to={`${ANSWER_PATHNAME}/${taskId}`}>{title}</Link>
+                        <DeleteButton
+                            className={styles.deleteBtn}
+                            onClick={(event) => handleDeleteTask(event, taskId)}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function TheoreticalMaterials({
+    material,
+    deleteFile,
+    createFile,
+}: MaterialProps) {
+    const [isAdding, setIsAdding] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
+
+    const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            setFile(null);
+            return;
+        }
+
+        const file = event.target.files[0];
+        setFile(file);
+    };
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!file) return;
+
+        createFile({ file, directory: "Theoretical" });
+        setIsAdding(false);
+    };
+
+    const handleDelete = (
+        event: MouseEvent<HTMLButtonElement>,
+        fileId: number,
+    ) => {
+        event.stopPropagation();
+        deleteFile(fileId);
+    };
+
+    return (
+        <div>
+            <header className={styles.materialsHeader}>
+                <h5>
+                    <img src={studentCap} alt="Theory" />
+                    Теоретические материалы
+                </h5>
+                <WithAuth
+                    authChildren={
+                        <Button
+                            variant="dark-blue"
+                            onClick={() => setIsAdding((prev) => !prev)}
+                        >
+                            {isAdding ? "Отменить" : "+"}
+                        </Button>
+                    }
+                    unAuthChildren={null}
+                    allowedRoles={[Role.ADMIN, Role.TEACHER]}
+                />
+            </header>
+            {isAdding && (
+                <form className={styles.controls} onSubmit={handleSubmit}>
+                    {isAdding && (
+                        <Input onChange={handleSelectFile} type="file" />
+                    )}
+                    <Button variant="green" type="submit">
+                        Добавить
+                    </Button>
+                </form>
+            )}
+            <ul>
+                {material.theoretical.map(({ fileId, fileName }) => (
+                    <li
+                        key={fileId}
+                        onClick={() => fetchFile(fileId, fileName)}
+                    >
+                        <img src={fileSrc} alt="Файл" />
+                        <p>{fileName}</p>
+                        <DeleteButton
+                            className={styles.deleteBtn}
+                            onClick={(event) => handleDelete(event, fileId)}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function SelfMaterials({
+    material,
+    deleteFile,
+    createFile,
+}: MaterialProps) {
+    const [isAdding, setIsAdding] = useState(false);
+    const [file, setFile] = useState<File | null>(null);
+
+    const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files || event.target.files.length === 0) {
+            setFile(null);
+            return;
+        }
+
+        const file = event.target.files[0];
+        setFile(file);
+    };
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!file) return;
+
+        setIsAdding(false);
+        createFile({ file, directory: "Independent" });
+    };
+
+    const handleDelete = (
+        event: MouseEvent<HTMLButtonElement>,
+        fileId: number,
+    ) => {
+        event.stopPropagation();
+        deleteFile(fileId);
+    };
+
+    return (
+        <div>
+            <header className={styles.materialsHeader}>
+                <h5>
+                    <img src={work} alt="Работа" />
+                    Самостоятельная работа
+                </h5>
+                <WithAuth
+                    authChildren={
+                        <Button
+                            variant="dark-blue"
+                            onClick={() => setIsAdding((prev) => !prev)}
+                        >
+                            {isAdding ? "Отменить" : "+"}
+                        </Button>
+                    }
+                    unAuthChildren={null}
+                    allowedRoles={[Role.ADMIN, Role.TEACHER]}
+                />
+            </header>
+            {isAdding && (
+                <form className={styles.controls} onSubmit={handleSubmit}>
+                    {isAdding && (
+                        <Input onChange={handleSelectFile} type="file" />
+                    )}
+                    <Button variant="green" type="submit">
+                        Добавить
+                    </Button>
+                </form>
+            )}
+            <ul>
+                {material.independent.map(({ fileId, fileName }) => (
+                    <li
+                        key={fileId}
+                        onClick={() => fetchFile(fileId, fileName)}
+                    >
+                        <img src={fileSrc} alt="Файл" />
+                        <p>{fileName}</p>
+                        <DeleteButton
+                            className={styles.deleteBtn}
+                            onClick={(event) => handleDelete(event, fileId)}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}

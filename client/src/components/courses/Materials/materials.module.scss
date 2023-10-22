@@ -7,3 +7,12 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.creationHeader {
+    display: flex;
+    margin-bottom: 25px;
+
+    button {
+        margin-left: auto;
+    }
+}

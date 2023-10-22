@@ -2,6 +2,7 @@ import { FC } from "react";
 
 import { Outlet } from "react-router-dom";
 
+import { Footer } from "components/shared/Footer";
 import { Header } from "components/shared/Header";
 
 import styles from "./mainLayout.module.scss";
@@ -15,6 +16,7 @@ const MainLayout: FC<Props> = () => {
             <main>
                 <Outlet />
             </main>
+            <Footer />
         </div>
     );
 };

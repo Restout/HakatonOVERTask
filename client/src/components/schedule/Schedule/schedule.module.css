@@ -1,0 +1,97 @@
+.section {
+  padding: 20px 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.creation {
+  margin-bottom: 35px;
+}
+
+.schedule {
+  margin-bottom: 30px;
+}
+.schedule ul {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+}
+.schedule li {
+  position: relative;
+  display: flex;
+  gap: 24px;
+  padding: 20px 20px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid rgba(var(--color-grey--rgb), 0.3);
+}
+.schedule li p {
+  color: var(--color-grey);
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+.schedule li h5 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.day {
+  display: flex;
+  justify-content: center;
+}
+.day span {
+  padding: 5px 12px;
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.time {
+  color: var(--color-grey);
+  font-size: 17px;
+  padding: 3px 20px 0 0;
+  border-right: 2px solid var(--color-green);
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.controls div {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  border-radius: 10px;
+}
+.controls button {
+  padding: 15px 25px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-size: 18px;
+}
+.controls button:hover {
+  background-color: rgba(var(--color-light-blue--rgb), 0.1);
+}
+.controls p {
+  background-color: rgba(var(--color-green--rgb), 0.2);
+  font-weight: 500;
+  padding: 13px;
+  font-size: 20px;
+  border-right: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  border-left: 1px solid rgba(var(--color-grey--rgb), 0.3);
+}
+
+.deleteButton {
+  top: 15px;
+  right: 15px;
+}/*# sourceMappingURL=schedule.module.css.map */

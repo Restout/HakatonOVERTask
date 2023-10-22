@@ -1,13 +1,15 @@
 export const SCHEDULE_PATHNAME = "schedule";
 
 export const COURSES_PATHNAME = "courses";
+
 export const PROGRAM_PATHNAME = "program";
-export const PROFILE_COURSES_PATHNAME = "my-courses";
-export const TEST_PATHNAME = "test";
 export const ANSWER_PATHNAME = "answer";
 
 export const LK_PATHNAME = "lk";
 export const PROFILE_PATHNAME = "profile";
+export const PROFILE_COURSES_PATHNAME = "courses";
+export const PROFILE_SUBJECTS_PATHNAME = "subjects";
+export const PROFILE_BIDS_PATHNAME = "bids";
 
 export const ADMIN_PATHNAME = "admin";
 export const BIDS_PATHNAME = "bids";

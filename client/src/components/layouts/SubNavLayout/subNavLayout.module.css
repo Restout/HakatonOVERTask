@@ -1,0 +1,20 @@
+.navigation {
+  display: flex;
+  justify-content: center;
+}
+.navigation ul {
+  display: flex;
+  align-items: center;
+}
+.navigation a {
+  display: block;
+  padding: 15px 20px;
+  color: var(--color-black);
+}
+.navigation a.active {
+  border-bottom: 2px solid var(--color-dark-blue);
+  pointer-events: none;
+}
+.navigation a:hover {
+  background-color: rgba(var(--color-light-blue--rgb), 0.1);
+}/*# sourceMappingURL=subNavLayout.module.css.map */

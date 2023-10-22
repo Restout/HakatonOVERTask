@@ -1,0 +1,74 @@
+:root {
+  --color-black: #000000;
+  --color-black--rgb: 0, 0, 0;
+  --color-white: #ffffff;
+  --color-white--rgb: 255, 255, 255;
+  --color-grey: #607286;
+  --color-grey--rgb: 96, 114, 134;
+  --color-red: #dd434b;
+  --color-red--rgb: 221, 67, 75;
+  --color-green: #8fc96d;
+  --color-green--rgb: 143, 201, 109;
+  --color-dark-blue: #0f3a8c;
+  --color-dark-blue--rgb: 15, 58, 140;
+  --color-light-blue: #008cce;
+  --color-light-blue--rgb: 0, 140, 206;
+  --color-yellow: #ffc107;
+  --color-yellow--rgb: 255, 193, 7;
+  --color-bg-blue: #edf1f5;
+  --color-bg-blue--rgb: 237, 241, 245;
+  --color-bg-grey: #f0f0f0;
+  --color-bg-grey--rgb: 240, 240, 240;
+  --font-roboto: "Roboto", sans-serif;
+  --font-mont: "Montserrat", sans-serif;
+  --font-size: 1rem;
+  --container-width: 1170px;
+  --bp-lgx: 1170px;
+  --bp-lg: 1360px;
+  --bp-md: 991.98px;
+  --bp-sm: 767.96px;
+  --bp-smm: 677px;
+  --bp-smx: 479.98px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-roboto);
+  font-size: var(--font-size);
+  color: var(--color-black);
+}
+body.overflow {
+  touch-action: none;
+  -ms-touch-action: none;
+  position: fixed;
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: fixed;
+  font-size: 0;
+  left: -1000px;
+  top: -1000px;
+  width: 0.1px;
+  height: 0.1px;
+  margin: -1px;
+  opacity: 0;
+  z-index: -1;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  -webkit-clip-path: inset(100%);
+          clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}/*# sourceMappingURL=common.css.map */

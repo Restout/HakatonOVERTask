@@ -2,7 +2,8 @@ import axios from "axios";
 
 import { LocalStorageKeys } from "constants/localStorageKeys";
 
-export const API_URL = window.location.origin;
+// export const API_URL = window.location.origin;
+export const API_URL = "http://localhost:8097";
 
 export const api = axios.create({
     baseURL: `${API_URL}/api`,

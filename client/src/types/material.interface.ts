@@ -1,3 +1,5 @@
+import { ITask } from "./task.interface";
+
 export interface IMaterial {
     materialId: number;
     dateStart: string;
@@ -7,7 +9,7 @@ export interface IMaterial {
     practical: MaterialFile[];
     theoretical: MaterialFile[];
     independent: MaterialFile[];
-    tasks: { taskId: string }[];
+    tasks: ITask[];
 }
 
 export interface MaterialFile {
@@ -22,3 +24,9 @@ export interface MaterialDTO {
     description: string;
     title: string;
 }
+
+export type MaterialFileCategory =
+    | "Independent"
+    | "Theoretical"
+    | "Practical"
+    | "Task";

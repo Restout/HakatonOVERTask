@@ -1,0 +1,18 @@
+.section {
+  height: 100%;
+  background-color: var(--color-bg-blue);
+}
+
+.body {
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: var(--color-white);
+  border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  margin-bottom: 30px;
+}
+
+.title {
+  border-bottom: 1px solid rgba(var(--color-grey--rgb), 0.3);
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}/*# sourceMappingURL=materialsCreation.module.css.map */

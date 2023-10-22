@@ -9,7 +9,7 @@ import {
     UseFormRegister,
     useForm,
 } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 import { Button } from "components/ui/Button";
 import { FieldError } from "components/ui/FieldError";
@@ -30,6 +30,7 @@ import { formErrors } from "constants/formErrors";
 import { HOME_PATH, SIGN_UP_PATH } from "constants/routesPathnames";
 
 import styles from "./signInPage.module.scss";
+import { useAuth } from "hooks/auth/useAuth";
 
 interface SignInState {
     email: string;
@@ -46,6 +47,7 @@ interface FieldProps {
 const SignInPage: FC = () => {
     const dispatch = useTypedDispatch();
     const navigate = useNavigate();
+    const { isAuth } = useAuth();
 
     const { mutate, isLoading } = useMutation(
         (credentials: LoginCredentials) => UserService.login(credentials),
@@ -77,6 +79,10 @@ const SignInPage: FC = () => {
         mutate({ email, password });
         reset();
     };
+
+    if (isAuth) {
+        return <Navigate to={HOME_PATH} />;
+    }
 
     return (
         <div className={styles.page}>
