@@ -227,7 +227,7 @@ function GroupChoice({
         );
 
     const { mutateAsync: createStudent } = useMutation(
-        (groupId: number) => UserService.createStudent({ groupId, userId }),
+        (groupId: number) => UserService.grandStudent({ groupId, userId }),
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(["users"]);
