@@ -66,9 +66,10 @@ public class FilesService {
                 break;
             case "Independent":
                 material.getIndependent().add(files);
+                break;
             case "Task":
                 task.getAnswers().add(files);
-
+                break;
         }
         if(materialId !=null) {
             materialsRepository.save(material);
