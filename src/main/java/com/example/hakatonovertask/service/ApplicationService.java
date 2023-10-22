@@ -41,6 +41,7 @@ public class ApplicationService {
         count.set(applicationList.getTotalElements());
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
+                    app.getEnrollee().getUserId().getId(),
                     app.getApplicationId(),
                     app.getCourse().getCourseName(),
                     app.getEnrollee().getUserId().getFirstName(),
@@ -58,7 +59,8 @@ public class ApplicationService {
     public ApplicationOutById getApplicationById(Integer id){
         Application app = applicationRepository.findById(id).orElse(null);
         if (app == null) return null;
-        return new ApplicationOutById(app.getApplicationId(),
+        return new ApplicationOutById(app.getEnrollee().getUserId().getId(),
+                app.getApplicationId(),
                 app.getCourse().getCourseName(),
                 app.getEnrollee().getUserId().getFirstName(),
                 app.getEnrollee().getUserId().getLastName(),
