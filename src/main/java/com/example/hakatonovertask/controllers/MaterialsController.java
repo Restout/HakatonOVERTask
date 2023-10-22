@@ -20,13 +20,8 @@ public class MaterialsController {
     }
 
     @GetMapping("/api/auth/material")
-    @PreAuthorize("hasAnyAuthority('ADMIN','STUDENT','TEACHER')")
     public ResponseEntity<List<Material>> getMaterials(@RequestParam("userId") Integer userId, @RequestParam("lessonId") Integer lessonId) {
-        try {
-            return ResponseEntity.ok().body(materialService.getMaterials(lessonId, userId));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok().body(materialService.getMaterials(lessonId, userId));
 
     }
 
@@ -36,23 +31,13 @@ public class MaterialsController {
             @RequestParam("userId") Integer userId,
             @RequestParam("lessonId") Integer lessonId,
             @RequestBody Material material) {
-        try {
-            return ResponseEntity.ok().body(materialService.saveMaterial(lessonId, userId, material));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok().body(materialService.saveMaterial(lessonId, userId, material));
+
     }
 
     @PutMapping("/api/auth/material/{materialId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
     public ResponseEntity<Material> updateMaterial(@RequestBody Material material, @PathVariable("materialId") Integer materialId) {
-        try {
-            return ResponseEntity.ok().body(materialService.updateMaterial(material, materialId));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok().body(materialService.updateMaterial(material, materialId));
     }
     @DeleteMapping("/api/auth/material/{materialId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")

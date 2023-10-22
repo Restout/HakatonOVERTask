@@ -2,11 +2,15 @@ package com.example.hakatonovertask.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "files")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Files {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +20,11 @@ public class Files {
     @Column(name = "FileName")
     private String fileName;
     @Column(name = "File")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private byte[] file;
 
+    public Files(String fileName, byte[] file) {
+        this.fileName = fileName;
+        this.file = file;
+    }
 }
