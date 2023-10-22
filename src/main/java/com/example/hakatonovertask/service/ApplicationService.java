@@ -119,7 +119,6 @@ public class ApplicationService {
         List<ApplicationOut> applicationRes = new ArrayList<>();
         Enrollee user = enrolleeRepository.getReferenceById(userId);
         List<Application> applicationList = applicationRepository.findAllByEnrollee(user);
-        if (applicationList.isEmpty()) return null;
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
                     app.getEnrollee().getUserId().getId(),
