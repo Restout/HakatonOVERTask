@@ -282,3 +282,6 @@ CREATE TABLE "Independent" (
                                    FOREIGN KEY ("MaterialID")
                                        REFERENCES "Materials" ("MaterialID") ON DELETE CASCADE ON UPDATE CASCADE
 );
+INSERT INTO "User"
+("First_name", "Last_name", "Father_name", "Birthday", "Phone", "Email", "Password", "Role")
+VALUES('Рамилио', 'Порфаворо', 'Рахимкулово', '2022-10-10', '+79213372825', 'admin@mail.ru', 'admin', 'ADMIN');
