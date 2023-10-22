@@ -19,7 +19,7 @@ public class Student {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "ID")
-    private UserModel userID;
+    private UserModel user;
     @Column(name = "RecordBookID")
     private int recordBookId;
     @Column(name = "GroupID")
