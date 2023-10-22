@@ -34,12 +34,17 @@ public class LessonService {
         return lessonRepository.getLessonsByLessonTeachersTeacherTeacherId(teacherId);
     }
     public List<Lesson> getLessons(Integer userId){
-        List<ScheduleDay> scheduleDays = studentJpaRepository.findById(userId).orElse(null).getGroup().getScheduleDay();
-        List<Lesson> lessons = new ArrayList<Lesson>();
-        for (var scheldue: scheduleDays) {
-            lessons.add(scheldue.getLessonTeacher().getLesson());
+        try {
+            List<ScheduleDay> scheduleDays = studentJpaRepository.findById(userId).orElse(null).getGroup().getScheduleDay();
+
+            List<Lesson> lessons = new ArrayList<Lesson>();
+            for (var scheldue : scheduleDays) {
+                lessons.add(scheldue.getLessonTeacher().getLesson());
+            }
+            return lessons;
+        }catch (NullPointerException e){
+            return new ArrayList<Lesson>();
         }
-        return lessons;
     }
     public Lesson saveLesson(Lesson lesson){
         return lessonRepository.save(lesson);
