@@ -19,8 +19,13 @@ public class LessonController {
     public void setLessonService(LessonService lessonService) {
         this.lessonService = lessonService;
     }
+    @GetMapping("/api/auth/lesson/teachersLesson/{teacherId}")
+    public ResponseEntity<List<Lesson>> getLessonByteacherId(@PathVariable("teacherId") Integer teacherId){
+        return ResponseEntity.ok().body(lessonService.getLessonByTeacherId(teacherId));
+    }
     @GetMapping("/api/auth/lesson")
     public ResponseEntity<Lesson> getLessonById(@RequestParam("lessonId") Integer lessonId){
+
         return ResponseEntity.ok().body(lessonRepository.findById(lessonId).orElse(null));
     }
 
