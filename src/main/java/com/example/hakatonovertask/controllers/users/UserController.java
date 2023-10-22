@@ -13,11 +13,11 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     @GetMapping("/api/auth/users/all")
     public ResponseEntity<Iterable<UserModel>> getAllUsers(Roles role, Pageable page) {
@@ -52,6 +52,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     @PostMapping("/api/auth/users/add")
     public ResponseEntity<UserModel> addUser(@RequestBody UserModel user) {
@@ -66,6 +67,7 @@ public class UserController {
                 .body(userService.saveNewUser(user).get());
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/api/auth/users/delete")
     public void deleteUser(@RequestParam int id) {
         userService.deleteUserById(id);
