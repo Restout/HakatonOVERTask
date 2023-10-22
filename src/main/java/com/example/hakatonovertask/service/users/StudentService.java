@@ -7,6 +7,7 @@ import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class StudentService {
     public Optional<Student> saveStudent(Student student) {
         return Optional.of(studentJpaRepository.save(student));
     }
-
+@Transactional
     public Optional<Student> creatStudentFromUserAndSave(StudentDao studentDao) throws SQLException {
         Optional<UserModel> userModelOptional = userJpaRepository.findById(studentDao.getId());
         if (userModelOptional.isEmpty()) {
@@ -33,9 +34,10 @@ public class StudentService {
         }
         UserModel userModel = userModelOptional.get();
         userModel.setRole(Roles.STUDENT);
-        userJpaRepository.deleteById(studentDao.getId());
+
         Student student = new Student(userModel.getId(), userModel, studentDao.getRecordBookId(), studentDao.getGroupId(),
                 groupRepository.findById(studentDao.getGroupId()).get());
+    userJpaRepository.deleteById(studentDao.getId());
         return Optional.of(studentJpaRepository.save(student));
     }
 
