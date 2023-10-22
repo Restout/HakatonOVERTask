@@ -23,6 +23,7 @@ public class StudentService {
     private GroupRepository groupRepository;
 
     public Optional<Student> saveStudent(Student student) {
+        student.setUserID(userJpaRepository.findById(student.getId()).orElse(null));
         return Optional.of(studentJpaRepository.save(student));
     }
 
