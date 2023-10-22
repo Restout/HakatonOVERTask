@@ -22,11 +22,7 @@ public class TaskService {
         if(taskRepositpry.existsById(taskId)){
             Task dbTask = taskRepositpry.findById(taskId).orElse(null);
             task.setMaterial(dbTask.getMaterial());
-            if(task.getAnswers()!=null) {
-                for (var answer : dbTask.getAnswers()) {
-                    task.getAnswers().add(answer);
-                }
-            }
+            task.setAnswers(dbTask.getAnswers());
             task.setTaskId(taskId);
             return taskRepositpry.save(task);
         }else {
