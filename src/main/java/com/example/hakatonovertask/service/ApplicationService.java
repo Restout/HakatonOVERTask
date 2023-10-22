@@ -38,7 +38,6 @@ public class ApplicationService {
             case ADMIN -> applicationRepository.findAll(pageable);
             default -> applicationList;
         };
-        if (applicationList.isEmpty()) return null;
         count.set(applicationList.getTotalElements());
         for (var app : applicationList) {
             applicationRes.add(new ApplicationOut(
