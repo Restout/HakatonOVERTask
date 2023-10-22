@@ -18,6 +18,10 @@ public class CourseController {
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
+    @GetMapping("/api/auth/courses/getSupervisiorCourse/{supervisiorId}")
+    public ResponseEntity<List<Course>> getCoursesBySupervisiorId(@PathVariable("supervisiorId")Integer supervisiorId){
+        return ResponseEntity.ok().body(courseService.getCourseBySupervisior(supervisiorId));
+    }
 
     @GetMapping("/api/courses")
     public ResponseEntity<List<Course>> getCourses(@RequestParam("userId") Optional<Integer> userId){
