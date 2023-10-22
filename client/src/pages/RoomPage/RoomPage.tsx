@@ -1,46 +1,45 @@
-import { FC } from "react";
-
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { useParams } from "react-router-dom";
 
-const RoomPage: FC = () => {
+export default function RoomPage() {
     const { roomId } = useParams();
-
-    const meeting = () => async (element: HTMLDivElement) => {
-        const appId = process.env.REACT_APP_MEETING_APP_ID;
-        const secretKey = process.env.REACT_APP_MEETING_SECRET;
-
+    let myMeeting = async (element: HTMLDivElement) => {
+        // generate Kit Token
+        const appID = process.env.REACT_APP_MEETING_APP_ID;
+        const serverSecret = String(process.env.REACT_APP_MEETING_SECRET);
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-            parseInt(appId as string),
-            secretKey as string,
+            parseInt(appID as string),
+            serverSecret,
             roomId as string,
             Date.now().toString(),
-            "Студент",
+            "Student",
         );
 
+        // Create instance object from Kit Token.
         const zp = ZegoUIKitPrebuilt.create(kitToken);
-
-        // zp.joinRoom({
-        //     container: element,
-        //     sharedLinks: [
-        //         {
-        //             name: "Personal link",
-        //             url:
-        //                 window.location.protocol +
-        //                 "//" +
-        //                 window.location.host +
-        //                 window.location.pathname +
-        //                 "?roomID=" +
-        //                 roomID,
-        //         },
-        //     ],
-        //     scenario: {
-        //         mode: ZegoUIKitPrebuilt.VideoConference,
-        //     },
-        // });
+        // start the call
+        zp.joinRoom({
+            container: element,
+            sharedLinks: [
+                {
+                    name: "Personal link",
+                    url: `http://localhost:3000/room/${roomId}`,
+                },
+            ],
+            scenario: {
+                mode: ZegoUIKitPrebuilt.VideoConference,
+            },
+            showRemoveUserButton: true,
+            showTurnOffRemoteCameraButton: true,
+            showTurnOffRemoteMicrophoneButton: true,
+        });
     };
 
-    return <div ref={meeting} />;
-};
-
-export default RoomPage;
+    return (
+        <div
+            className="myCallContainer"
+            ref={myMeeting}
+            style={{ width: "100vw", height: "100vh" }}
+        ></div>
+    );
+}

@@ -15,6 +15,7 @@ import { GroupsPage } from "pages/(schedule)/GroupsPage";
 import { SchedulePage } from "pages/(schedule)/SchedulePage";
 import { HomePage } from "pages/HomePage";
 import { MissingPage } from "pages/MissingPage";
+import { RoomPage } from "pages/RoomPage";
 
 import { AdminBids } from "components/bids/AdminBids";
 import { AdminCourses } from "components/courses/AdminCourses";
@@ -35,7 +36,6 @@ import {
     COURSES_PATHNAME,
     HOME_PATH,
     LK_PATHNAME,
-    MISSING_PATH,
     NEWS_PATHNAME,
     PROFILE_BIDS_PATHNAME,
     PROFILE_COURSES_PATHNAME,
@@ -56,6 +56,7 @@ const Router: FC = () => {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path={HOME_PATH} element={<HomePage />} />
+                <Route path="room/:roomId" element={<RoomPage />} />
                 <Route
                     path={"/" + SCHEDULE_PATHNAME}
                     element={<GroupsPage />}
@@ -153,6 +154,10 @@ const Router: FC = () => {
                         element={<SubNavLayout navLinks={adminSubNavLinks} />}
                     >
                         <Route path={BIDS_PATHNAME} element={<AdminBids />} />
+                        <Route
+                            path={`${BIDS_PATHNAME}/:bidId`}
+                            element={<FullBidPage />}
+                        />
                         <Route path={USERS_PATHNAME} element={<AdminUsers />} />
                         <Route
                             path={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}/:userId`}
@@ -187,9 +192,8 @@ const Router: FC = () => {
                 {/* ========== Auth ============= */}
                 <Route path={SIGN_UP_PATH} element={<SignUpPage />} />
                 <Route path={SIGN_IN_PATH} element={<SignInPage />} />
-
-                <Route path={MISSING_PATH} element={<MissingPage />} />
             </Route>
+            <Route path="*" element={<MissingPage />} />
         </Routes>
     );
 };

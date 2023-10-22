@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 import cn from "clsx";
 import WithAuth from "hocs/WithAuth";
@@ -20,23 +20,25 @@ const SubNavLayout: FC<Props> = ({ navLinks }) => {
             <nav className={styles.navigation}>
                 <ul>
                     {navLinks.map(({ id, label, path, roles }) => (
-                        <WithAuth
-                            authChildren={
-                                <li key={id}>
-                                    <Link
-                                        className={cn(
-                                            pathname.includes(path) &&
-                                                styles.active,
-                                        )}
-                                        to={path}
-                                    >
-                                        {label}
-                                    </Link>
-                                </li>
-                            }
-                            unAuthChildren={null}
-                            allowedRoles={roles}
-                        />
+                        <Fragment key={id}>
+                            <WithAuth
+                                authChildren={
+                                    <li>
+                                        <Link
+                                            className={cn(
+                                                pathname.includes(path) &&
+                                                    styles.active,
+                                            )}
+                                            to={path}
+                                        >
+                                            {label}
+                                        </Link>
+                                    </li>
+                                }
+                                unAuthChildren={null}
+                                allowedRoles={roles}
+                            />
+                        </Fragment>
                     ))}
                 </ul>
             </nav>

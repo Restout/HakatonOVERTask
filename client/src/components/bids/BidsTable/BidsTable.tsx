@@ -47,9 +47,11 @@ function TableHead() {
 function TableBody({
     bids,
     isDisabled,
+    // to
 }: {
     bids: IApplicationContacts[];
     isDisabled: boolean;
+    // to: string;
 }) {
     const navigate = useNavigate();
 
@@ -58,7 +60,7 @@ function TableBody({
             {bids.map((bid) => (
                 <tr
                     key={bid.applicationID}
-                    onClick={() => navigate(`/bids/${bid.applicationID}`)}
+                    onClick={() => navigate(`${bid.applicationID}`)}
                 >
                     <td data-label>
                         {bid.lastName} {bid.firstName} {bid.fatherName}

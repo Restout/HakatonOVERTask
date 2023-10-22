@@ -3,7 +3,7 @@ import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import cn from "clsx";
 import WithAuth from "hocs/WithAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
@@ -59,6 +59,9 @@ const FullBid: FC<Props> = ({ bid, isFetching }) => {
     const queryClient = useQueryClient();
     const [isChoosing, setIsChoosing] = useState(false);
 
+    const location = useLocation();
+    const isAdmin = location.pathname.includes("admin");
+
     const option =
         options.find((option) => option.value === bid.status) ?? options[0];
 
@@ -89,9 +92,11 @@ const FullBid: FC<Props> = ({ bid, isFetching }) => {
                             <>
                                 <header className={styles.header}>
                                     <h5>Заявка №{bid.applicationID}</h5>
-                                    <button onClick={() => navigate(-1)}>
-                                        Все заявки
-                                    </button>
+                                    {isAdmin && (
+                                        <button onClick={() => navigate(-1)}>
+                                            Все заявки
+                                        </button>
+                                    )}
                                 </header>
                                 <div className={styles.description}>
                                     {error && (

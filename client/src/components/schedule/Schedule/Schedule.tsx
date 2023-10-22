@@ -61,14 +61,11 @@ const Schedule: FC<Props> = ({ groupId }) => {
         select: (data) => data.data,
     });
 
-    const { mutate } = useMutation(
-        (id: number) => ScheduleService.delete(id),
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries(["schedule"]);
-            },
+    const { mutate } = useMutation((id: number) => ScheduleService.delete(id), {
+        onSuccess: () => {
+            queryClient.invalidateQueries(["schedule"]);
         },
-    );
+    });
 
     const filteredSchedule = useMemo(() => {
         const result: {
@@ -88,7 +85,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
 
         data.forEach((schedule) => {
             const { dayOfWeek } = formatDate(schedule.day);
-            console.log(dayOfWeek)
+            console.log(dayOfWeek);
             result[dayOfWeek].lessons.push(schedule);
             result[dayOfWeek].date = formatDate(schedule.day).date;
         });
@@ -181,15 +178,26 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                     lesson.audience
                                                                 }
                                                             </p>
-                                                            <DeleteButton
-                                                                onClick={() =>
-                                                                    mutate(
-                                                                        lesson.scheldueId,
-                                                                    )
+                                                            <WithAuth
+                                                                authChildren={
+                                                                    <DeleteButton
+                                                                        onClick={() =>
+                                                                            mutate(
+                                                                                lesson.scheldueId,
+                                                                            )
+                                                                        }
+                                                                        className={
+                                                                            styles.deleteButton
+                                                                        }
+                                                                    />
                                                                 }
-                                                                className={
-                                                                    styles.deleteButton
+                                                                unAuthChildren={
+                                                                    null
                                                                 }
+                                                                allowedRoles={[
+                                                                    Role.ADMIN,
+                                                                    Role.SUPERVISOR,
+                                                                ]}
                                                             />
                                                         </div>
                                                     </li>

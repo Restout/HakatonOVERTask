@@ -19,12 +19,12 @@ const ProtectedRoutes: FC<Props> = ({ allowedRoles }) => {
         if (role && allowedRoles && allowedRoles.includes(role)) {
             return <Outlet />;
         } else if (allowedRoles) {
-            return <Navigate to={SIGN_IN_PATH} />;
+            return <Navigate to={SIGN_IN_PATH} replace={true} />;
         }
         return <Outlet />;
     }
 
-    return <Navigate to={SIGN_IN_PATH} />;
+    return <Navigate to={SIGN_IN_PATH} replace={true} />;
 };
 
 export default ProtectedRoutes;

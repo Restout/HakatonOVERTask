@@ -297,7 +297,7 @@ function Patronymic({ register, error }: FieldProps) {
 }
 
 function Email({ register, error }: FieldProps) {
-    const LENGTH_LIMIT = 25;
+    const LENGTH_LIMIT = 50;
 
     const { required, maxLengthLimit } = formErrors;
 

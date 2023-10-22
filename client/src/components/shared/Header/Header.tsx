@@ -17,6 +17,7 @@ import {
     LK_PATHNAME,
     PROFILE_PATHNAME,
     SCHEDULE_PATHNAME,
+    SIGN_IN_PATH,
     USERS_PATHNAME,
 } from "constants/routesPathnames";
 
@@ -108,12 +109,9 @@ const Header: FC<Props> = ({ className }) => {
                                 </button>
                             }
                             unAuthChildren={
-                                <button
-                                    className={styles.link}
-                                    onClick={logout}
-                                >
+                                <Link to={SIGN_IN_PATH} className={styles.link}>
                                     Войти
-                                </button>
+                                </Link>
                             }
                         />
                     </div>

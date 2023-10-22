@@ -1,0 +1,24 @@
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    h1 {
+        color: var(--color-dark-blue);
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    p {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    a {
+        text-align: center;
+        color: var(--color-light-blue);
+        text-decoration: underline;
+    }
+}

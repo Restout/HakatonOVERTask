@@ -9,7 +9,7 @@ import ApplicationsService from "services/ApplicationsService";
 
 import { Bids } from "../Bids";
 
-const LIMIT = 2;
+const LIMIT = 10;
 
 const AdminBids: FC = () => {
     const [searchParams] = useSearchParams();

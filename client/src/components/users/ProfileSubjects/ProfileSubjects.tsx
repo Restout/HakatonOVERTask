@@ -22,9 +22,7 @@ import studyingSrc from "assets/img/studying.jpg";
 
 import styles from "./profileSubjects.module.scss";
 
-interface Props {}
-
-const ProfileSubjects: FC<Props> = () => {
+const ProfileSubjects: FC = () => {
     const { id: userId, role } = useTypedSelector(
         (state) => state.user.user,
     ) as IUser;
@@ -36,7 +34,7 @@ const ProfileSubjects: FC<Props> = () => {
         isSuccess: isStudentSuccess,
     } = useQuery({
         queryFn: () => LessonService.getByUserId(userId),
-        queryKey: ["lessons", userId],
+        queryKey: ["lessons", userId, "student"],
         select: (data) => data.data,
         enabled: role === Role.STUDENT,
     });
@@ -48,7 +46,7 @@ const ProfileSubjects: FC<Props> = () => {
         isSuccess: isTeacherSuccess,
     } = useQuery({
         queryFn: () => LessonService.getByUserId(userId),
-        queryKey: ["lessons", userId],
+        queryKey: ["lessons", userId, "teacher"],
         select: (data) => data.data,
         enabled: role === Role.TEACHER,
     });
@@ -60,14 +58,11 @@ const ProfileSubjects: FC<Props> = () => {
         <section className={styles.section}>
             <Container>
                 <Title className={styles.title}>Мои предметы</Title>
-                {(isStudentSuccess || isTeacherSuccess) && (
-                    <ul className={styles.subjectsList}>{}</ul>
-                )}
-                {isTeacherSuccess && (
-                    <TeacherLessons lessons={teacherLessons} />
-                )}
-                {isStudentSuccess && (
+                {isStudentSuccess && studentLessons.length > 0 && (
                     <StudentLessons lessons={studentLessons} />
+                )}
+                {isTeacherSuccess && teacherLessons.length > 0 && (
+                    <TeacherLessons lessons={teacherLessons} />
                 )}
                 <Error
                     message={
@@ -87,7 +82,6 @@ export default ProfileSubjects;
 function TeacherLessons({ lessons }: { lessons: ILesson[] }) {
     return (
         <div className={styles.subjects}>
-            <h5>Учебные предметы:</h5>
             <ul className={styles.lessonsList}>
                 {lessons.map((lesson) => (
                     <li key={lesson.lessonId}>
@@ -109,7 +103,6 @@ function TeacherLessons({ lessons }: { lessons: ILesson[] }) {
 function StudentLessons({ lessons }: { lessons: ILesson[] }) {
     return (
         <div className={styles.subjects}>
-            <h5>Учебные предметы:</h5>
             <ul className={styles.lessonsList}>
                 {lessons.map((lesson) => (
                     <li key={lesson.lessonId}>

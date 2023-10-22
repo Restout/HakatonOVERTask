@@ -58,8 +58,22 @@ const ScheduleCreation: FC<Props> = ({ close, className, groupId }) => {
             return;
         }
 
-        const formattedStartTime = `${day}T${startTime}:00`;
-        const formattedEndTime = `${day}T${endTime}:00`;
+        const [startTimeHours, startTimeMinutes] = startTime.split(":");
+        const formattedStartHours =
+            startTimeHours.length === 1 ? "0" + startTimeHours : startTimeHours;
+        const formattedStartMinutes =
+            startTimeMinutes.length === 1
+                ? "0" + startTimeMinutes
+                : startTimeMinutes;
+
+        const [endTimeHours, endTimeMinutes] = endTime.split(":");
+        const formattedEndHours =
+            endTimeHours.length === 1 ? "0" + endTimeHours : endTimeHours;
+        const formattedEndMinutes =
+            endTimeMinutes.length === 1 ? "0" + endTimeMinutes : endTimeMinutes;
+
+        const formattedStartTime = `${day}T${formattedStartHours}:${formattedStartMinutes}:00`;
+        const formattedEndTime = `${day}T${formattedEndHours}:${formattedEndMinutes}:00`;
 
         const formattedAudience =
             audience === "Дистанционно" ? "Дистанционно" : audience;

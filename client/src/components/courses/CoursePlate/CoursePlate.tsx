@@ -47,7 +47,7 @@ const CoursePlate: FC<Props> = ({ isParticipant, course }) => {
         event: MouseEvent<HTMLButtonElement>,
     ) => {
         event.preventDefault();
-        navigate(`/${COURSES_PATHNAME}/1/${PROGRAM_PATHNAME}`);
+        navigate(`/${COURSES_PATHNAME}/${course.courseId}/${PROGRAM_PATHNAME}`);
     };
 
     return (
@@ -76,11 +76,17 @@ const CoursePlate: FC<Props> = ({ isParticipant, course }) => {
                 <p>{course.about}</p>
             </div>
             {isParticipant && (
-                <footer className={styles.footer}>
-                    <Button onClick={handleNavigateToMaterials}>
-                        Перейти к материалам курса
-                    </Button>
-                </footer>
+                <WithAuth
+                    authChildren={
+                        <footer className={styles.footer}>
+                            <Button onClick={handleNavigateToMaterials}>
+                                Перейти к материалам курса
+                            </Button>
+                        </footer>
+                    }
+                    unAuthChildren={null}
+                    allowedRoles={[Role.TEACHER, Role.STUDENT]}
+                />
             )}
         </article>
     );
