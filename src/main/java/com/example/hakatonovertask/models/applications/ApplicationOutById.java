@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class ApplicationOutById {
+    private int userId;
     private int applicationID;
     private String courseName;
     private String firstName;

@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @RestController
-@PreAuthorize("hasAnyAuthority('ADMIN','SELLECTION_COMMITE')")
 public class StudentController implements BaseUserController<Student, StudentDao> {
     @Autowired
     private StudentService studentService;
