@@ -1,8 +1,0 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.page main {
-  flex: 1;
-}/*# sourceMappingURL=mainLayout.module.css.map */
