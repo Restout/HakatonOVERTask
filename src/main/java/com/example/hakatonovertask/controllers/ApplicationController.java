@@ -25,6 +25,12 @@ public class ApplicationController {
         return ResponseEntity.ok().header("countApplications",""+count).body(applicationOutList);
     }
 
+    @GetMapping("/api/auth/studentapplications")
+    public ResponseEntity<List<ApplicationOut>> getListStudentApplication(@RequestParam int userId){
+        List<ApplicationOut> applicationOutList = applicationService.listStudentApplications(userId);
+        return ResponseEntity.ok().body(applicationOutList);
+    }
+
     @GetMapping("/api/auth/application/{id}")
     public ResponseEntity<ApplicationOutById> getApplicationById(@PathVariable int id) {
         var result = applicationService.getApplicationById(id);

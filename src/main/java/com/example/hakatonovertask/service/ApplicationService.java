@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.service;
 
+import com.example.hakatonovertask.models.Enrollee;
 import com.example.hakatonovertask.models.applications.*;
 import com.example.hakatonovertask.repositories.ApplicationRepository;
 import com.example.hakatonovertask.repositories.CourseRepository;
@@ -112,5 +113,26 @@ public class ApplicationService {
             app.setDateOfChange(new Date());
             applicationRepository.save(app);
         }
+    }
+
+    public List<ApplicationOut> listStudentApplications(int userId) {
+        List<ApplicationOut> applicationRes = new ArrayList<>();
+        Enrollee user = enrolleeRepository.getReferenceById(userId);
+        List<Application> applicationList = applicationRepository.findAllByEnrollee(user);
+        if (applicationList.isEmpty()) return null;
+        for (var app : applicationList) {
+            applicationRes.add(new ApplicationOut(
+                    app.getEnrollee().getUserId().getId(),
+                    app.getApplicationId(),
+                    app.getCourse().getCourseName(),
+                    app.getEnrollee().getUserId().getFirstName(),
+                    app.getEnrollee().getUserId().getLastName(),
+                    app.getEnrollee().getUserId().getFatherName(),
+                    app.getEnrollee().getUserId().getEmail(),
+                    app.getEnrollee().getUserId().getPhone(),
+                    app.getStatus().getDescription(),
+                    app.getDateOfChange()));
+        }
+        return applicationRes;
     }
 }

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface GroupRepository extends JpaRepository<Group,Integer> {
     List<Group> getGroupsByCourseCourseId(Integer courseId);
+    List<Group> getGroupsBySupervisiorId(Integer supervisiorId);
 }

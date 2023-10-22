@@ -1,19 +1,28 @@
 package com.example.hakatonovertask.service;
 
 import com.example.hakatonovertask.models.Course;
+import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.repositories.CourseRepository;
+import com.example.hakatonovertask.repositories.GroupRepository;
 import com.example.hakatonovertask.repositories.users.StudentJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CourseService {
 
+    GroupRepository groupRepository;
     CourseRepository courseRepository;
     StudentJpaRepository studentJpaRepository;
+    @Autowired
+    public void setGroupRepository(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
     @Autowired
     public void setCourseRepository(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
@@ -22,7 +31,14 @@ public class CourseService {
     public void setStudentJpaRepository(StudentJpaRepository studentJpaRepository) {
         this.studentJpaRepository = studentJpaRepository;
     }
-
+    public List<Course> getCourseBySupervisior(Integer supervisiorId){
+        List<Group> groups = groupRepository.getGroupsBySupervisiorId(supervisiorId);
+        List<Course> courses = new ArrayList<Course>();
+        for (var group:groups) {
+            courses.add(group.getCourse());
+        }
+        return courses;
+    }
     public List<Course> getCourse(Integer userId){
         List<Course> courses =courseRepository.findAll();
         if(userId !=null){
