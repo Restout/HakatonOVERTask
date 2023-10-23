@@ -9,7 +9,10 @@ export function formatDate(inputDate: string) {
     const formattedMonth = month < 10 ? `0${month}` : month;
 
     const result = {
-        dayOfWeek: inputDateFormat.getUTCDay(),
+        // dayOfWeek: inputDateFormat.getUTCDay(),
+        dayOfWeek: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(
+            inputDateFormat,
+        ),
         day: formattedDay,
         month: formattedMonth,
         year: year,
