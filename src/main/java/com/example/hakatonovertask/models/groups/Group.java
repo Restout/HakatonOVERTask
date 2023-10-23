@@ -2,6 +2,7 @@ package com.example.hakatonovertask.models.groups;
 
 import com.example.hakatonovertask.models.Course;
 import com.example.hakatonovertask.models.scheldue.ScheduleDay;
+import com.example.hakatonovertask.models.student.Student;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +33,8 @@ public class Group {
     private String groupName;
     @Column(name="ID")
     private int supervisiorId;
-
+    @OneToMany(mappedBy = "group")
+    private List<Student> students;
     public Group( Course course, String groupName, int supervisiorId) {
 
         this.course = course;

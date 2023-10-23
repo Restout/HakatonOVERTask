@@ -2,6 +2,7 @@ package com.example.hakatonovertask.controllers;
 
 import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
 import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
+import com.example.hakatonovertask.repositories.ScheldueRepository;
 import com.example.hakatonovertask.service.ScheldueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +27,10 @@ public class ScheldueController {
     public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupid") Integer groupid, @RequestParam("date")@DateTimeFormat(pattern="yyyy-MM-dd") Optional<Date> date){
         Date day = date.orElse(null);
         return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid,day));
+    }
+    @GetMapping("/api/scheldue")
+    public ResponseEntity<ScheldueDayOut> getScheduleById(@RequestParam("scheduleId")Integer scheduleId){
+        return ResponseEntity.ok(scheldueService.scheldueDayToOut(scheduleId));
     }
     @PostMapping("/api/auth/scheldue/{groupid}")
     @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")

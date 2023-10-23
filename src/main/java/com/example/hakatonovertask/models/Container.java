@@ -2,10 +2,12 @@ package com.example.hakatonovertask.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "Container")
+@NoArgsConstructor
 public class Container {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +25,9 @@ public class Container {
     private LessonTeacher lessonTeacher;
     @Column(name = "ID")
     private int studentId;
+
+    public Container(LessonTeacher lessonTeacher, int studentId) {
+        this.lessonTeacher = lessonTeacher;
+        this.studentId = studentId;
+    }
 }
