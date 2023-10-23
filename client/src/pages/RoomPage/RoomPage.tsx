@@ -1,4 +1,5 @@
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { API_URL } from "api";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
@@ -21,7 +22,7 @@ export default function RoomPage() {
             sharedLinks: [
                 {
                     name: "Personal link",
-                    url: `http://localhost:3000/room/${roomId}`,
+                    url: `${API_URL}/room/${roomId}`,
                 },
             ],
             scenario: {

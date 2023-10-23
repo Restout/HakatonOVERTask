@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import WithAuth from "hocs/WithAuth";
 import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
@@ -19,6 +20,8 @@ import TasksService from "services/TasksService";
 import { fetchFile } from "utils/downloadFile";
 
 import { ITask } from "types/task.interface";
+
+import { Role } from "constants/role.enum";
 
 import fileSrc from "assets/img/icons/file.svg";
 
@@ -191,14 +194,20 @@ const AnswerPage: FC = () => {
                                 </div>
                             </div>
                             {!isAdding && (
-                                <Button
-                                    className={styles.answerBtn}
-                                    variant="light-blue"
-                                    disabled={isAnswerLoading}
-                                    onClick={() => setIsAdding(true)}
-                                >
-                                    Добавить ответ
-                                </Button>
+                                <WithAuth
+                                    authChildren={
+                                        <Button
+                                            className={styles.answerBtn}
+                                            variant="light-blue"
+                                            disabled={isAnswerLoading}
+                                            onClick={() => setIsAdding(true)}
+                                        >
+                                            Добавить ответ
+                                        </Button>
+                                    }
+                                    unAuthChildren={null}
+                                    allowedRoles={[Role.STUDENT, Role.ADMIN]}
+                                />
                             )}
                             {isAdding && (
                                 <form
@@ -246,13 +255,19 @@ const AnswerPage: FC = () => {
                                 </form>
                             )}
                             {!isGrading && task.answers.length > 0 && (
-                                <Button
-                                    className={styles.answerBtn}
-                                    variant="light-blue"
-                                    onClick={() => setIsGrading(true)}
-                                >
-                                    Оценить
-                                </Button>
+                                <WithAuth
+                                    authChildren={
+                                        <Button
+                                            className={styles.answerBtn}
+                                            variant="light-blue"
+                                            onClick={() => setIsGrading(true)}
+                                        >
+                                            Оценить
+                                        </Button>
+                                    }
+                                    unAuthChildren={null}
+                                    allowedRoles={[Role.ADMIN, Role.TEACHER]}
+                                />
                             )}
                             {isGrading && (
                                 <form

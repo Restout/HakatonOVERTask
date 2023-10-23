@@ -16,6 +16,7 @@ import { Label } from "components/ui/Label";
 import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
+import { useAuth } from "hooks/auth/useAuth";
 import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import ApplicationsService from "services/ApplicationsService";
@@ -48,6 +49,7 @@ const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
     const user = useTypedSelector((state) => state.user.user);
     const queryClient = useQueryClient();
     const [activeTab, setActiveTab] = useState(0);
+    const { isAuth } = useAuth();
 
     const { mutate, isSuccess, isError, isLoading } = useMutation(
         (data: ApplicationDTO) => ApplicationsService.create(data),
@@ -97,6 +99,12 @@ const FullCourseInfo: FC<Props> = ({ closeEnrol, isEnrolling, course }) => {
 
         mutate(newBid);
     };
+
+    useEffect(() => {
+        if (!isAuth) {
+            setActiveTab(0);
+        }
+    }, [isAuth]);
 
     return (
         <section className={styles.section}>
@@ -176,7 +184,7 @@ function Information({ course }: { course: ICourse }) {
             <Subsection title="Требования" content={course.requirements} />
             <Subsection
                 title="Результаты обучения"
-                content={course.requirements}
+                content={course.result}
             />
         </>
     );
@@ -185,6 +193,7 @@ function Information({ course }: { course: ICourse }) {
 function Subjects({ userId }: { userId: number }) {
     const queryClient = useQueryClient();
     const [isCreating, setIsCreating] = useState(false);
+    const { isAuth } = useAuth();
 
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState<string | null>(null);
@@ -197,6 +206,7 @@ function Subjects({ userId }: { userId: number }) {
         queryFn: () => LessonService.getAll(userId),
         queryKey: ["lessons", userId],
         select: (data) => data.data,
+        enabled: isAuth,
     });
 
     const {
@@ -242,6 +252,10 @@ function Subjects({ userId }: { userId: number }) {
 
         createLesson(newLesson);
     };
+
+    if (!isAuth) {
+        return null;
+    }
 
     return (
         <div className={styles.subjects}>

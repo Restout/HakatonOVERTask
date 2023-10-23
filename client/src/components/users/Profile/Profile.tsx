@@ -137,7 +137,7 @@ function User({ user }: { user: IUser }) {
 }
 
 function Student({ student }: { student: IStudent }) {
-    const { birthday, email, fatherName, firstName, lastName, phone, groupId } =
+    const { birthday, email, fatherName, firstName, lastName, phone, groupID } =
         student;
     return (
         <>
@@ -156,7 +156,7 @@ function Student({ student }: { student: IStudent }) {
                     name="Дата рождения"
                     value={formatDate(birthday).date}
                 />
-                <ProfileRow name="Номер группы" value={String(groupId)} />
+                <ProfileRow name="Номер группы" value={String(groupID)} />
             </div>
         </>
     );

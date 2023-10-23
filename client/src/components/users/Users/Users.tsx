@@ -38,7 +38,10 @@ const Users: FC<Props> = ({
                 <Title className={styles.title}>Пользователи</Title>
                 {isSuccess && (
                     <>
-                        <UsersTable users={users} isDisabled={isFetching} />
+                        <UsersTable
+                            users={users}
+                            isDisabled={isFetching}
+                        />
                         <PaginationController pageCount={pageCount} />
                     </>
                 )}

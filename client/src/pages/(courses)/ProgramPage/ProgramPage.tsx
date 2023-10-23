@@ -9,8 +9,6 @@ import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
 import { Loader } from "components/ui/Loader";
 
-import useTypedSelector from "hooks/shared/useTypedSelector";
-
 import LessonService from "services/LessonService";
 import MaterialsService from "services/MaterialsService";
 
@@ -19,8 +17,7 @@ import { ILesson } from "types/lesson.interface";
 import styles from "./programPage.module.scss";
 
 const ProgramPage: FC = () => {
-    const { lessonId = "" } = useParams();
-    const userId = useTypedSelector((state) => state.user.user?.id) as number;
+    const { lessonId = "", studentId = "" } = useParams();
 
     const {
         data: lesson,
@@ -39,8 +36,9 @@ const ProgramPage: FC = () => {
         isError: isMaterialsError,
         isLoading: isMaterialLoading,
     } = useQuery({
-        queryFn: () => MaterialsService.get(parseInt(lessonId), userId),
-        queryKey: ["materials", lessonId, userId],
+        queryFn: () =>
+            MaterialsService.get(parseInt(lessonId), parseInt(studentId)),
+        queryKey: ["materials", lessonId, studentId],
         select: (data) => data.data,
     });
 

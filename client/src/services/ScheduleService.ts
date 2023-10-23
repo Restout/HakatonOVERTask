@@ -11,6 +11,12 @@ class ScheduleService {
         });
     };
 
+    static getById = async (scheduleId: number) => {
+        return api.get<ISchedule>(`${PATH_NAME}`, {
+            params: { scheduleId },
+        });
+    };
+
     static create = async (groupId: number, data: ScheduleDTO) => {
         return authApi.post(`${PATH_NAME}/${groupId}`, data);
     };

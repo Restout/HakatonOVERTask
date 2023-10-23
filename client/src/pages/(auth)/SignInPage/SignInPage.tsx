@@ -1,6 +1,7 @@
 import { FC, useImperativeHandle } from "react";
 
 import { useMutation } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import {
     Control,
     FieldError as FieldErrorType,
@@ -11,6 +12,7 @@ import {
 } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
+import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
 import { FieldError } from "components/ui/FieldError";
 import { FieldGroup } from "components/ui/FieldGroup";
@@ -19,6 +21,7 @@ import { Label } from "components/ui/Label";
 
 import { setUser } from "store/user/userSlice";
 
+import { useAuth } from "hooks/auth/useAuth";
 import useFocus from "hooks/shared/useFocus";
 import useTypedDispatch from "hooks/shared/useTypedDispatch";
 
@@ -30,8 +33,6 @@ import { formErrors } from "constants/formErrors";
 import { HOME_PATH, SIGN_UP_PATH } from "constants/routesPathnames";
 
 import styles from "./signInPage.module.scss";
-import { useAuth } from "hooks/auth/useAuth";
-import { Helmet } from "react-helmet";
 
 interface SignInState {
     email: string;
@@ -50,7 +51,14 @@ const SignInPage: FC = () => {
     const navigate = useNavigate();
     const { isAuth } = useAuth();
 
-    const { mutate, isLoading } = useMutation(
+    const {
+        handleSubmit: submitHandlerWrapper,
+        register,
+        reset,
+        formState: { errors },
+    } = useForm<SignInState>();
+
+    const { mutate, isLoading, isError } = useMutation(
         (credentials: LoginCredentials) => UserService.login(credentials),
         {
             onSuccess(response) {
@@ -58,16 +66,10 @@ const SignInPage: FC = () => {
                 navigate(HOME_PATH);
                 const token = response.headers.authorization.split(" ")[1];
                 localStorage.setItem("accessToken", token);
+                reset();
             },
         },
     );
-
-    const {
-        handleSubmit: submitHandlerWrapper,
-        register,
-        reset,
-        formState: { errors },
-    } = useForm<SignInState>();
 
     const handleSubmit: SubmitHandler<SignInState> = async (data) => {
         const email = data.email.trim();
@@ -78,7 +80,6 @@ const SignInPage: FC = () => {
         }
 
         mutate({ email, password });
-        reset();
     };
 
     if (isAuth) {
@@ -94,6 +95,11 @@ const SignInPage: FC = () => {
                     className={styles.form}
                     onSubmit={submitHandlerWrapper(handleSubmit)}
                 >
+                    {isError && (
+                        <Alert variant="error" className={styles.errorAlert}>
+                            Не удалось войти в систему. Попробуйте еще раз.
+                        </Alert>
+                    )}
                     <Email
                         register={register}
                         error={errors.email}

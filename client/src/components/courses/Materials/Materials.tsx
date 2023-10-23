@@ -1,9 +1,14 @@
 import { FC, useState } from "react";
 
+import WithAuth from "hocs/WithAuth";
+
 import { Container } from "components/shared/Container";
+import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
 
 import { IMaterial } from "types/material.interface";
+
+import { Role } from "constants/role.enum";
 
 import { MaterialBlock } from "../MaterialBlock";
 import { MaterialsCreation } from "../MaterialsCreation";
@@ -32,17 +37,29 @@ const Materials: FC<Props> = ({ materials, lessonId }) => {
         <section className={styles.section}>
             <Container>
                 {!isAdding && (
-                    <header className={styles.creationHeader}>
-                        <Button
-                            variant="light-blue"
-                            onClick={() => setIsAdding(true)}
-                        >
-                            Добавить блок
-                        </Button>
-                    </header>
+                    <WithAuth
+                        authChildren={
+                            <header className={styles.creationHeader}>
+                                <Button
+                                    variant="light-blue"
+                                    onClick={() => setIsAdding(true)}
+                                >
+                                    Добавить блок
+                                </Button>
+                            </header>
+                        }
+                    unAuthChildren={null}
+                        allowedRoles={[Role.TEACHER, Role.ADMIN]}
+                    />
                 )}
                 {isAdding && (
-                    <MaterialsCreation lessonId={lessonId} close={() => setIsAdding(false)} />
+                    <MaterialsCreation
+                        lessonId={lessonId}
+                        close={() => setIsAdding(false)}
+                    />
+                )}
+                {materials.length < 1 && (
+                    <Alert variant="info">Нет доступных блоков заданий</Alert>
                 )}
                 <ul className={styles.blocks}>
                     {materials.map((material, index) => (

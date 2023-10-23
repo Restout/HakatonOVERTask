@@ -96,3 +96,11 @@
     top: 15px;
     right: 15px;
 }
+
+.attendanceLink {
+    margin-top: 5px;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}

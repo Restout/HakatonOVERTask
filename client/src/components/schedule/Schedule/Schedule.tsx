@@ -2,7 +2,7 @@ import { FC, Fragment, useMemo, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import WithAuth from "hocs/WithAuth";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
@@ -22,6 +22,7 @@ import { getInterval } from "utils/getInterval";
 import { ISchedule } from "types/schedule.interface";
 
 import { Role } from "constants/role.enum";
+import { ATTENDANCE_PATHNAME } from "constants/routesPathnames";
 
 import { ScheduleCreation } from "../ScheduleCreation";
 import {
@@ -81,15 +82,24 @@ const Schedule: FC<Props> = ({ groupId }) => {
             { dayOfWeek: 5, lessons: [], date: "" },
         ];
 
+        console.log("Initial result");
+        console.log(result);
+
         if (!data) return result;
 
+        console.log("data");
+        console.log(data);
+
         data.forEach((schedule) => {
+            console.log("schedule in each loop");
+            console.log(schedule);
             const { dayOfWeek } = formatDate(schedule.day);
-            console.log(dayOfWeek);
             result[dayOfWeek].lessons.push(schedule);
             result[dayOfWeek].date = formatDate(schedule.day).date;
+            console.log("result after each loop");
         });
 
+        console.log("final result");
         return result;
     }, [data]);
 
@@ -196,6 +206,26 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                 }
                                                                 allowedRoles={[
                                                                     Role.ADMIN,
+                                                                    Role.SUPERVISOR,
+                                                                ]}
+                                                            />
+                                                            <WithAuth
+                                                                authChildren={
+                                                                    <Link
+                                                                        className={
+                                                                            styles.attendanceLink
+                                                                        }
+                                                                        to={`/${ATTENDANCE_PATHNAME}/${lesson.scheldueId}`}
+                                                                    >
+                                                                        Посещаемость
+                                                                    </Link>
+                                                                }
+                                                                unAuthChildren={
+                                                                    null
+                                                                }
+                                                                allowedRoles={[
+                                                                    Role.ADMIN,
+                                                                    Role.TEACHER,
                                                                     Role.SUPERVISOR,
                                                                 ]}
                                                             />

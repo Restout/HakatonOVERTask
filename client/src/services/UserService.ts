@@ -63,6 +63,12 @@ class UserService {
     static getTeacher = async (teacherId: number) => {
         return authApi.get<ITeacher>(`/user/data/teacher/${teacherId}`);
     };
+
+    static getMaterialsStudent = (lessonId: number, teacherId: number) => {
+        return authApi.get<IUser[]>("/containerStudent", {
+            params: { lessonId, teacherId },
+        });
+    };
 }
 
 export default UserService;
