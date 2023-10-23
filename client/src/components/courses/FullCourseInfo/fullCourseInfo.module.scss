@@ -125,11 +125,14 @@
 }
 
 .subjects {
+    header {
+        margin-bottom: 15px;
+    }
+
     h5 {
         color: var(--color-black);
         font-size: 21px;
         font-weight: 500;
-        margin-bottom: 15px;
     }
 }
 
@@ -183,5 +186,27 @@
         font-size: 16px;
         color: var(--color-white);
         font-weight: 500;
+    }
+}
+
+.subjectForm {
+    padding: 20px;
+    border: 1px solid rgba(var(--color-grey--rgb), 0.3);
+    border-radius: 10px;
+    background-color: var(--color-white);
+    margin-bottom: 20px;
+}
+
+.subjectGroup {
+    margin-bottom: 15px;
+}
+
+.subjectsControls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    button {
+        flex: 1;
     }
 }

@@ -33,6 +33,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
+        "lint": "eslint ./src",
         "move-build": "XCOPY /Y /E build ..\\src\\main\\resources\\",
         "clean-old-build": "rmdir /s /q ..\\src\\main\\resources\\static ",
         "postbuild": "npm run clean-old-build && npm run move-build"

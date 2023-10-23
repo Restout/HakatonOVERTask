@@ -45,8 +45,8 @@ class UserService {
         userId: number;
         groupId: number;
     }) => {
-        return authApi.post("user/grand/student", {
-            userId,
+        return authApi.put("user/grand/student", {
+            id: userId,
             groupId,
             recordBookId: 1,
         });

@@ -244,7 +244,11 @@ function GroupChoice({
         try {
             setIsConfirmError(false);
             setIsConfirmLoading(true);
-            await Promise.all([createStudent(groupId), updateBid()]);
+            await Promise.all([createStudent(groupId), updateBid()]).catch(
+                (error) => {
+                    throw error;
+                },
+            );
         } catch (error) {
             console.log(error);
             setIsConfirmError(true);
@@ -266,7 +270,7 @@ function GroupChoice({
                 </Button>
             </header>
             {(isError || isConfirmError) && (
-                <Alert variant="error">
+                <Alert variant="error" className={styles.alertError}>
                     Что-то пошло не так, попробуйте еще раз позже
                 </Alert>
             )}

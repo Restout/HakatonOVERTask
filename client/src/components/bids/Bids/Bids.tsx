@@ -43,11 +43,14 @@ const Bids: FC<Props> = ({
                 <Title className={styles.title}>
                     {isAdminPage ? "Управление заявками" : "Заявки"}
                 </Title>
-                {isSuccess && !isLoading && (
+                {isSuccess && !isLoading && bids.length > 0 && (
                     <>
                         <BidsTable bids={bids} isDisabled={isFetching} />
                         <PaginationController pageCount={pageCount} />
                     </>
+                )}
+                {isSuccess && bids.length < 1 && (
+                    <Alert variant="info">Нет доступных заявок</Alert>
                 )}
                 <Error message={isError ? "Something went wrong" : null} />
                 <Loading isLoading={isLoading} />

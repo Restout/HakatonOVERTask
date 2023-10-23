@@ -9,8 +9,10 @@ import { CourseForm, CourseFormState } from "components/courses/CourseForm";
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
 import { Button } from "components/ui/Button";
+import { FieldError } from "components/ui/FieldError";
 import { FieldGroup } from "components/ui/FieldGroup";
 import { Input } from "components/ui/Input";
+import { Label } from "components/ui/Label";
 import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
@@ -25,6 +27,7 @@ import { checkEmptyValidity } from "utils/checkEmptyValidity";
 import { ApplicationDTO } from "types/application.interface";
 import { ICourse } from "types/course.interface";
 import { GroupDTO } from "types/group.interface";
+import { ILesson } from "types/lesson.interface";
 
 import { Role } from "constants/role.enum";
 import { PROGRAM_PATHNAME } from "constants/routesPathnames";
@@ -180,16 +183,69 @@ function Information({ course }: { course: ICourse }) {
 }
 
 function Subjects({ userId }: { userId: number }) {
+    const queryClient = useQueryClient();
+    const [isCreating, setIsCreating] = useState(false);
+
+    const [name, setName] = useState("");
+    const [nameError, setNameError] = useState<string | null>(null);
+    const [description, setDescription] = useState("");
+    const [descriptionError, setDescriptionError] = useState<string | null>(
+        null,
+    );
+
     const { data, isSuccess, isLoading, isError } = useQuery({
         queryFn: () => LessonService.getAll(userId),
         queryKey: ["lessons", userId],
         select: (data) => data.data,
     });
 
+    const {
+        mutate: createLesson,
+        isLoading: isCreateLoading,
+        isError: isCreateError,
+    } = useMutation(
+        (data: Omit<ILesson, "lessonId">) => LessonService.create(data),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["lessons"]);
+                setIsCreating(false);
+            },
+        },
+    );
+
+    const handleCreateSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setNameError(null);
+        setDescriptionError(null);
+
+        const trimmedName = name.trim();
+        const trimmedDescription = description.trim();
+
+        if (trimmedName.length < 1) {
+            setName("Заполните поле");
+        }
+
+        if (trimmedDescription.length < 1) {
+            setName("Заполните поле");
+        }
+
+        const newLesson: Omit<ILesson, "lessonId"> = {
+            description: trimmedDescription,
+            lessonName: trimmedName,
+        };
+
+        createLesson(newLesson);
+    };
+
     return (
         <div className={styles.subjects}>
-            <h5>Учебные предметы:</h5>
-            {isError && (
+            <header>
+                <h5>Учебные предметы:</h5>
+                {!isCreating && (
+                    <Button onClick={() => setIsCreating(true)}>+</Button>
+                )}
+            </header>
+            {(isError || isCreateError) && (
                 <Alert variant="error">
                     Что-то пошло не так, попробуйте еще раз позже
                 </Alert>
@@ -198,6 +254,62 @@ function Subjects({ userId }: { userId: number }) {
                 <Alert variant="info">Нет ни одного предмета</Alert>
             )}
             {isLoading && <Loader isCenter={true} />}
+            {isCreating && (
+                <form
+                    className={styles.subjectForm}
+                    onSubmit={handleCreateSubmit}
+                >
+                    <FieldGroup className={styles.subjectGroup}>
+                        <Label isRequired={true} htmlFor="name">
+                            Название предмета
+                        </Label>
+                        <Input
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            id="name"
+                            name="name"
+                            placeholder="Название"
+                            disabled={isCreateLoading}
+                        />
+                        {nameError && <FieldError>{nameError}</FieldError>}
+                    </FieldGroup>
+                    <FieldGroup className={styles.subjectGroup}>
+                        <Label isRequired={true} htmlFor="description">
+                            Описание предмета
+                        </Label>
+                        <Input
+                            value={description}
+                            onChange={(event) =>
+                                setDescription(event.target.value)
+                            }
+                            id="description"
+                            name="description"
+                            placeholder="Описание"
+                            disabled={isCreateLoading}
+                        />
+                        {descriptionError && (
+                            <FieldError>{descriptionError}</FieldError>
+                        )}
+                    </FieldGroup>
+                    <div className={styles.subjectsControls}>
+                        <Button
+                            variant="green"
+                            type="submit"
+                            disabled={isCreateLoading}
+                        >
+                            Добавить
+                        </Button>
+                        <Button
+                            variant="light-blue"
+                            type="button"
+                            disabled={isCreateLoading}
+                            onClick={() => setIsCreating(false)}
+                        >
+                            Отменить
+                        </Button>
+                    </div>
+                </form>
+            )}
             {isSuccess && data.length > 0 && (
                 <ul className={styles.lessonsList}>
                     {data.map((lesson) => (

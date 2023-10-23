@@ -43,8 +43,6 @@ interface Props {
 }
 
 const NewsForm: FC<Props> = ({ onSubmit }) => {
-    const [error, setError] = useState<string | null>(null);
-
     const {
         handleSubmit: submitHandlerWrapper,
         register,
