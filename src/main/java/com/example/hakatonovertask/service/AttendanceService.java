@@ -3,6 +3,7 @@ package com.example.hakatonovertask.service;
 import com.example.hakatonovertask.models.Attendance.Attendance;
 import com.example.hakatonovertask.models.Attendance.AttendanceDAO;
 import com.example.hakatonovertask.models.Attendance.AttendanceOut;
+import com.example.hakatonovertask.models.Attendance.AttendanceOutList;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.repositories.AttendanceRepository;
@@ -34,16 +35,16 @@ public class AttendanceService {
         return attendanceOutList;
     }
 
-    public List<AttendanceDAO> getAttendacne(int scheduledId) {
-        List<AttendanceDAO> attendanceDAOList = new ArrayList<>();
+    public List<AttendanceOutList> getAttendacne(int scheduledId) {
+        List<AttendanceOutList> attendanceOutLists = new ArrayList<>();
         List<Attendance> attendanceList = attendanceRepository.findAllByScheduleDayScheldueId(scheduledId);
         for (var att : attendanceList) {
-            attendanceDAOList.add(new AttendanceDAO(att.getStudent().getId(), att.isHas_been()));
+            attendanceOutLists.add(new AttendanceOutList(att.getStudent().getUser().getLastName(), att.isHas_been()));
         }
-        return attendanceDAOList;
+        return attendanceOutLists;
     }
 
-    public List<AttendanceDAO> createAttendance(List<AttendanceDAO> list, int scheduledId) {
+    public List<AttendanceOutList> createAttendance(List<AttendanceDAO> list, int scheduledId) {
         for (var att : list) {
             attendanceRepository.save(new Attendance(att.isHas_been(),
                     studentJpaRepository.findById(att.getStudentId()).get(),
