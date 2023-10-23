@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
 
 import useTypedSelector from "hooks/shared/useTypedSelector";
@@ -46,15 +47,26 @@ const AdminBids: FC = () => {
     }
 
     return (
-        <Bids
-            bids={data.users}
-            pageCount={totalPages}
-            isError={isError}
-            isFetching={isPreviousData || isFetching}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-        />
+        <>
+            <Meta />
+            <Bids
+                bids={data.users}
+                pageCount={totalPages}
+                isError={isError}
+                isFetching={isPreviousData || isFetching}
+                isLoading={isLoading}
+                isSuccess={isSuccess}
+            />
+        </>
     );
 };
 
 export default AdminBids;
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Admin | Bids</title>
+        </Helmet>
+    );
+}

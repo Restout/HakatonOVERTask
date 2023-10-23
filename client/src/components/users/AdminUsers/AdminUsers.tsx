@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
 
 import UserService from "services/UserService";
@@ -32,15 +33,26 @@ const AdminUsers: FC = () => {
         : 1;
 
     return (
-        <Users
-            users={data?.users ?? []}
-            pageCount={totalPages}
-            isError={isError}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-            isFetching={isPreviousData}
-        />
+        <>
+            <Meta />
+            <Users
+                users={data?.users ?? []}
+                pageCount={totalPages}
+                isError={isError}
+                isLoading={isLoading}
+                isSuccess={isSuccess}
+                isFetching={isPreviousData}
+            />
+        </>
     );
 };
 
 export default AdminUsers;
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Admin | Users</title>
+        </Helmet>
+    );
+}

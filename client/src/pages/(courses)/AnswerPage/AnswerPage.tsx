@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
@@ -138,6 +139,7 @@ const AnswerPage: FC = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <Loading isLoading={isTaskLoading} />
                 <Error isError={isError} />
@@ -332,5 +334,14 @@ function Error({ isError }: { isError: boolean }) {
 
     return (
         <Alert variant="error">Что-то пошло не так, попробуйте еще раз</Alert>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Answer</title>
+            <meta name="description" content="Страница загрузки ответов" />
+        </Helmet>
     );
 }

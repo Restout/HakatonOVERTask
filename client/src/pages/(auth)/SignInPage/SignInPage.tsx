@@ -31,6 +31,7 @@ import { HOME_PATH, SIGN_UP_PATH } from "constants/routesPathnames";
 
 import styles from "./signInPage.module.scss";
 import { useAuth } from "hooks/auth/useAuth";
+import { Helmet } from "react-helmet";
 
 interface SignInState {
     email: string;
@@ -86,6 +87,7 @@ const SignInPage: FC = () => {
 
     return (
         <div className={styles.page}>
+            <Meta />
             <div className={styles.wrapper}>
                 <h1 className={styles.title}>Вход</h1>
                 <form
@@ -187,5 +189,13 @@ function Password({ register, error, isDisabled }: FieldProps) {
             />
             {error && <FieldError>{error.message}</FieldError>}
         </FieldGroup>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Login</title>
+        </Helmet>
     );
 }

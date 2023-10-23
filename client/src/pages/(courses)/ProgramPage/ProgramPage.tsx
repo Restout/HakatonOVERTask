@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { Materials } from "components/courses/Materials";
@@ -38,14 +39,14 @@ const ProgramPage: FC = () => {
         isError: isMaterialsError,
         isLoading: isMaterialLoading,
     } = useQuery({
-        queryFn: () =>
-            MaterialsService.get(parseInt(lessonId), userId),
+        queryFn: () => MaterialsService.get(parseInt(lessonId), userId),
         queryKey: ["materials", lessonId, userId],
         select: (data) => data.data,
     });
 
     return (
         <>
+            <Meta lessonName={lesson?.lessonName} />
             <Error isError={isLessonError} />
             <Loading isLoading={isLessonLoading} />
             {isLessonSuccess && <ProgramIntro lesson={lesson} />}
@@ -96,5 +97,17 @@ function Error({ isError }: { isError: boolean }) {
         <Alert variant="error" className={styles.alert}>
             Что-то пошло не так, попробуйте еще раз
         </Alert>
+    );
+}
+
+function Meta({ lessonName }: { lessonName?: string }) {
+    return (
+        <Helmet>
+            <title>{lessonName ? `Program | ${lessonName}` : "Program"}</title>
+            <meta
+                name="description"
+                content={`Программа предмета ${lessonName || ""}`}
+            />
+        </Helmet>
     );
 }

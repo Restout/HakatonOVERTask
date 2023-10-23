@@ -16,6 +16,7 @@ import { COURSES_PATHNAME } from "constants/routesPathnames";
 import { CoursePlate } from "../CoursePlate";
 import { CoursesCreation } from "../CoursesCreation";
 import styles from "./adminCourses.module.scss";
+import { Helmet } from "react-helmet";
 
 const AdminCourses: FC = () => {
     const [isAdding, setIsAdding] = useState(false);
@@ -30,6 +31,7 @@ const AdminCourses: FC = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <header className={styles.header}>
                     <Title className={styles.title}>Управление курсами</Title>
@@ -78,4 +80,12 @@ function Error({ message }: { message: string | null }) {
     if (!message) return null;
 
     return <Alert variant="error">{message}</Alert>;
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Admin | Courses</title>
+        </Helmet>
+    );
 }

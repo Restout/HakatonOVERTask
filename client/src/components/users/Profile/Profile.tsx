@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
@@ -79,6 +80,7 @@ const Profile: FC = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <div className={styles.body}>
                     {isTeacherSuccess && (
@@ -201,5 +203,14 @@ function ProfileRow({ name, value }: { name: string; value: string }) {
             <div className={styles.name}>{name}:</div>
             <div className={styles.value}>{value}</div>
         </div>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Profile</title>
+            <meta name="description" content="Страница профиля" />
+        </Helmet>
     );
 }

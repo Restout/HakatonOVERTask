@@ -16,6 +16,7 @@ import { getServerImagePath } from "utils/getServerImagePath";
 import { Post } from "../Feed/Post";
 import { NewsCreation } from "../NewsCreation";
 import styles from "./adminNews.module.scss";
+import { Helmet } from "react-helmet";
 
 const AdminNews: FC = () => {
     const [isAdding, setIsAdding] = useState(false);
@@ -37,6 +38,7 @@ const AdminNews: FC = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <header className={styles.header}>
                     <Title className={styles.title}>Управление новостями</Title>
@@ -87,4 +89,12 @@ function Error({ message }: { message: string | null }) {
     if (!message) return null;
 
     return <Alert variant="error">{message}</Alert>;
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Admin | News</title>
+        </Helmet>
+    );
 }

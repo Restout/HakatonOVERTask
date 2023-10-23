@@ -1,6 +1,7 @@
 import { FC, useImperativeHandle, useState } from "react";
 
 import { useMutation } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import {
     Control,
     Controller,
@@ -115,6 +116,7 @@ const SignUpPage: FC = () => {
 
     return (
         <div className={styles.page}>
+            <Meta />
             <div className={styles.wrapper}>
                 {isSuccess && (
                     <Alert variant="success" className={styles.successAlert}>
@@ -443,5 +445,13 @@ function PasswordConfirm({ register, error }: FieldProps) {
             />
             {error && <FieldError>{error.message}</FieldError>}
         </FieldGroup>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Registration</title>
+        </Helmet>
     );
 }

@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { FullCourseInfo } from "components/courses/FullCourseInfo";
@@ -26,6 +27,7 @@ const FullCoursePage: FC = () => {
 
     return (
         <>
+            <Meta courseName={data?.courseName} />
             {isSuccess && (
                 <>
                     <FullCourseIntro
@@ -67,5 +69,17 @@ function Error({ message }: { message: string | null }) {
                 {message}
             </Alert>
         </div>
+    );
+}
+
+function Meta({ courseName }: { courseName?: string }) {
+    return (
+        <Helmet>
+            <title>{courseName ? `Course | ${courseName}` : "Course"}</title>
+            <meta
+                name="description"
+                content={`Описание курса ${courseName || ""}`}
+            />
+        </Helmet>
     );
 }

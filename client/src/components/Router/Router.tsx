@@ -56,7 +56,11 @@ const Router: FC = () => {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path={HOME_PATH} element={<HomePage />} />
-                <Route path="room/:roomId" element={<RoomPage />} />
+
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="room/:roomId" element={<RoomPage />} />
+                </Route>
+                
                 <Route
                     path={"/" + SCHEDULE_PATHNAME}
                     element={<GroupsPage />}

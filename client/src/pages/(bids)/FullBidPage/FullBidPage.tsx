@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { FullBid } from "components/bids/FullBid";
@@ -24,6 +25,7 @@ const FullBidPage: FC = () => {
 
     return (
         <div className={styles.wrapper}>
+            <Meta />
             <Error
                 message={
                     isError ? "Что-то пошло не так, попробуйте еще раз" : null
@@ -52,5 +54,13 @@ function Error({ message }: { message: string | null }) {
                 {message}
             </Alert>
         </div>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Bid</title>
+        </Helmet>
     );
 }

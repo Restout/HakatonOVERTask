@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { Alert } from "components/ui/Alert";
@@ -24,6 +25,7 @@ const FullUserPage: FC = () => {
 
     return (
         <div className={styles.wrapper}>
+            <Meta />
             <Error message={isError ? "Something went wrong" : null} />
             <Loading isLoading={isLoading} />
             {isSuccess && <FullUser user={data} />}
@@ -43,4 +45,12 @@ function Error({ message }: { message: string | null }) {
     if (!message) return null;
 
     return <Alert variant="error">{message}</Alert>;
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Admin | User</title>
+        </Helmet>
+    );
 }

@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import { Helmet } from "react-helmet";
+
 import { Feed } from "components/news/Feed";
 import { Container } from "components/shared/Container";
 
@@ -19,6 +21,7 @@ export default HomePage;
 function Intro() {
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <h1 className={styles.title}>
                     Корпоративный университет Совкомбанк
@@ -49,5 +52,17 @@ function Intro() {
                 </p>
             </Container>
         </section>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Home</title>
+            <meta
+                name="description"
+                content="Главная страница корпоративного университета Совкомбанк"
+            />
+        </Helmet>
     );
 }

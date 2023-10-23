@@ -207,8 +207,12 @@ function Subjects({ userId }: { userId: number }) {
         (data: Omit<ILesson, "lessonId">) => LessonService.create(data),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(["lessons"]);
+                queryClient.invalidateQueries(["lessons", userId]);
                 setIsCreating(false);
+                setName("");
+                setDescription("");
+                setNameError(null);
+                setDescriptionError(null);
             },
         },
     );
@@ -222,11 +226,13 @@ function Subjects({ userId }: { userId: number }) {
         const trimmedDescription = description.trim();
 
         if (trimmedName.length < 1) {
-            setName("Заполните поле");
+            setNameError("Заполните поле");
+            return;
         }
 
         if (trimmedDescription.length < 1) {
-            setName("Заполните поле");
+            setDescriptionError("Заполните поле");
+            return;
         }
 
         const newLesson: Omit<ILesson, "lessonId"> = {
@@ -242,7 +248,12 @@ function Subjects({ userId }: { userId: number }) {
             <header>
                 <h5>Учебные предметы:</h5>
                 {!isCreating && (
-                    <Button onClick={() => setIsCreating(true)}>+</Button>
+                    <Button
+                        onClick={() => setIsCreating(true)}
+                        className={styles.subjectBtn}
+                    >
+                        +
+                    </Button>
                 )}
             </header>
             {(isError || isCreateError) && (
@@ -270,6 +281,7 @@ function Subjects({ userId }: { userId: number }) {
                             name="name"
                             placeholder="Название"
                             disabled={isCreateLoading}
+                            className={styles.subjectInput}
                         />
                         {nameError && <FieldError>{nameError}</FieldError>}
                     </FieldGroup>
@@ -286,6 +298,7 @@ function Subjects({ userId }: { userId: number }) {
                             name="description"
                             placeholder="Описание"
                             disabled={isCreateLoading}
+                            className={styles.subjectInput}
                         />
                         {descriptionError && (
                             <FieldError>{descriptionError}</FieldError>
@@ -296,6 +309,7 @@ function Subjects({ userId }: { userId: number }) {
                             variant="green"
                             type="submit"
                             disabled={isCreateLoading}
+                            className={styles.subjectBtn}
                         >
                             Добавить
                         </Button>
@@ -303,7 +317,14 @@ function Subjects({ userId }: { userId: number }) {
                             variant="light-blue"
                             type="button"
                             disabled={isCreateLoading}
-                            onClick={() => setIsCreating(false)}
+                            onClick={() => {
+                                setName("");
+                                setDescription("");
+                                setDescriptionError(null);
+                                setNameError(null);
+                                setIsCreating(false);
+                            }}
+                            className={styles.subjectBtn}
                         >
                             Отменить
                         </Button>
@@ -318,7 +339,12 @@ function Subjects({ userId }: { userId: number }) {
                                 to={`/${PROGRAM_PATHNAME}/${lesson.lessonId}`}
                             >
                                 <div className={styles.lessonImage}>
-                                    <img src={studyingSrc} alt="Предмет" />
+                                    <img
+                                        src={studyingSrc}
+                                        width={236}
+                                        height={182}
+                                        alt="Предмет"
+                                    />
                                 </div>
                                 <div className={styles.lessonContent}>
                                     <h5>{lesson.lessonName}</h5>

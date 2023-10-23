@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 import { CoursePlate } from "components/courses/CoursePlate";
@@ -30,6 +31,7 @@ const ProfileCourses: FC = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <Title className={styles.title}>Мои курсы</Title>
                 {isSuccess && data.length < 1 && (
@@ -76,4 +78,13 @@ function Error({ message }: { message: string | null }) {
     if (!message) return null;
 
     return <Alert variant="error">{message}</Alert>;
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Profile | Courses</title>
+            <meta name="description" content="Страница доступных курсов" />
+        </Helmet>
+    );
 }
