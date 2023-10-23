@@ -1,14 +1,13 @@
 package com.example.hakatonovertask.service;
 
+import com.example.hakatonovertask.models.Container;
 import com.example.hakatonovertask.models.LessonTeacher;
 import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
 import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
 import com.example.hakatonovertask.models.teacher.Teacher;
-import com.example.hakatonovertask.repositories.LessonRepository;
-import com.example.hakatonovertask.repositories.LessonTeacherRepository;
-import com.example.hakatonovertask.repositories.ScheldueRepository;
+import com.example.hakatonovertask.repositories.*;
 import com.example.hakatonovertask.repositories.users.TeacherJpaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,22 @@ import java.util.List;
 @Transactional
 @Service
 public class ScheldueService {
+    private GroupRepository groupRepository;
+    private ContainerRepository containerRepository;
     private TeacherJpaRepository teacherJpaRepository;
     private ScheldueRepository scheldueRepository;
     private LessonRepository lessonRepository;
     private LessonTeacherRepository lessonTeacherRepository;
+    @Autowired
+    public void setGroupRepository(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
+    @Autowired
+    public void setContainerRepository(ContainerRepository containerRepository) {
+        this.containerRepository = containerRepository;
+    }
+
     @Autowired
     public void setTeacherJpaRepository(TeacherJpaRepository teacherJpaRepository) {
         this.teacherJpaRepository = teacherJpaRepository;
@@ -81,6 +92,11 @@ public class ScheldueService {
             lessonTeacher = new LessonTeacher(lessonRepository.getLessonByLessonName(toSave.getLesson()),teacherJpaRepository.findById(toSave.getTeacherId()).orElse(null));
         }else {
             lessonTeacher=lessonTeacherRepository.getLessonTeacherByLessonLessonIdAndTeacherTeacherId(lessonRepository.getLessonByLessonName(toSave.getLesson()).getLessonId(),toSave.getTeacherId());
+        }
+        for (var student:groupRepository.findById(groupId).orElse(null).getStudents()) {
+            if(containerRepository.getContainerByLessonIdAndStudentId(lessonTeacher.getLesson().getLessonId(),student.getId())==null) {
+                containerRepository.save(new Container(lessonTeacher, student.getId()));
+            }
         }
         ScheduleDay scheduleDay = new ScheduleDay(
                 toSave.getDay(),
