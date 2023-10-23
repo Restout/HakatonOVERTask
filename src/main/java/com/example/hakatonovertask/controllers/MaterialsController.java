@@ -20,7 +20,8 @@ public class MaterialsController {
     }
 
     @GetMapping("/api/auth/material")
-    public ResponseEntity<List<Material>> getMaterials(@RequestParam("userId") Integer userId, @RequestParam("lessonId") Integer lessonId) {
+    public ResponseEntity<List<Material>> getMaterials(@RequestParam("userId") Integer userId,
+                                                       @RequestParam("lessonId") Integer lessonId) {
         return ResponseEntity.ok().body(materialService.getMaterials(lessonId, userId));
 
     }
