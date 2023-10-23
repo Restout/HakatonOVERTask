@@ -1,5 +1,7 @@
 import { FC } from "react";
 
+import { Helmet } from "react-helmet";
+
 import { useRefresh } from "hooks/auth/useRefresh";
 
 import { Router } from "../Router";
@@ -17,7 +19,20 @@ const App: FC = () => {
         );
     }
 
-    return <Router />;
+    return (
+        <>
+            <Meta />
+            <Router />
+        </>
+    );
 };
 
 export default App;
+
+function Meta() {
+    return (
+        <Helmet>
+            <link rel="canonical" href="http://localhost:3000" />
+        </Helmet>
+    );
+}

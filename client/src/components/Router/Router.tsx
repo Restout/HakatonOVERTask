@@ -13,9 +13,11 @@ import { FullCoursePage } from "pages/(courses)/FullCoursePage";
 import { ProgramPage } from "pages/(courses)/ProgramPage";
 import { GroupsPage } from "pages/(schedule)/GroupsPage";
 import { SchedulePage } from "pages/(schedule)/SchedulePage";
+import { AttendancePage } from "pages/AttendancePage";
 import { HomePage } from "pages/HomePage";
 import { MissingPage } from "pages/MissingPage";
 import { RoomPage } from "pages/RoomPage";
+import { StudentMaterialsPage } from "pages/StudentMaterialsPage";
 
 import { AdminBids } from "components/bids/AdminBids";
 import { AdminCourses } from "components/courses/AdminCourses";
@@ -32,6 +34,7 @@ import { Role } from "constants/role.enum";
 import {
     ADMIN_PATHNAME,
     ANSWER_PATHNAME,
+    ATTENDANCE_PATHNAME,
     BIDS_PATHNAME,
     COURSES_PATHNAME,
     HOME_PATH,
@@ -45,6 +48,7 @@ import {
     SCHEDULE_PATHNAME,
     SIGN_IN_PATH,
     SIGN_UP_PATH,
+    STUDENT_MATERIALS_PAGE,
     USERS_PATHNAME,
 } from "constants/routesPathnames";
 
@@ -56,7 +60,11 @@ const Router: FC = () => {
         <Routes>
             <Route element={<MainLayout />}>
                 <Route path={HOME_PATH} element={<HomePage />} />
-                <Route path="room/:roomId" element={<RoomPage />} />
+
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="room/:roomId" element={<RoomPage />} />
+                </Route>
+
                 <Route
                     path={"/" + SCHEDULE_PATHNAME}
                     element={<GroupsPage />}
@@ -65,6 +73,27 @@ const Router: FC = () => {
                     path={`/${SCHEDULE_PATHNAME}/:groupId`}
                     element={<SchedulePage />}
                 />
+
+                <Route
+                    element={
+                        <ProtectedRoutes
+                            allowedRoles={[
+                                Role.ADMIN,
+                                Role.SUPERVISOR,
+                                Role.TEACHER,
+                            ]}
+                        />
+                    }
+                >
+                    <Route
+                        path={`/${STUDENT_MATERIALS_PAGE}/:lessonId`}
+                        element={<StudentMaterialsPage />}
+                    />
+                    <Route
+                        path={`/${ATTENDANCE_PATHNAME}/:scheduleId`}
+                        element={<AttendancePage />}
+                    />
+                </Route>
 
                 {/* ========== COURSES ============= */}
                 <Route
@@ -90,11 +119,11 @@ const Router: FC = () => {
                     }
                 >
                     <Route
-                        path={`/${PROGRAM_PATHNAME}/:lessonId`}
+                        path={`/${PROGRAM_PATHNAME}/:lessonId/:studentId`}
                         element={<ProgramPage />}
                     />
                     <Route
-                        path={`/${PROGRAM_PATHNAME}/:lessonId/${ANSWER_PATHNAME}/:taskId`}
+                        path={`/${PROGRAM_PATHNAME}/:lessonId/:studentId/${ANSWER_PATHNAME}/:taskId`}
                         element={<AnswerPage />}
                     />
                 </Route>

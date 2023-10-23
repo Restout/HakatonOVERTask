@@ -1,12 +1,17 @@
 import { FC } from "react";
 
 import cn from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
+import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import { formatDate } from "utils/formatDate";
 import { getRoleName } from "utils/getRoleName";
 
 import { IUser } from "types/user.interface";
+
+import { Role } from "constants/role.enum";
+import { PROGRAM_PATHNAME } from "constants/routesPathnames";
 
 import styles from "./usersTable.module.scss";
 
@@ -47,12 +52,22 @@ function TableBody({
     users: IUser[];
     isDisabled: boolean;
 }) {
+    const { lessonId = "" } = useParams();
     const navigate = useNavigate();
+    const currUser = useTypedSelector((state) => state.user.user) as IUser;
+
+    const getPath = (userId: number) => {
+        if (currUser.role === Role.TEACHER) {
+            return `/${PROGRAM_PATHNAME}/${lessonId}/${userId}`;
+        }
+        
+        return `/${PROGRAM_PATHNAME}/${lessonId}/${currUser.id}`;
+    };
 
     return (
         <tbody className={cn(styles.tableBody, isDisabled && styles.disabled)}>
             {users.map((user) => (
-                <tr key={user.id} onClick={() => navigate(`${user.id}`)}>
+                <tr key={user.id} onClick={() => navigate(getPath(user.id))}>
                     <td data-label>
                         {user.lastName} {user.firstName} {user.fatherName}
                     </td>

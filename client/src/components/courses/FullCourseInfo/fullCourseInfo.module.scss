@@ -126,6 +126,10 @@
 
 .subjects {
     header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
         margin-bottom: 15px;
     }
 
@@ -204,9 +208,20 @@
 .subjectsControls {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 15px;
 
     button {
         flex: 1;
     }
+}
+
+.subjectBtn {
+    padding: 5px 16px;
+    max-width: 170px;
+}
+
+.subjectInput {
+    display: block;
+    width: 100%;
 }

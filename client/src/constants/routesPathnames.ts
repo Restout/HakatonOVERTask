@@ -1,5 +1,8 @@
 export const SCHEDULE_PATHNAME = "schedule";
 
+export const ATTENDANCE_PATHNAME = "attendance";
+export const STUDENT_MATERIALS_PAGE = "student-materials";
+
 export const COURSES_PATHNAME = "courses";
 
 export const PROGRAM_PATHNAME = "program";

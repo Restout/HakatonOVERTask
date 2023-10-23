@@ -158,7 +158,7 @@ function Title({ register, error, isDisabled }: FieldProps) {
     );
 }
 
-function Description({ register, error }: FieldProps) {
+function Description({ register, error, isDisabled }: FieldProps) {
     const LENGTH_LIMIT = 300;
 
     const { required, maxLengthLimit } = formErrors;
@@ -180,6 +180,7 @@ function Description({ register, error }: FieldProps) {
                 className={styles.input}
                 placeholder="Описание"
                 {...register("description", fieldOptions)}
+                disabled={isDisabled}
                 id="description"
                 aria-invalid={error ? "true" : "false"}
             />
@@ -188,7 +189,7 @@ function Description({ register, error }: FieldProps) {
     );
 }
 
-function DateStart({ control }: FieldProps) {
+function DateStart({ control, isDisabled }: FieldProps) {
     return (
         <FieldGroup className={styles.group}>
             <Label isRequired={true} htmlFor="dateStart">
@@ -201,6 +202,7 @@ function DateStart({ control }: FieldProps) {
                     return (
                         <DateInput
                             {...field}
+                            disabled={isDisabled}
                             selected={value}
                             onChange={(date) => onChange(date)}
                             id="dateStart"
@@ -214,7 +216,7 @@ function DateStart({ control }: FieldProps) {
     );
 }
 
-function DateEnd({ control }: FieldProps) {
+function DateEnd({ control, isDisabled }: FieldProps) {
     return (
         <FieldGroup className={styles.group}>
             <Label isRequired={true} htmlFor="dateEnd">
@@ -232,6 +234,7 @@ function DateEnd({ control }: FieldProps) {
                             id="dateEnd"
                             placeholderText="Дата окончания"
                             className={styles.date}
+                            disabled={isDisabled}
                         />
                     );
                 }}

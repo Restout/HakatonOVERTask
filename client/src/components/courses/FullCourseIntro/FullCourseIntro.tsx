@@ -1,7 +1,6 @@
 import { FC } from "react";
 
 import WithAuth from "hocs/WithAuth";
-import { Link } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 import { Button } from "components/ui/Button";
@@ -31,33 +30,21 @@ const FullCourseIntro: FC<Props> = ({ openEnrol, isEnrolling, course }) => {
                     {!isAuth && (
                         <p>Войдите в систему, чтобы записаться на курс</p>
                     )}
-                    {course.isParticipant ? (
-                        <Link to={""}>
+                    <WithAuth
+                        authChildren={
                             <Button
                                 variant="light-blue"
                                 onClick={openEnrol}
                                 disabled={isEnrolling}
                             >
-                                Перейти к материалам курса
+                                {isEnrolling
+                                    ? "Заполните форму"
+                                    : "Записаться на курс"}
                             </Button>
-                        </Link>
-                    ) : (
-                        <WithAuth
-                            authChildren={
-                                <Button
-                                    variant="light-blue"
-                                    onClick={openEnrol}
-                                    disabled={isEnrolling}
-                                >
-                                    {isEnrolling
-                                        ? "Заполните форму"
-                                        : "Записаться на курс"}
-                                </Button>
-                            }
-                            unAuthChildren={null}
-                            allowedRoles={[Role.ENROLLEE]}
-                        />
-                    )}
+                        }
+                        unAuthChildren={null}
+                        allowedRoles={[Role.ENROLLEE]}
+                    />
                 </div>
             </Container>
         </section>

@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 import { FullBid } from "components/bids/FullBid";
 import { Container } from "components/shared/Container";
@@ -29,6 +30,7 @@ const ProfileBids: FC<Props> = () => {
 
     return (
         <section className={styles.section}>
+            <Meta />
             <Container>
                 <Title className={styles.title}>Мои заявки</Title>
                 {isSuccess && data.length < 1 && (
@@ -63,5 +65,14 @@ function Error({ isError }: { isError: boolean }) {
 
     return (
         <Alert variant="error">Что-то пошло не так, попробуйте еще раз</Alert>
+    );
+}
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Profile | Bids</title>
+            <meta name="description" content="Страница отправленных заявок" />
+        </Helmet>
     );
 }

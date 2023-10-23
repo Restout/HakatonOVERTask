@@ -1,14 +1,13 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 import { Materials } from "components/courses/Materials";
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
 import { Loader } from "components/ui/Loader";
-
-import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import LessonService from "services/LessonService";
 import MaterialsService from "services/MaterialsService";
@@ -18,8 +17,7 @@ import { ILesson } from "types/lesson.interface";
 import styles from "./programPage.module.scss";
 
 const ProgramPage: FC = () => {
-    const { lessonId = "" } = useParams();
-    const userId = useTypedSelector((state) => state.user.user?.id) as number;
+    const { lessonId = "", studentId = "" } = useParams();
 
     const {
         data: lesson,
@@ -39,13 +37,14 @@ const ProgramPage: FC = () => {
         isLoading: isMaterialLoading,
     } = useQuery({
         queryFn: () =>
-            MaterialsService.get(parseInt(lessonId), userId),
-        queryKey: ["materials", lessonId, userId],
+            MaterialsService.get(parseInt(lessonId), parseInt(studentId)),
+        queryKey: ["materials", lessonId, studentId],
         select: (data) => data.data,
     });
 
     return (
         <>
+            <Meta lessonName={lesson?.lessonName} />
             <Error isError={isLessonError} />
             <Loading isLoading={isLessonLoading} />
             {isLessonSuccess && <ProgramIntro lesson={lesson} />}
@@ -96,5 +95,17 @@ function Error({ isError }: { isError: boolean }) {
         <Alert variant="error" className={styles.alert}>
             Что-то пошло не так, попробуйте еще раз
         </Alert>
+    );
+}
+
+function Meta({ lessonName }: { lessonName?: string }) {
+    return (
+        <Helmet>
+            <title>{lessonName ? `Program | ${lessonName}` : "Program"}</title>
+            <meta
+                name="description"
+                content={`Программа предмета ${lessonName || ""}`}
+            />
+        </Helmet>
     );
 }

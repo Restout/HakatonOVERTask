@@ -29,7 +29,7 @@ const Footer: FC = () => {
                                 height="100%"
                                 viewBox="0 0 180 21"
                             >
-                                <g fill="none" fill-rule="nonzero">
+                                <g fill="none" fillRule="nonzero">
                                     <path
                                         fill="#ffffff"
                                         d="M12.713.221v5.416h-2.131c-2.692 0-4.861 2.137-4.861 4.79 0 2.652 2.169 4.789 4.86 4.789h2.132v5.416c4.86-.921 8.488-5.121 8.488-10.206 0-5.047-3.627-9.247-8.488-10.205"

@@ -1,6 +1,7 @@
 import { FC } from "react";
 
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { useSearchParams } from "react-router-dom";
 
 import { Bids } from "components/bids/Bids";
@@ -47,6 +48,7 @@ const BidsPage: FC = () => {
 
     return (
         <div className={styles.wrapper}>
+            <Meta />
             <Bids
                 bids={data.users}
                 pageCount={totalPages}
@@ -60,3 +62,11 @@ const BidsPage: FC = () => {
 };
 
 export default BidsPage;
+
+function Meta() {
+    return (
+        <Helmet>
+            <title>Bids</title>
+        </Helmet>
+    );
+}

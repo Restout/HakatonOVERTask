@@ -1,10 +1,9 @@
 import { FC } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 import { Title } from "components/ui/typography/Title";
-
-import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import MaterialsService from "services/MaterialsService";
 
@@ -22,18 +21,18 @@ interface Props {
 }
 
 const MaterialsCreation: FC<Props> = ({ close, lessonId }) => {
+    const { studentId = "" } = useParams();
     const queryClient = useQueryClient();
-    const userId = useTypedSelector((state) => state.user.user?.id) as number;
 
     const {
         mutate: addMaterial,
         isLoading,
         isError,
     } = useMutation(
-        (data: MaterialDTO) => MaterialsService.create(lessonId, userId, data),
+        (data: MaterialDTO) =>
+            MaterialsService.create(lessonId, parseInt(studentId), data),
         {
             onSuccess: () => {
-                console.log(lessonId, userId);
                 queryClient.invalidateQueries(["materials"]);
                 close();
             },
@@ -62,7 +61,7 @@ const MaterialsCreation: FC<Props> = ({ close, lessonId }) => {
 
     return (
         <div className={styles.body}>
-            <Title className={styles.title}>Новый курс</Title>
+            <Title className={styles.title}>Новый блок задания</Title>
             <MaterialsForm
                 onSubmit={handleSubmit}
                 isDisabled={isLoading}

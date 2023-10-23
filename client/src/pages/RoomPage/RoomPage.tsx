@@ -1,10 +1,11 @@
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { API_URL } from "api";
+import { Helmet } from "react-helmet";
 import { useParams } from "react-router-dom";
 
 export default function RoomPage() {
     const { roomId } = useParams();
     let myMeeting = async (element: HTMLDivElement) => {
-        // generate Kit Token
         const appID = process.env.REACT_APP_MEETING_APP_ID;
         const serverSecret = String(process.env.REACT_APP_MEETING_SECRET);
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
@@ -15,15 +16,13 @@ export default function RoomPage() {
             "Student",
         );
 
-        // Create instance object from Kit Token.
         const zp = ZegoUIKitPrebuilt.create(kitToken);
-        // start the call
         zp.joinRoom({
             container: element,
             sharedLinks: [
                 {
                     name: "Personal link",
-                    url: `http://localhost:3000/room/${roomId}`,
+                    url: `${API_URL}/room/${roomId}`,
                 },
             ],
             scenario: {
@@ -36,10 +35,21 @@ export default function RoomPage() {
     };
 
     return (
-        <div
-            className="myCallContainer"
-            ref={myMeeting}
-            style={{ width: "100vw", height: "100vh" }}
-        ></div>
+        <>
+            <Meta roomId={roomId as string} />
+            <div
+                className="myCallContainer"
+                ref={myMeeting}
+                style={{ width: "100vw", height: "100vh" }}
+            ></div>
+        </>
+    );
+}
+
+function Meta({ roomId }: { roomId: string }) {
+    return (
+        <Helmet>
+            <title>Room | {roomId}</title>
+        </Helmet>
     );
 }

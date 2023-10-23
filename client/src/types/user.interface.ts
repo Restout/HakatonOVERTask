@@ -13,7 +13,7 @@ export interface IUser {
 
 export interface IStudent extends IUser {
     recordBookId: number;
-    groupId: number;
+    groupID: number;
 }
 
 export interface ITeacher extends IUser {
