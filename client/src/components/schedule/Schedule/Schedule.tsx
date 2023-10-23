@@ -69,6 +69,15 @@ const Schedule: FC<Props> = ({ groupId }) => {
     });
 
     const filteredSchedule = useMemo(() => {
+        const weekend: Record<string, number> = {
+            Monday: 0,
+            Tuesday: 1,
+            Wednesday: 2,
+            Thursday: 3,
+            Friday: 4,
+            Saturday: 5,
+        };
+
         const result: {
             dayOfWeek: number;
             lessons: ISchedule[];
@@ -93,9 +102,10 @@ const Schedule: FC<Props> = ({ groupId }) => {
         data.forEach((schedule) => {
             console.log("schedule in each loop");
             console.log(schedule);
-            const { dayOfWeek } = formatDate(schedule.day);
-            result[dayOfWeek].lessons.push(schedule);
-            result[dayOfWeek].date = formatDate(schedule.day).date;
+            const { dayOfWeek } = formatDate(schedule.day.split("T")[0]);
+            const index = weekend[dayOfWeek];
+            result[index].lessons.push(schedule);
+            result[index].date = formatDate(schedule.day).date;
             console.log("result after each loop");
         });
 
