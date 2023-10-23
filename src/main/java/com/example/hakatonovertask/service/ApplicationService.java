@@ -114,20 +114,24 @@ public class ApplicationService {
         }
     }
 
-    public List<ApplicationOut> listStudentApplications(int userId) {
-        List<ApplicationOut> applicationRes = new ArrayList<>();
+    public List<ApplicationOutById> listStudentApplications(int userId) {
+        List<ApplicationOutById> applicationRes = new ArrayList<>();
         Enrollee user = enrolleeRepository.getReferenceById(userId);
         List<Application> applicationList = applicationRepository.findAllByEnrollee(user);
         for (var app : applicationList) {
-            applicationRes.add(new ApplicationOut(
+            applicationRes.add(new ApplicationOutById(
                     app.getEnrollee().getUserId().getId(),
                     app.getApplicationId(),
                     app.getCourse().getCourseName(),
                     app.getEnrollee().getUserId().getFirstName(),
                     app.getEnrollee().getUserId().getLastName(),
                     app.getEnrollee().getUserId().getFatherName(),
-                    app.getEnrollee().getUserId().getEmail(),
-                    app.getEnrollee().getUserId().getPhone(),
+                    userJpaRepository.findById(app.getChiefID()).get().getLastName(),
+                    app.getCurrentPosition(),
+                    app.getDepartmentName(),
+                    app.getExperience(),
+                    app.getMerits(),
+                    app.getMotivationLetter(),
                     app.getStatus().getDescription(),
                     app.getDateOfChange()));
         }

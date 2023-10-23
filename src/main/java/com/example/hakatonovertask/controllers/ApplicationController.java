@@ -26,8 +26,8 @@ public class ApplicationController {
     }
 
     @GetMapping("/api/auth/studentapplications")
-    public ResponseEntity<List<ApplicationOut>> getListStudentApplication(@RequestParam int userId){
-        List<ApplicationOut> applicationOutList = applicationService.listStudentApplications(userId);
+    public ResponseEntity<List<ApplicationOutById>> getListStudentApplication(@RequestParam int userId){
+        List<ApplicationOutById> applicationOutList = applicationService.listStudentApplications(userId);
         return ResponseEntity.ok().body(applicationOutList);
     }
 

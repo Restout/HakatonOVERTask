@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @RestController
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ADMIN','TEACHER')")
 public class TeacherController implements BaseUserController<Teacher, TeacherDao> {
     @Autowired
     TeacherService teacherService;
