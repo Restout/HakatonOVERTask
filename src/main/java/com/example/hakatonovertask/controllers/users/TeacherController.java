@@ -2,6 +2,7 @@ package com.example.hakatonovertask.controllers.users;
 
 import com.example.hakatonovertask.models.teacher.Teacher;
 import com.example.hakatonovertask.models.teacher.TeacherDao;
+import com.example.hakatonovertask.models.teacher.TeacherOut;
 import com.example.hakatonovertask.repositories.users.TeacherJpaRepository;
 import com.example.hakatonovertask.service.users.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,17 @@ public class TeacherController implements BaseUserController<Teacher, TeacherDao
     TeacherJpaRepository teacherJpaRepository;
 
     @GetMapping("/api/auth/user/data/teacher/{teacherId}")
-    public ResponseEntity<Teacher> getStudent(@PathVariable(name = "teacherId") int teacherId) {
+    public ResponseEntity<TeacherOut> getStudent(@PathVariable(name = "teacherId") int teacherId) {
         Optional<Teacher> teacher = teacherJpaRepository.findById(teacherId);
         if (teacher.isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .build();
         }
+        TeacherOut teacherOut = new TeacherOut(teacher.get());
         return ResponseEntity
                 .ok()
-                .body(teacher.get());
+                .body(teacherOut);
     }
 
     @Override

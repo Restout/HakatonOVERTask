@@ -29,71 +29,45 @@ public class MaterialService {
         return materialsRepository.getMaterialsByContainerLessonIdAndContainerStudentId(lessonId,userId);
     }
     public Material saveMaterial(Integer lessonId,Integer userId,Material material){
-        material.setMaterialId(null);
-        if(material.getTheoretical()!=null) {
-            for (var file : material.getTheoretical()) {
-                file.setFileId(null);
-            }
+        List<Material> materials = new ArrayList<Material>();
+        List<Container> containers = new ArrayList<Container>();
+        containers= containerRepository.getContainersByLessonTeacher(containerRepository.getContainerByLessonIdAndStudentId(lessonId,userId).getLessonTeacher());
+        for (var container:containers) {
+            materials.add(new Material(
+                    material.getMaterialId(),
+                    container,
+                    material.getDateStart(),
+                    material.getDateEnd(),
+                    material.getDescription(),
+                    material.getTitle(),
+                    material.getPractical(),
+                    material.getTheoretical(),
+                    material.getIndependent(),
+                    material.getTasks()
+            ));
         }
-        if(material.getPractical()!=null) {
-            for (var file : material.getPractical()) {
-                file.setFileId(null);
-            }
+        for(var oneMaterial:materials){
+            materialsRepository.save(oneMaterial);
         }
-        if(material.getIndependent()!=null) {
-            for (var file : material.getIndependent()) {
-                file.setFileId(null);
-            }
-        }
-        if(material.getTasks()!=null) {
-            for (var task : material.getTasks()) {
-                task.setTaskId(null);
-            }
-        }
-        material.setContainer(containerRepository.getContainerByLessonIdAndStudentId(lessonId,userId));
-        return materialsRepository.save(material);
+        return materialsRepository.save(materials.get(0));
     }
     public Material updateMaterial(Material material,Integer materialId){
-        Material dbMaterial = materialsRepository.findById(materialId).orElse(null);
-        List<Files> theoreticals = dbMaterial.getTheoretical();
-        if(material.getTheoretical()!=null) {
-            for (var file : material.getTheoretical()) {
-                file.setFileId(null);
-                theoreticals.add(file);
-            }
-        }
-        material.setTheoretical(theoreticals);
+        List<Material> materials = new ArrayList<Material>();
+        List<Container> containers = new ArrayList<Container>();
+        containers= containerRepository.getContainersByLessonTeacher(materialsRepository.findById(materialId).orElse(null).getContainer().getLessonTeacher());
 
-        List<Files> practical = dbMaterial.getPractical();
-        if(material.getPractical()!=null) {
-            for (var file : material.getPractical()) {
-                file.setFileId(null);
-                practical.add(file);
-            }
+        for (var container:containers) {
+            materials.add(materialsRepository.getMaterialByContainer(container));
         }
-        material.setPractical(practical);
-
-        List<Files> independent = dbMaterial.getIndependent();
-        if(material.getIndependent()!=null) {
-            for (var file : material.getIndependent()) {
-                file.setFileId(null);
-                independent.add(file);
-            }
+        for (var oneMaterial:materials){
+            oneMaterial.setDescription(material.getDescription());
+            oneMaterial.setDateEnd(material.getDateEnd());
+            oneMaterial.setTitle(material.getTitle());
+            oneMaterial.setDateStart(material.getDateStart());
+            materialsRepository.save(oneMaterial);
         }
-        material.setIndependent(independent);
 
-        List<Task> tasks = dbMaterial.getTasks();
-        if(material.getTasks()!=null) {
-            for (var task : material.getTasks()) {
-                task.setTaskId(null);
-                tasks.add(task);
-            }
-        }
-        material.setTasks(tasks);
-
-        material.setMaterialId(materialId);
-        material.setContainer(materialsRepository.findById(materialId).orElse(null).getContainer());
-        return materialsRepository.save(material);
+        return materialsRepository.save(materials.get(0));
     }
     public void deleteMaterial(Integer materilaId){
         materialsRepository.deleteById(materilaId);
