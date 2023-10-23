@@ -33,7 +33,7 @@ public class Material {
     @Column(name = "Title")
     private String title;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE})
     @JoinTable(
             name = "Practical",
             joinColumns = {@JoinColumn(name = "MaterialID")},
@@ -41,7 +41,7 @@ public class Material {
     )
     private List<Files> practical;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE})
     @JoinTable(
             name = "Theoretical",
             joinColumns = {@JoinColumn(name = "MaterialID")},
@@ -49,7 +49,7 @@ public class Material {
     )
     private List<Files> theoretical;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.ALL,CascadeType.MERGE})
     @JoinTable(
             name = "Independent",
             joinColumns = {@JoinColumn(name = "MaterialID")},

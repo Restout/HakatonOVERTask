@@ -52,31 +52,22 @@ public class MaterialService {
         return materialsRepository.save(materials.get(0));
     }
     public Material updateMaterial(Material material,Integer materialId){
-        Material dbMaterial = materialsRepository.findById(materialId).orElse(null);
         List<Material> materials = new ArrayList<Material>();
         List<Container> containers = new ArrayList<Container>();
         containers= containerRepository.getContainersByLessonTeacher(materialsRepository.findById(materialId).orElse(null).getContainer().getLessonTeacher());
 
         for (var container:containers) {
             materials.add(materialsRepository.getMaterialByContainer(container));
-            materials.add(new Material(
-                    material.getMaterialId(),
-                    container,
-                    material.getDateStart(),
-                    material.getDateEnd(),
-                    material.getDescription(),
-                    material.getTitle(),
-                    material.getPractical(),
-                    material.getTheoretical(),
-                    material.getIndependent(),
-                    material.getTasks()
-            ));
+        }
+        for (var oneMaterial:materials){
+            oneMaterial.setDescription(material.getDescription());
+            oneMaterial.setDateEnd(material.getDateEnd());
+            oneMaterial.setTitle(material.getTitle());
+            oneMaterial.setDateStart(material.getDateStart());
+            materialsRepository.save(oneMaterial);
         }
 
-
-        material.setMaterialId(materialId);
-        material.setContainer(materialsRepository.findById(materialId).orElse(null).getContainer());
-        return materialsRepository.save(material);
+        return materialsRepository.save(materials.get(0));
     }
     public void deleteMaterial(Integer materilaId){
         materialsRepository.deleteById(materilaId);

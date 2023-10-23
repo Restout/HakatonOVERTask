@@ -5,6 +5,7 @@ import com.example.hakatonovertask.repositories.ContainerRepository;
 import com.example.hakatonovertask.repositories.FileRepository;
 import com.example.hakatonovertask.repositories.MaterialsRepository;
 import com.example.hakatonovertask.repositories.TaskRepositpry;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,7 @@ public class FilesService {
 
         return fileRepository.save(files);
     }
-
-
+    @Transactional
     public Files saveFile(FileIn file,Integer materialId,Integer taskId){
         List<Material> materials = new ArrayList<Material>();
         List<Container> containers = new ArrayList<Container>();
@@ -100,34 +100,45 @@ public class FilesService {
         return files;
     }
 
-
+    @Transactional
     public void deleteFile(Integer fileId,Integer materialId,Integer taskId){
-        Material material =null;
+        List<Material> materials = new ArrayList<Material>();
+        List<Container> containers = new ArrayList<Container>();
+        Material oneMaterial =null;
         if(materialId!=null) {
-            material = materialsRepository.findById(materialId).orElse(null);
-        }
-        if(material!=null){
-        if(material.getTheoretical()!=null) {
-            for(int i =0;i<material.getTheoretical().size();i++){
-                if(material.getTheoretical().get(i).getFileId()==fileId){
-                    material.getTheoretical().remove(i);
-                }
+            oneMaterial = materialsRepository.findById(materialId).orElse(null);
+            containers = containerRepository.getContainersByLessonTeacher(oneMaterial.getContainer().getLessonTeacher());
+            for (var container:containers) {
+                materials.add(materialsRepository.getMaterialByContainer(container));
             }
         }
-        if(material.getPractical()!=null) {
-            for(int i =0;i<material.getPractical().size();i++){
-                if(material.getPractical().get(i).getFileId()==fileId){
-                    material.getPractical().remove(i);
+
+        if(oneMaterial!=null){
+            for(var material:materials) {
+                if (material.getTheoretical() != null) {
+                    for (int i = 0; i < material.getTheoretical().size(); i++) {
+                        if (material.getTheoretical().get(i).getFileId() == fileId) {
+                            material.getTheoretical().remove(i);
+                        }
+                    }
+                }
+
+                if (material.getPractical() != null) {
+                    for (int i = 0; i < material.getPractical().size(); i++) {
+                        if (material.getPractical().get(i).getFileId() == fileId) {
+                            material.getPractical().remove(i);
+                        }
+                    }
+                }
+
+                if (material.getIndependent() != null) {
+                    for (int i = 0; i < material.getIndependent().size(); i++) {
+                        if (material.getIndependent().get(i).getFileId() == fileId) {
+                            material.getIndependent().remove(i);
+                        }
+                    }
                 }
             }
-        }
-        if(material.getIndependent()!=null) {
-            for(int i =0;i<material.getIndependent().size();i++){
-                if(material.getIndependent().get(i).getFileId()==fileId){
-                    material.getIndependent().remove(i);
-                }
-            }
-        }
         }
         Task task =null;
         if(taskId!=null) {
