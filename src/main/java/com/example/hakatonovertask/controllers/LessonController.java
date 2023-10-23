@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class LessonController {
@@ -20,7 +21,7 @@ public class LessonController {
         this.lessonService = lessonService;
     }
     @GetMapping("/api/auth/lesson/teachersLesson/{teacherId}")
-    public ResponseEntity<List<Lesson>> getLessonByteacherId(@PathVariable("teacherId") Integer teacherId){
+    public ResponseEntity<Set<Lesson>> getLessonByteacherId(@PathVariable("teacherId") Integer teacherId){
         return ResponseEntity.ok().body(lessonService.getLessonByTeacherId(teacherId));
     }
     @GetMapping("/api/auth/lesson")
@@ -30,7 +31,7 @@ public class LessonController {
     }
 
     @GetMapping("/api/auth/lesson/{userId}")
-    public ResponseEntity<List<Lesson>> getLessons(@PathVariable Integer userId){
+    public ResponseEntity<Set<Lesson>> getLessons(@PathVariable Integer userId){
 
         return ResponseEntity.ok().body(lessonService.getLessons(userId));
 

@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class LessonService {
@@ -30,20 +32,20 @@ public class LessonService {
     public void setStudentJpaRepository(StudentJpaRepository studentJpaRepository) {
         this.studentJpaRepository = studentJpaRepository;
     }
-    public List<Lesson> getLessonByTeacherId(Integer teacherId){
+    public Set<Lesson> getLessonByTeacherId(Integer teacherId){
         return lessonRepository.getLessonsByLessonTeachersTeacherTeacherId(teacherId);
     }
-    public List<Lesson> getLessons(Integer userId){
+    public Set<Lesson> getLessons(Integer userId){
         try {
             List<ScheduleDay> scheduleDays = studentJpaRepository.findById(userId).orElse(null).getGroup().getScheduleDay();
 
-            List<Lesson> lessons = new ArrayList<Lesson>();
+            Set<Lesson> lessons = new HashSet<Lesson>();
             for (var scheldue : scheduleDays) {
                 lessons.add(scheldue.getLessonTeacher().getLesson());
             }
             return lessons;
         }catch (NullPointerException e){
-            return new ArrayList<Lesson>();
+            return new HashSet<Lesson>();
         }
     }
     public Lesson saveLesson(Lesson lesson){
