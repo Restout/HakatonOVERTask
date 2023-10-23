@@ -1,9 +1,6 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.FileIn;
-import com.example.hakatonovertask.models.Files;
-import com.example.hakatonovertask.models.Material;
-import com.example.hakatonovertask.models.Task;
+import com.example.hakatonovertask.models.*;
 import com.example.hakatonovertask.repositories.ContainerRepository;
 import com.example.hakatonovertask.repositories.FileRepository;
 import com.example.hakatonovertask.repositories.MaterialsRepository;
@@ -11,8 +8,13 @@ import com.example.hakatonovertask.repositories.TaskRepositpry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class FilesService {
+    @Autowired
+    ContainerRepository containerRepository;
     private TaskRepositpry taskRepositpry;
     @Autowired
     public void setTaskRepositpry(TaskRepositpry taskRepositpry) {
@@ -40,12 +42,22 @@ public class FilesService {
 
         return fileRepository.save(files);
     }
+
+
     public Files saveFile(FileIn file,Integer materialId,Integer taskId){
+        List<Material> materials = new ArrayList<Material>();
+        List<Container> containers = new ArrayList<Container>();
         Material material=null;
         Task task=null;
+
         if(materialId !=null){
            material = materialsRepository.findById(materialId).orElse(null);
+           containers = containerRepository.getContainersByLessonTeacher(material.getContainer().getLessonTeacher());
+            for (var container:containers) {
+                materials.add(materialsRepository.getMaterialByContainer(container));
+            }
         }
+
         if(taskId !=null){
             task = taskRepositpry.findById(taskId).orElse(null);
         }
@@ -59,26 +71,36 @@ public class FilesService {
 
         switch (file.getDirectory()){
             case "Practical":
-                material.getPractical().add(files);
+                for (int i=0;i<materials.size();i++){
+                    materials.get(i).getPractical().add(files);
+                }
                 break;
             case "Theoretical":
-                material.getTheoretical().add(files);
+                for (int i=0;i<materials.size();i++){
+                    materials.get(i).getTheoretical().add(files);
+                }
                 break;
             case "Independent":
-                material.getIndependent().add(files);
+                for (int i=0;i<materials.size();i++){
+                    materials.get(i).getIndependent().add(files);
+                }
                 break;
             case "Task":
                 task.getAnswers().add(files);
                 break;
         }
         if(materialId !=null) {
-            materialsRepository.save(material);
+            for (int i=0;i<materials.size();i++){
+                materialsRepository.save(materials.get(i));
+            }
         }
         if(taskId !=null){
             taskRepositpry.save(task);
         }
         return files;
     }
+
+
     public void deleteFile(Integer fileId,Integer materialId,Integer taskId){
         Material material =null;
         if(materialId!=null) {
