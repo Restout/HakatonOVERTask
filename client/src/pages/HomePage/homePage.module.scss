@@ -11,26 +11,46 @@
 
 .section {
     padding-top: 40px;
-    p {
-        margin-bottom: 20px;
-        font-size: 18px;
-        line-height: 1.4;
-        color: var(--color-dark-blue);
-        font-family: var(--font-mont);
-        font-weight: 500;
-
-        span {
-            font-weight: 700;
-        }
-    }
 }
 
-.title {
+.highLight {
+    font-weight: 700;
+}
+
+.mainTitle {
     text-align: center;
-    font-size: 70px;
+    font-size: 72px;
     font-weight: 700;
     background: linear-gradient(to right, #2196f3, #0d47a1, #64b5f6);
     background-clip: text;
     color: transparent;
     margin-bottom: 15px;
+}
+
+.mainText {
+    font-size: 21px;
+    text-align: center;
+    line-height: 1.4;
+    color: var(--color-dark-blue);
+    font-family: var(--font-mont);
+    font-weight: 500;
+}
+
+.subsection {
+    margin-bottom: 40px;
+}
+
+.subsectionTitle {
+    margin-bottom: 20px;
+}
+
+.paragraph {
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--color-dark-blue);
+    font-family: var(--font-mont);
+    font-weight: 500;
+    &:not(:last-child) {
+        margin-bottom: 10px;
+    }
 }
