@@ -8,27 +8,16 @@ import java.util.Date;
 
 @Data
 public class StudentOut {
-
     private Integer id;
-
-
     private Date birthday;
-
     private String phone;
-
-
     private String email;
-
     private Roles role;
-
     private String firstName;
-
     private String lastName;
-
     private String fatherName;
     private int recordBookId;
     private int groupID;
-
 
     public StudentOut(Student student) {
         UserModel userModel = student.getUser();

@@ -24,10 +24,4 @@ public class Teacher {
     private String academicDegree;
     @Column(name = "AcademicTitle")
     private String academicTitle;
-    /*@OneToMany(mappedBy = "teacher")
-    private List<LessonTeacher> lessons;*/
-
-  /*  public Teacher(int teacherId) {
-        this.teacherId = teacherId;
-    }*/
 }

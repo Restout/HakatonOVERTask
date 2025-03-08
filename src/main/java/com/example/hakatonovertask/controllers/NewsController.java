@@ -28,8 +28,6 @@ public class NewsController {
                 .body(news);
     }
     @PostMapping("/api/auth/news")
-    @PreAuthorize("hasAuthority('ADMIN')")
-
     public ResponseEntity<News> saveNews(@ModelAttribute NewsDAO news){
 
         try {
@@ -40,8 +38,8 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
     @DeleteMapping("/api/auth/news/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteNews(@PathVariable("id") Integer id ){
         service.deleteNews(id);
     }

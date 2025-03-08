@@ -15,34 +15,29 @@ import java.util.Optional;
 @RestController
 public class GroupController {
     private GroupService groupService;
+
     @Autowired
     public void setGroupService(GroupService groupService) {
         this.groupService = groupService;
     }
 
     @GetMapping("/api/groups")
-    public ResponseEntity<List<GroupOut>> getGroups(@RequestParam("courseId") Optional<Integer> courseId){
-        if(courseId.isEmpty()){
-            return ResponseEntity.ok().body(groupService.getAll());
-        }else {
-            return ResponseEntity.ok().body(groupService.getGroupByCourse(courseId.orElse(null)));
-        }
-
+    public ResponseEntity<List<GroupOut>> getGroups(@RequestParam("courseId") Optional<Integer> courseId) {
+        return ResponseEntity.ok().body(groupService.getAll());
     }
 
     @PostMapping("/api/auth/groups")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
-    public ResponseEntity<GroupOut> saveGroup(@RequestBody GroupAllInfo group){
+    public ResponseEntity<GroupOut> saveGroup(@RequestBody GroupAllInfo group) {
         return ResponseEntity.ok(groupService.saveGroup(group, null));
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     @PutMapping("/api/auth/groups/{groupId}")
-    public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group){
+    public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group) {
         return ResponseEntity.ok(groupService.saveGroup(group, groupId));
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
+
     @DeleteMapping("/api/auth/groups/{N}")
-    public void deleteGroup(@PathVariable("N") Integer groupId){
+    public void deleteGroup(@PathVariable("N") Integer groupId) {
         groupService.deleteGroup(groupId);
     }
 }
