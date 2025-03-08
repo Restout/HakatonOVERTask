@@ -5,11 +5,12 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ScheldueInfoToSave {
+public class ScheduleInfoToSave {
     private Date day;
-    private String lesson;
+    private String lessonName;
     private Date startTime;
     private Date endTime;
-    private int teacherId;
-    private String audience;
+    private String location;
+    private String organizerLastName;
+    private String organizerFirstName;
 }

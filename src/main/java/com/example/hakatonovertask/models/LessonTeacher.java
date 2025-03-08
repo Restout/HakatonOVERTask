@@ -23,8 +23,6 @@ public class LessonTeacher {
     @ManyToOne()
     @JoinColumn(name = "ID")
     private Teacher teacher;
-    @OneToMany(mappedBy = "lessonTeacher")
-    private List<ScheduleDay> scheldueDay;
     @Id
     @ManyToOne
     @JoinColumn(name = "LessonID")
@@ -32,7 +30,6 @@ public class LessonTeacher {
     private Lesson lesson;
 
     public LessonTeacher(Lesson lesson, Teacher teacher) {
-
         this.lesson= lesson;
         this.teacher = teacher;
     }
