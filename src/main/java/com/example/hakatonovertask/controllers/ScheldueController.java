@@ -21,8 +21,8 @@ public class ScheldueController {
         this.scheldueService = scheldueService;
     }
 
-    @GetMapping("/api/scheldue/{groupid}")
-    public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupid") Integer groupid, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> date) {
+    @GetMapping("/api/scheldue/{groupId}")
+    public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupId") Integer groupid, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> date) {
         Date day = date.orElse(null);
         return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid, day));
     }
@@ -32,8 +32,8 @@ public class ScheldueController {
         return ResponseEntity.ok(scheldueService.scheldueDayToOut(scheduleId));
     }
 
-    @PostMapping("/api/auth/scheldue/{groupid}")
-    public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
+    @PostMapping("/api/auth/scheldue/{groupId}")
+    public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupId") Integer groupid, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
         return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheduleInfoToSave));
     }
 

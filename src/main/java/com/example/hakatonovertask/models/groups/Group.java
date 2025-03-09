@@ -2,6 +2,7 @@ package com.example.hakatonovertask.models.groups;
 
 import com.example.hakatonovertask.models.scheldue.ScheduleDay;
 import com.example.hakatonovertask.models.student.Student;
+import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,24 +20,23 @@ public class Group {
     @Column(name = "GroupID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupId;
-    @OneToMany(mappedBy = "group")
-    private List<ScheduleDay> scheduleDay;
     @Column(name = "GroupName")
     private String groupName;
-    @Column(name = "ID")
-    private int supervisiorId;
-    @OneToMany(mappedBy = "group")
-    private List<Student> students;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CREATOR_ID", referencedColumnName = "ID")
+    private UserModel creator;
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    private List<UserModel> students;
 
-    public Group(String groupName, int supervisiorId) {
+    public Group(String groupName, UserModel creator) {
         this.groupName = groupName;
-        this.supervisiorId = supervisiorId;
+        this.creator = creator;
     }
 
-    public Group(Integer groupId, String groupName, int supervisiorId) {
+    public Group(Integer groupId, String groupName, UserModel creator) {
         this.groupId = groupId;
         this.groupName = groupName;
-        this.supervisiorId = supervisiorId;
+        this.creator = creator;
     }
 
     public Group(int groupId) {
