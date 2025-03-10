@@ -45,7 +45,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Father_name")
     String fatherName;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "UserGroups",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -11,6 +11,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface UserJpaRepository extends JpaRepository<UserModel, Integer> {
      Page<UserModel> findByRole(Roles role, Pageable pageable);
@@ -23,7 +25,7 @@ public interface UserJpaRepository extends JpaRepository<UserModel, Integer> {
 
      long countAllByRole(Roles role);
 
-     UserModel findByEmail(String Email);
+     Optional<UserModel> findByEmail(String Email);
      UserModel findByLastName(String LastName);
 
 }

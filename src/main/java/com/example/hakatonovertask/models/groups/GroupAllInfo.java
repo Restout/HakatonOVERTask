@@ -5,10 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class GroupAllInfo extends GroupOut {
-    public GroupAllInfo() {
-        super();
-    }
-    private int supervisiorId;
-    private int courseId;
+public class GroupAllInfo {
+    private int creatorId;
+    private String groupName;
 }

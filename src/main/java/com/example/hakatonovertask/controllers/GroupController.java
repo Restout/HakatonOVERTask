@@ -4,14 +4,10 @@ import com.example.hakatonovertask.models.groups.GroupAllInfo;
 import com.example.hakatonovertask.models.groups.GroupOut;
 import com.example.hakatonovertask.service.GroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,14 +19,14 @@ public class GroupController {
         return groupService.getAll(userId);
     }
 
-    @PostMapping("/api/auth/groups")
-    public ResponseEntity<GroupOut> saveGroup(@RequestBody GroupAllInfo group) {
-        return ResponseEntity.ok(groupService.saveGroup(group, null));
+    @PostMapping("/api/groups")
+    public GroupOut saveGroup(@RequestBody GroupAllInfo group) {
+        return groupService.saveGroup(group);
     }
 
     @PutMapping("/api/auth/groups/{groupId}")
     public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group) {
-        return ResponseEntity.ok(groupService.saveGroup(group, groupId));
+        return ResponseEntity.ok(groupService.changeExistingGroup(group, groupId));
     }
 
     @DeleteMapping("/api/auth/groups/{groupId}")

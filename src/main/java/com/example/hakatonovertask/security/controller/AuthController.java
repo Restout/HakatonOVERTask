@@ -28,7 +28,8 @@ public class AuthController {
     @PostMapping("/api/login")
     public ResponseEntity<UserOut> authentication(@RequestBody UserDao user, HttpServletResponse response) {
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        UserModel userModel = userJpaRepository.findByEmail(user.getEmail());
+        UserModel userModel = userJpaRepository.findByEmail(user.getEmail())
+                .orElseThrow();
         UserOut userOut = new UserOut(userModel);
         String jwtToken = "Bearer " + jwtUtils.generateToken(userModel);
         response.addHeader(HttpHeaders.AUTHORIZATION, jwtToken);
@@ -45,7 +46,8 @@ public class AuthController {
     @GetMapping("/api/refresh")
     public ResponseEntity<UserOut> refreshToken(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String token) {
         String email = jwtUtils.extractUsername(token);
-        UserModel userModel = userJpaRepository.findByEmail(email);
+        UserModel userModel = userJpaRepository.findByEmail(email)
+                .orElseThrow();
         UserOut userOut = new UserOut(userModel);
         if (!jwtUtils.validateToken(token, userModel)) {
             return ResponseEntity

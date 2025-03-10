@@ -25,7 +25,7 @@ public class Group {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CREATOR_ID", referencedColumnName = "ID")
     private UserModel creator;
-    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "groups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<UserModel> students;
 
     public Group(String groupName, UserModel creator) {

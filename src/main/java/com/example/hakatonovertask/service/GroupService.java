@@ -6,10 +6,10 @@ import com.example.hakatonovertask.models.groups.GroupOut;
 import com.example.hakatonovertask.repositories.GroupRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
-import com.example.hakatonovertask.security.repository.UserRepository;
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,17 +41,21 @@ public class GroupService {
                 .toList();
     }
 
-    public GroupOut saveGroup(GroupAllInfo group, Integer groupId) {
-        GroupOut groupOut;
+    @Transactional
+    public GroupOut saveGroup(GroupAllInfo group) {
+        UserModel groupOwner = userRepository.findById(group.getCreatorId())
+                .orElseThrow(EntityNotFoundException::new);
 
-        if (groupId == null) {
-            groupOut = groupToDTO(groupRepository.save(new Group()));
-        } else {
-            groupOut = userRepository.findById(group.getSupervisiorId())
-                    .map(creator -> groupToDTO(groupRepository.save(new Group(groupId, group.getGroupName(), creator))))
-                    .orElse(new GroupOut());
-        }
-        return groupOut;
+        var groupToSave = creatGroup(group, groupOwner);
+        groupOwner.getGroups().add(groupToSave);
+
+        return groupToDTO(groupRepository.save(groupToSave));
+    }
+
+    public GroupOut changeExistingGroup(GroupAllInfo group, Integer groupId) {
+        return userRepository.findById(group.getCreatorId())
+                .map(creator -> groupToDTO(groupRepository.save(new Group(groupId, group.getGroupName(), creator))))
+                .orElse(new GroupOut());
     }
 
     public void deleteGroup(Integer GroupId) {
@@ -61,5 +65,13 @@ public class GroupService {
     private GroupOut groupToDTO(Group group) {
 
         return new GroupOut(group.getGroupId(), group.getGroupName());
+    }
+
+    private Group creatGroup(GroupAllInfo group, UserModel user) {
+        var groupToSave = new Group(group.getGroupName(), user);
+        List<UserModel> userModels = new ArrayList<>();
+        userModels.add(user);
+        groupToSave.setStudents(userModels);
+        return groupToSave;
     }
 }

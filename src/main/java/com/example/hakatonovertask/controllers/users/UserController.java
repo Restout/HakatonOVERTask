@@ -1,8 +1,10 @@
 package com.example.hakatonovertask.controllers.users;
 
+import com.example.hakatonovertask.models.groups.UserGroupRequest;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import com.example.hakatonovertask.service.users.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ public class UserController {
             return ResponseEntity
                     .ok()
                     .header("user_count", String.valueOf(userService.getCountOfUsersByRole(role)))
-                    .body(userService.getUsersByRole(role,page));
+                    .body(userService.getUsersByRole(role, page));
         } catch (Exception e) {
             return ResponseEntity
                     .badRequest()
@@ -53,7 +55,6 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-
     @PostMapping("/api/auth/users/add")
     public ResponseEntity<UserModel> addUser(@RequestBody UserModel user) {
         Optional<UserModel> userModel = userService.saveNewUser(user);
@@ -65,6 +66,16 @@ public class UserController {
         return ResponseEntity
                 .ok()
                 .body(userService.saveNewUser(user).get());
+    }
+
+    @PutMapping("/api/users/group")
+    public void addUserToGroup(@RequestBody @Valid UserGroupRequest request) {
+        userService.addUserToGroup(request);
+    }
+
+    @DeleteMapping("/api/users/group")
+    public void removeUserFromGroup(@RequestBody @Valid UserGroupRequest request) {
+        userService.removeFromGroup(request);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
