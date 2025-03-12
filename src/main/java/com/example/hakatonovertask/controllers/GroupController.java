@@ -2,6 +2,7 @@ package com.example.hakatonovertask.controllers;
 
 import com.example.hakatonovertask.models.groups.GroupAllInfo;
 import com.example.hakatonovertask.models.groups.GroupOut;
+import com.example.hakatonovertask.models.groups.GroupStudentOut;
 import com.example.hakatonovertask.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,11 @@ public class GroupController {
     @GetMapping("/api/groups")
     public List<GroupOut> getGroups(@RequestParam("userId") Integer userId) {
         return groupService.getAll(userId);
+    }
+
+    @GetMapping("/api/groups/{groupId}")
+    public GroupStudentOut getGroup(@PathVariable("groupId") Integer groupId) {
+        return groupService.getGroup(groupId);
     }
 
     @PostMapping("/api/groups")

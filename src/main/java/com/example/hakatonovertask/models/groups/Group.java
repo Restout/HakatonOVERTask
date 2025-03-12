@@ -1,7 +1,5 @@
 package com.example.hakatonovertask.models.groups;
 
-import com.example.hakatonovertask.models.scheldue.ScheduleDay;
-import com.example.hakatonovertask.models.student.Student;
 import com.example.hakatonovertask.security.model.UserModel;
 import jakarta.persistence.*;
 import lombok.*;
