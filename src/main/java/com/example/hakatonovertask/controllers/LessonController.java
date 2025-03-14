@@ -4,11 +4,9 @@ import com.example.hakatonovertask.models.Lesson;
 import com.example.hakatonovertask.repositories.LessonRepository;
 import com.example.hakatonovertask.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -20,10 +18,7 @@ public class LessonController {
     public void setLessonService(LessonService lessonService) {
         this.lessonService = lessonService;
     }
-    @GetMapping("/api/auth/lesson/teachersLesson/{teacherId}")
-    public ResponseEntity<Set<Lesson>> getLessonByteacherId(@PathVariable("teacherId") Integer teacherId){
-        return ResponseEntity.ok().body(lessonService.getLessonByTeacherId(teacherId));
-    }
+
     @GetMapping("/api/auth/lesson")
     public ResponseEntity<Lesson> getLessonById(@RequestParam("lessonId") Integer lessonId){
 

@@ -4,8 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
-/grafana
-/prometheus
+grafana/
+prometheus/
 /sql
 
 

@@ -3,17 +3,19 @@ package com.example.hakatonovertask.models.scheldue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 public class ScheldueDayOut {
     private int scheldueId;
-    private Date day;
-    private String Lesson;
-    private Date startTime;
-    private Date endTime;
-    private String audience;
+    private LocalDate day;
+    private String lessonName;
+    private String lessonDescription;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private String location;
     private String firstName;
-    private String lastname;
+    private String lastName;
 }
