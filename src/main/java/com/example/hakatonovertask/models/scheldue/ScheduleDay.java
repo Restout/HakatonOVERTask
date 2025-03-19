@@ -1,21 +1,21 @@
 package com.example.hakatonovertask.models.scheldue;
 
-import com.example.hakatonovertask.models.LessonTeacher;
+import com.example.hakatonovertask.models.Lesson;
 import com.example.hakatonovertask.models.groups.Group;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
-
 @Getter
-
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="ScheduleDay")
+@Table(name = "ScheduleDay")
 @Entity
 public class ScheduleDay {
     @Id
@@ -23,33 +23,32 @@ public class ScheduleDay {
     @Column(name = "ScheldueID")
     private int scheldueId;
     @Column(name = "Day")
-    private Date day;
+    private LocalDate day;
     @Column(name = "Time")
-    private Date startTime;
+    private LocalDateTime startTime;
     @Column(name = "TimeEnd")
-    private Date endTime;
-    @ManyToOne
-    @JoinColumn(name="GroupID")
-    private Group group;
+    private LocalDateTime endTime;
     @Column(name = "Audience")
-    private String audience;
-
+    private String location;
+    @Column(name = "OrganizerLastName")
+    private String organizerLastName;
+    @Column(name = "OrganizerFirstName")
+    private String organizerFirstName;
+    @ManyToOne
+    @JoinColumn(name = "GroupID")
+    private Group group;
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumns(
-            {
-                    @JoinColumn(name ="LessonID", referencedColumnName = "LessonID"),
-                    @JoinColumn(name ="ID", referencedColumnName = "ID")
-            }
-    )
-    @Fetch(FetchMode.JOIN)
-    private LessonTeacher lessonTeacher;
+    @JoinColumn(name = "LessonID")
+    private Lesson lesson;
 
-    public ScheduleDay(Date day, Date startTime, Date endTime, Group group, String audience, LessonTeacher lessonTeacher) {
+    public ScheduleDay(Lesson lesson, LocalDate day, LocalDateTime startTime, LocalDateTime endTime, Group group, String audience, String organizerLastName, String organizerFirstName) {
+        this.lesson = lesson;
         this.day = day;
         this.startTime = startTime;
         this.endTime = endTime;
         this.group = group;
-        this.audience = audience;
-        this.lessonTeacher = lessonTeacher;
+        this.location = audience;
+        this.organizerLastName = organizerLastName;
+        this.organizerFirstName = organizerFirstName;
     }
 }

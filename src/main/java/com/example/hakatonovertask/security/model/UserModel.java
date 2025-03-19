@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.security.model;
 
+import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.security.utils.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -9,9 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Table(name = "User")
 @Data
@@ -45,12 +44,15 @@ public class UserModel implements UserDetails {
     String lastName;
     @Column(name = "Father_name")
     String fatherName;
-/*
-    @OneToOne(mappedBy = "userId")
-    @PrimaryKeyJoinColumn
-    @Transient
-    Enrollee enrollee;
-*/
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "UserGroups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<>();
+
     @Transient
     @JsonIgnore
     boolean expiredAccount;

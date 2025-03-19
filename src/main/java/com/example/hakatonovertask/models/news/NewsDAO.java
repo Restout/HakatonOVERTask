@@ -1,6 +1,5 @@
 package com.example.hakatonovertask.models.news;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 

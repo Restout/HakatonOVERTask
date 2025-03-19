@@ -1,0 +1,8 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="ArtemShev">
+        <sqlFile path="dbMigrations/scripts/V1.1_DELETE_COURSE_PART.sql"/>
+    </changeSet>
+</databaseChangeLog>

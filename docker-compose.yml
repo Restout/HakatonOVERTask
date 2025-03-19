@@ -1,11 +1,13 @@
 version: '3.8'
 services:
   client-backend:
-    image: ld40fkffbxhl/hakaton:v8
+    build:
+      dockerfile: dockerfile
     ports:
       - "8097:8097"
     depends_on:
-      - service-db
+      service-db:
+        condition: service_healthy
     environment:
       - SERVER_PORT= 8097
       - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/postgres
@@ -18,11 +20,13 @@ services:
       POSTGRES_PASSWORD: root
     ports:
       - "5432:5432"
-    volumes:
-      - ./sql/db.sql:/docker-entrypoint-initdb.d/db.sql
-      - db-data:/var/lib/postgresql/data
     restart: unless-stopped
-
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      start_period: 3s
+      interval: 3s
+      timeout: 3s
+      retries: 3
   grafana:
     image: ld40fkffbxhl/grafana:v1
     ports:

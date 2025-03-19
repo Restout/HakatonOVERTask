@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <include file="v1.0/08-03-2025--01-db-creator.xml" relativeToChangelogFile="true"></include>
+    <include file="v1.1/09-03-2025--01-create-userGroup-table.sql" relativeToChangelogFile="true"></include>
+
+</databaseChangeLog>

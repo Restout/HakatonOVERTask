@@ -1,25 +1,46 @@
 package com.example.hakatonovertask.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Lesson")
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LessonID")
-    private int lessonId;
+    private Integer lessonId;
     @Column(name="LessonName")
     private String lessonName;
     @Column(name = "Description")
     private String description;
-    @JsonIgnore
-    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
-    private List<LessonTeacher> lessonTeachers;
 
+    public Lesson(String lessonName, String description) {
+        this.lessonName = lessonName;
+        this.description = description;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        Class<?> oEffectiveClass = o instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : o.getClass();
+        Class<?> thisEffectiveClass = this instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
+        if (thisEffectiveClass != oEffectiveClass) return false;
+        Lesson lesson = (Lesson) o;
+        return lessonId != null && Objects.equals(getLessonId(), lesson.getLessonId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return this instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
 }

@@ -2,13 +2,12 @@ package com.example.hakatonovertask.models.groups;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class GroupAllInfo extends GroupOut {
-    public GroupAllInfo() {
-        super();
-    }
-    private int supervisiorId;
-    private int courseId;
+@NoArgsConstructor
+public class GroupAllInfo {
+    private int creatorId;
+    private String groupName;
 }

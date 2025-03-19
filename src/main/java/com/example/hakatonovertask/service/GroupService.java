@@ -1,58 +1,19 @@
 package com.example.hakatonovertask.service;
 
-import com.example.hakatonovertask.models.Course;
-import com.example.hakatonovertask.models.groups.Group;
 import com.example.hakatonovertask.models.groups.GroupAllInfo;
 import com.example.hakatonovertask.models.groups.GroupOut;
-import com.example.hakatonovertask.repositories.GroupRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.hakatonovertask.models.groups.GroupStudentOut;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class GroupService {
-    private GroupRepository groupRepository;
-    @Autowired
-    public void setGroupRepository(GroupRepository groupRepository) {
-        this.groupRepository = groupRepository;
-    }
+public interface GroupService {
+    List<GroupOut> getAll(Integer userId);
 
-    public List<GroupOut> getAll(){
-        List<GroupOut> groupsDTO = new ArrayList<GroupOut>();
-        List<Group> groups = groupRepository.findAll();
-        for (var group: groups) {
-            groupsDTO.add(groupToDTO(group));
-        }
-        return groupsDTO;
-    }
+    GroupStudentOut getGroup(Integer groupId);
 
-    public GroupOut saveGroup(GroupAllInfo group, Integer groupId){
-        GroupOut groupOut = new GroupOut();
-        if(groupId==null){
-            groupOut = groupToDTO(groupRepository.save(new Group(new Course(group.getCourseId()),group.getGroupName(),group.getSupervisiorId())));
-        }else {
-            groupOut = groupToDTO(groupRepository.save(new Group(groupId,new Course(group.getCourseId()),group.getGroupName(),group.getSupervisiorId())));
-        }
-        return groupOut;
-    }
-    public List<GroupOut> getGroupByCourse(Integer courseId){
-        List<GroupOut> groupOuts = new ArrayList<GroupOut>();
-        if (groupRepository.getGroupsByCourseCourseId(courseId)==null){
-            return groupOuts;
-        }else {
-            for (var group:groupRepository.getGroupsByCourseCourseId(courseId)) {
-                groupOuts.add(groupToDTO(group));
-            }
-            return groupOuts;
-        }
-    }
-    public void deleteGroup(Integer GroupId){
-        groupRepository.deleteById(GroupId);
-    }
-    private GroupOut groupToDTO(Group group){
+    GroupOut saveGroup(GroupAllInfo group);
 
-        return new GroupOut(group.getGroupId(),group.getGroupName());
-    }
+    GroupOut changeExistingGroup(GroupAllInfo group, Integer groupId);
+
+    void deleteGroup(Integer groupId);
 }

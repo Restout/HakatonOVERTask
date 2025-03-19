@@ -1,52 +1,49 @@
 package com.example.hakatonovertask.controllers;
 
-import com.example.hakatonovertask.models.scheldue.ScheldueInfoToSave;
+import com.example.hakatonovertask.models.scheldue.ScheduleInfoToSave;
 import com.example.hakatonovertask.models.scheldue.ScheldueDayOut;
-import com.example.hakatonovertask.repositories.ScheldueRepository;
-import com.example.hakatonovertask.service.ScheldueService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.hakatonovertask.service.ScheduleService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
-import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @RestController
+@RequiredArgsConstructor
 public class ScheldueController {
-    private ScheldueService scheldueService;
-    @Autowired
-    public void setScheldueService(ScheldueService scheldueService) {
-        this.scheldueService = scheldueService;
+    private final ScheduleService scheldueService;
+
+    @GetMapping("/api/schedule/{groupId}")
+    public List<ScheldueDayOut> getWeekScheldue(@PathVariable("groupId") Integer groupid, @RequestParam(value = "date", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startWeekDate) {
+        if(isNull(startWeekDate)){
+            startWeekDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        }
+        return scheldueService.getScheldueByGroupAndDate(groupid, startWeekDate);
     }
 
-    @GetMapping("/api/scheldue/{groupid}")
-    public ResponseEntity<List<ScheldueDayOut>> getScheldue(@PathVariable("groupid") Integer groupid, @RequestParam("date")@DateTimeFormat(pattern="yyyy-MM-dd") Optional<Date> date){
-        Date day = date.orElse(null);
-        return ResponseEntity.ok(scheldueService.getScheldueByGroupAndDate(groupid,day));
+    @GetMapping("/api/schedule")
+    public ScheldueDayOut getScheduleById(@RequestParam("scheduleId") Integer scheduleId) {
+        return scheldueService.findScheduleById(scheduleId);
     }
-    @GetMapping("/api/scheldue")
-    public ResponseEntity<ScheldueDayOut> getScheduleById(@RequestParam("scheduleId")Integer scheduleId){
-        return ResponseEntity.ok(scheldueService.scheldueDayToOut(scheduleId));
-    }
-    @PostMapping("/api/auth/scheldue/{groupid}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
-    public ResponseEntity<ScheldueDayOut> saveScheldue(@PathVariable("groupid") Integer groupid, @RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        return ResponseEntity.ok().body(scheldueService.saveScheldue(groupid, scheldueInfoToSave));
-    }
-    @PutMapping("/api/auth/scheldue/{scheldueId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
 
-    public ResponseEntity<ScheldueDayOut> updateScheldue(@PathVariable("scheldueId") Integer scheldueId,@RequestBody ScheldueInfoToSave scheldueInfoToSave){
-        return ResponseEntity.ok().body(scheldueService.updateScheldueDay(scheldueId, scheldueInfoToSave));
+    @PostMapping("/api/schedule/{groupId}")
+    public ScheldueDayOut saveScheldue(@PathVariable("groupId") Integer groupId, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
+        return scheldueService.saveScheldue(groupId, scheduleInfoToSave);
     }
-    @DeleteMapping("/api/auth/scheldue/{scheldueId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN','SUPERVISOR')")
 
-    public void deleteScheldue(@PathVariable("scheldueId")Integer scheldueId){
+    @PutMapping("/api/schedule/{scheduleId}")
+    public ScheldueDayOut updateScheldue(@PathVariable("scheduleId") Integer scheldueId, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
+        return scheldueService.updateScheldueDay(scheldueId, scheduleInfoToSave);
+    }
+
+    @DeleteMapping("/api/schedule/{scheduleId}")
+    public void deleteScheldue(@PathVariable("scheduleId") Integer scheldueId) {
         scheldueService.deleteScheldue(scheldueId);
     }
 }

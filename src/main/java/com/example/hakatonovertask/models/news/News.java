@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name="News")
+@Table(name = "News")
 @NoArgsConstructor
 public class News {
     @Id
@@ -26,6 +26,6 @@ public class News {
     @Column(name = "Image")
     private String image;
     @JsonIgnore
-   @OneToOne(mappedBy = "news",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "news", cascade = CascadeType.ALL)
     private Image img;
 }
