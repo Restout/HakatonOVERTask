@@ -1,14 +1,14 @@
 package com.example.hakatonovertask.models.news;
 
-import com.example.hakatonovertask.models.Image;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class NewsOut {
     private int id;
 
@@ -19,5 +19,4 @@ public class NewsOut {
     private String Content;
 
     private String imagePath;
-
 }

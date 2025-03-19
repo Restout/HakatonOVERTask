@@ -68,7 +68,6 @@ public class GroupServiceImpl implements GroupService {
     }
 
     private GroupOut groupToDTO(Group group) {
-
         return new GroupOut(group.getGroupId(), group.getGroupName());
     }
 
