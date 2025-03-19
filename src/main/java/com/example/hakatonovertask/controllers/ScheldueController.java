@@ -24,7 +24,6 @@ public class ScheldueController {
         if(isNull(startWeekDate)){
             startWeekDate = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         }
-
         return scheldueService.getScheldueByGroupAndDate(groupid, startWeekDate);
     }
 
@@ -33,18 +32,18 @@ public class ScheldueController {
         return scheldueService.findScheduleById(scheduleId);
     }
 
-    @PostMapping("/api/auth/schedule/{groupId}")
-    public ScheldueDayOut saveScheldue(@PathVariable("groupId") Integer groupid, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
-        return scheldueService.saveScheldue(groupid, scheduleInfoToSave);
+    @PostMapping("/api/schedule/{groupId}")
+    public ScheldueDayOut saveScheldue(@PathVariable("groupId") Integer groupId, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
+        return scheldueService.saveScheldue(groupId, scheduleInfoToSave);
     }
 
-    @PutMapping("/api/auth/schedule/{scheduleId}")
+    @PutMapping("/api/schedule/{scheduleId}")
     public ScheldueDayOut updateScheldue(@PathVariable("scheduleId") Integer scheldueId, @RequestBody ScheduleInfoToSave scheduleInfoToSave) {
         return scheldueService.updateScheldueDay(scheldueId, scheduleInfoToSave);
     }
 
-    @DeleteMapping("/api/auth/schedule/{scheduleId}")
-    public void deleteScheldue(@PathVariable("scheldueId") Integer scheldueId) {
+    @DeleteMapping("/api/schedule/{scheduleId}")
+    public void deleteScheldue(@PathVariable("scheduleId") Integer scheldueId) {
         scheldueService.deleteScheldue(scheldueId);
     }
 }

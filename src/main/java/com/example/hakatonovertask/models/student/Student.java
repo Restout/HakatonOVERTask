@@ -29,4 +29,3 @@ public class Student {
     @JsonIgnore
     private Group group;
 }
-//GRAND logic rework to delete and creat again i

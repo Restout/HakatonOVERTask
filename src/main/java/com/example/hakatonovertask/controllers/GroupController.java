@@ -5,7 +5,6 @@ import com.example.hakatonovertask.models.groups.GroupOut;
 import com.example.hakatonovertask.models.groups.GroupStudentOut;
 import com.example.hakatonovertask.service.GroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +30,8 @@ public class GroupController {
     }
 
     @PutMapping("/api/auth/groups/{groupId}")
-    public ResponseEntity<GroupOut> updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group) {
-        return ResponseEntity.ok(groupService.changeExistingGroup(group, groupId));
+    public GroupOut updateGroup(@PathVariable("groupId") Integer groupId, @RequestBody GroupAllInfo group) {
+        return groupService.changeExistingGroup(group, groupId);
     }
 
     @DeleteMapping("/api/auth/groups/{groupId}")

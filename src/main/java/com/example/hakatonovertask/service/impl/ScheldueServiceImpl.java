@@ -49,25 +49,11 @@ public class ScheldueServiceImpl implements ScheduleService {
     @Transactional
     @Override
     public ScheldueDayOut updateScheldueDay(Integer scheldueId, ScheduleInfoToSave toSave) {
- /*       ScheduleDay scheduleDay = scheldueRepository.getReferenceById(scheldueId);
+        ScheduleDay scheduleDay = scheldueRepository.findById(scheldueId)
+                .orElseThrow(EntityNotFoundException::new);
+        scheduleMapper.updateScheduleByScheduleInfoDto(scheduleDay, toSave);
 
-        scheduleDay = new ScheduleDay(
-                scheduleDay.getScheldueId(),
-                toSave.getLessonName(),
-                toSave.getDay(),
-                toSave.getStartTime(),
-
-                toSave.getEndTime(),
-                scheduleDay.getGroup(),
-                toSave.getLocation(),
-                toSave.getOrganizerLastName(),
-                toSave.getOrganizerFirstName()
-        );
-
-        scheduleDay = scheldueRepository.save(scheduleDay);
-
-        return scheldueDayToOut(scheduleDay.getScheldueId());*/
-        return null;
+        return scheduleMapper.fromScheduleToScheduleOutDto(scheldueRepository.save(scheduleDay));
     }
 
     @Override

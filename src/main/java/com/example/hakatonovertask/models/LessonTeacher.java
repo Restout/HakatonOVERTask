@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Setter
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

@@ -1,0 +1,99 @@
+openapi: "3.0.3"
+info:
+  title: "HakatonOVERTask API"
+  description: "HakatonOVERTask API"
+  version: "1.0.0"
+servers:
+  - url: "https://HakatonOVERTask"
+paths:
+  /api/groups:
+    get:
+      summary: "GET api/groups"
+      operationId: "getGroups"
+      parameters:
+        - name: "userId"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GroupOut"
+  /api/groups/{groupId}:
+    get:
+      summary: "GET api/groups/{groupId}"
+      operationId: "getGroup"
+      parameters:
+        - name: "groupId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GroupStudentOut"
+components:
+  schemas:
+    GroupOut:
+      type: "object"
+      properties:
+        groupId:
+          type: "integer"
+          format: "int32"
+        groupName:
+          type: "string"
+    UserOut:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int32"
+        birthday:
+          type: "string"
+          format: "date-time"
+        phone:
+          type: "string"
+        email:
+          type: "string"
+        role:
+          type: "string"
+          enum:
+            - "ENROLLEE"
+            - "TEACHER"
+            - "STUDENT"
+            - "ADMIN"
+            - "SELLECTION_COMMITE"
+            - "SUPERVISOR"
+            - "MANAGER"
+        firstName:
+          type: "string"
+        lastName:
+          type: "string"
+        fatherName:
+          type: "string"
+    GroupStudentOut:
+      type: "object"
+      properties:
+        groupId:
+          type: "integer"
+          format: "int32"
+        groupName:
+          type: "string"
+        creator:
+          $ref: "#/components/schemas/UserOut"
+        students:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/UserOut"
