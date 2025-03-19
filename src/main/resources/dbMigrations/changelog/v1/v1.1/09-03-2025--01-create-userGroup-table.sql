@@ -34,4 +34,8 @@ DROP TABLE "LessonTeacher" CASCADE
 alter table "ScheduleDay" add constraint fk_lesson_schedule foreign key ("LessonID") references "Lesson"("LessonID") on delete set null on update cascade
 --rollback ALTER TABLE "ScheduleDay" DROP CONSTRAINT fk_lesson_schedule;
 
+--changeset ArtemShevtsov:8
+alter table "ScheduleDay" DROP COLUMN "ID";
+--rollback ALTER TABLE "ScheduleDay" ADD COLUMN "ID";
+
 
