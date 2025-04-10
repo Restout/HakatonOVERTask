@@ -1,0 +1,130 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.error {
+  margin-bottom: 20px;
+}
+
+.retryContainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.retryBtn {
+  min-width: 180px;
+}
+
+.videoContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.localVideo {
+  width: 100%;
+  height: 240px;
+  position: relative;
+  background-color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cameraOff {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 5;
+
+  p {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.videoElement {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoLabel {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.remoteVideos {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 15px;
+  height: calc(100% - 260px);
+}
+
+.remoteVideo {
+  width: 100%;
+  height: 240px;
+  position: relative;
+  background-color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.noParticipants {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  color: #666;
+  font-size: 16px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+.controlBtn {
+  min-width: 180px;
+}
+
+.controlBtnDisabled {
+  background-color: #e74c3c;
+  opacity: 0.8;
+  
+  &:hover {
+    opacity: 1;
+  }
+} 

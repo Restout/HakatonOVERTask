@@ -1,0 +1,76 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.membersSection {
+  margin-top: 20px;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+}
+
+.membersList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.memberCard {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.role {
+  display: inline-block;
+  font-size: 12px;
+  background-color: #edf2f7;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.removeBtn {
+  flex-shrink: 0;
+}
+
+.noMembers {
+  margin-top: 15px;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.error {
+  margin-bottom: 10px;
+} 

@@ -1,0 +1,76 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.roomsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.roomCard {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.roomInfo {
+  h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.participants, .date {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.joinBtn {
+  flex-shrink: 0;
+}
+
+.noRooms {
+  margin-top: 30px;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.error {
+  margin-bottom: 10px;
+} 

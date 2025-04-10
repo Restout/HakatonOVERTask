@@ -1,0 +1,1 @@
+export { GroupsListPage } from './GroupsListPage'; 
