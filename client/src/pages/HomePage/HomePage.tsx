@@ -1,10 +1,12 @@
 import { FC } from "react";
-
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { Feed } from "components/news/Feed";
 import { Container } from "components/shared/Container";
 import { Title } from "components/ui/typography/Title";
+import { Button } from "components/ui/Button";
+
+import { GROUPS_PATH, ROOMS_PATH, SCHEDULE_PATHNAME } from "constants/routesPathnames";
 
 import styles from "./homePage.module.scss";
 
@@ -12,7 +14,7 @@ const HomePage: FC = () => {
     return (
         <>
             <Intro />
-            <Feed />
+            <FeatureCards />
         </>
     );
 };
@@ -26,13 +28,12 @@ function Intro() {
             <Container>
                 <div className={styles.subsection}>
                     <h1 className={styles.mainTitle}>
-                        Корпоративный университет Совкомбанк
+                        Образовательная платформа
                     </h1>
                     <p className={styles.mainText}>
                         Мы рады приветствовать вас на нашем веб-сервисе,
                         посвященном высшему образованию и качественному
-                        обучению.{" "}
-                        <span className={styles.highLight}>Совкомбанк</span> -
+                        обучению. Наша образовательная платформа -
                         это место, где знания преображаются в навыки, а студенты
                         становятся агентами перемен. Наша миссия - предоставить
                         вам лучшее образование, развивать вас как профессионала
@@ -44,7 +45,7 @@ function Intro() {
                         Педагогический состав
                     </Title>
                     <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Наш университет, состоящий из
+                        &nbsp;&nbsp;&nbsp;&nbsp;Наша платформа, объединяющая
                         выдающихся преподавателей и ученых, предлагает
                         разнообразные образовательные программы, позволяющие
                         раскрыть ваши таланты и потенциал. Мы поддерживаем
@@ -59,68 +60,63 @@ function Intro() {
                     <p className={styles.paragraph}>
                         &nbsp;&nbsp;&nbsp;&nbsp;Наши студенты - это будущее, и
                         мы стремимся к тому, чтобы оно было ярким и
-                        образованным. На нашем веб-сервисе вы найдете информацию
-                        о всех наших курсах, учебных материалах, академической
-                        среде и возможностях для развития. Мы гордимся успехами
-                        наших студентов и готовы поддерживать вас на пути к
+                        образованным. На нашей платформе вы найдете информацию
+                        о занятиях, расписании и возможностях для взаимодействия с другими студентами.
+                        Мы гордимся успехами наших студентов и готовы поддерживать вас на пути к
                         достижению ваших целей.
                     </p>
                 </div>
-                <div className={styles.subsection}>
-                    <Title className={styles.subsectionTitle}>
-                        Структура и органы управления образовательной
-                        организацией
-                    </Title>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Ректор: Иван Иванович Иванов.
-                    </p>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Заведующий отделом образования:
-                        Елена Петровна Петрова.
-                    </p>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Совет образовательной
-                        организации: председатель - Ольга Сергеевна Сергеева.
-                    </p>
-                </div>
-                <div className={styles.subsection}>
-                    <Title className={styles.subsectionTitle}>Документы</Title>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Учредительные документы: Устав
-                        "Корпоративного университета".
-                    </p>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Лицензии и аккредитации:
-                        Лицензия на осуществление образовательной деятельности
-                        №12345, аккредитация университета.
-                    </p>
-                </div>
-                <div className={styles.subsection}>
-                    <Title className={styles.subsectionTitle}>
-                        Материально-техническое обеспечение и оснащенность
-                        образовательного процесса
-                    </Title>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Модернизированные аудитории.
-                    </p>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Электронная библиотека с
-                        доступом к онлайн-ресурсам.
-                    </p>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Высокоскоростной Wi-Fi на
-                        территории университета.
-                    </p>
-                </div>
-                <div className={styles.subsection}>
-                    <Title className={styles.subsectionTitle}>
-                        Доступная среда
-                    </Title>
-                    <p className={styles.paragraph}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;Университет обеспечивает
-                        доступность для лиц с ограниченными возможностями. Есть
-                        специализированные аудитории и услуги.
-                    </p>
+            </Container>
+        </section>
+    );
+}
+
+function FeatureCards() {
+    return (
+        <section className={styles.featuresSection}>
+            <Container>
+                <Title className={styles.featuresTitle}>
+                    Основные возможности
+                </Title>
+                <div className={styles.featuresGrid}>
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>👥</div>
+                        <h3 className={styles.featureTitle}>Группы</h3>
+                        <p className={styles.featureDescription}>
+                            Создавайте группы и добавляйте участников для совместной работы и обучения
+                        </p>
+                        <Link to={GROUPS_PATH}>
+                            <Button variant="dark-blue" className={styles.featureButton}>
+                                Перейти к группам
+                            </Button>
+                        </Link>
+                    </div>
+                    
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>📅</div>
+                        <h3 className={styles.featureTitle}>Расписание</h3>
+                        <p className={styles.featureDescription}>
+                            Управляйте расписанием занятий, создавайте и редактируйте события
+                        </p>
+                        <Link to={`/${SCHEDULE_PATHNAME}`}>
+                            <Button variant="dark-blue" className={styles.featureButton}>
+                                Открыть расписание
+                            </Button>
+                        </Link>
+                    </div>
+                    
+                    <div className={styles.featureCard}>
+                        <div className={styles.featureIcon}>📹</div>
+                        <h3 className={styles.featureTitle}>Видеозвонки</h3>
+                        <p className={styles.featureDescription}>
+                            Проводите видеоконференции и онлайн-лекции с участниками групп
+                        </p>
+                        <Link to={ROOMS_PATH}>
+                            <Button variant="dark-blue" className={styles.featureButton}>
+                                Начать видеозвонок
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </Container>
         </section>
@@ -130,10 +126,10 @@ function Intro() {
 function Meta() {
     return (
         <Helmet>
-            <title>Home</title>
+            <title>Главная - Образовательная платформа</title>
             <meta
                 name="description"
-                content="Главная страница корпоративного университета Совкомбанк"
+                content="Главная страница образовательной платформы"
             />
         </Helmet>
     );

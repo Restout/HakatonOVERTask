@@ -10,15 +10,13 @@ import { useLogout } from "hooks/auth/useLogout";
 
 import { Role } from "constants/role.enum";
 import {
-    ADMIN_PATHNAME,
-    BIDS_PATHNAME,
-    COURSES_PATHNAME,
+    GROUPS_PATH,
     HOME_PATH,
     LK_PATHNAME,
     PROFILE_PATHNAME,
+    ROOMS_PATH,
     SCHEDULE_PATHNAME,
     SIGN_IN_PATH,
-    USERS_PATHNAME,
 } from "constants/routesPathnames";
 
 import logo from "assets/img/logo.svg";
@@ -48,37 +46,16 @@ const Header: FC<Props> = ({ className }) => {
                         </Link>
                         <Link
                             className={styles.link}
-                            to={"/" + COURSES_PATHNAME}
+                            to={GROUPS_PATH}
                         >
-                            Курсы
+                            Группы
                         </Link>
-                        <WithAuth
-                            authChildren={
-                                <Link
-                                    className={styles.link}
-                                    to={"/" + BIDS_PATHNAME}
-                                >
-                                    Заявки
-                                </Link>
-                            }
-                            unAuthChildren={null}
-                            allowedRoles={[
-                                Role.MANAGER,
-                                Role.SELLECTION_COMMITE,
-                            ]}
-                        />
-                        <WithAuth
-                            authChildren={
-                                <Link
-                                    className={styles.link}
-                                    to={`/${ADMIN_PATHNAME}/${USERS_PATHNAME}`}
-                                >
-                                    Админ панель
-                                </Link>
-                            }
-                            unAuthChildren={null}
-                            allowedRoles={[Role.ADMIN]}
-                        />
+                        <Link
+                            className={styles.link}
+                            to={ROOMS_PATH}
+                        >
+                            Видеосвязь
+                        </Link>
                         <WithAuth
                             authChildren={
                                 <Link

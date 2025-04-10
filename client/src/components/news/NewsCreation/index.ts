@@ -1,1 +1,0 @@
-export { default as NewsCreation } from "./NewsCreation";

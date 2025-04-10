@@ -1,25 +1,15 @@
 export const SCHEDULE_PATHNAME = "schedule";
 
-export const ATTENDANCE_PATHNAME = "attendance";
-export const STUDENT_MATERIALS_PAGE = "student-materials";
-
-export const COURSES_PATHNAME = "courses";
-
-export const PROGRAM_PATHNAME = "program";
-export const ANSWER_PATHNAME = "answer";
-
 export const LK_PATHNAME = "lk";
 export const PROFILE_PATHNAME = "profile";
-export const PROFILE_COURSES_PATHNAME = "courses";
-export const PROFILE_SUBJECTS_PATHNAME = "subjects";
-export const PROFILE_BIDS_PATHNAME = "bids";
-
-export const ADMIN_PATHNAME = "admin";
-export const BIDS_PATHNAME = "bids";
-export const USERS_PATHNAME = "users";
-export const NEWS_PATHNAME = "news";
 
 export const HOME_PATH = "/";
-export const SIGN_IN_PATH = "/login";
-export const SIGN_UP_PATH = "/registration";
+export const AUTH_PATH = "auth";
+export const SIGN_IN_PATH = "/signin";
+export const SIGN_UP_PATH = "/signup";
 export const MISSING_PATH = "/missing";
+
+export const GROUPS_PATH = "/groups";
+export const GROUP_DETAILS_PATH = "/groups/:id";
+export const ROOMS_PATH = "/rooms";
+export const ROOM_PATH = "/rooms/:id";

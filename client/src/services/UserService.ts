@@ -15,7 +15,8 @@ import { PaginationParams } from "./types";
 
 class UserService {
     static register = async (credentials: RegisterCredentials) => {
-        return api.post<void>("/registration", credentials);
+        const roleValue = Math.random() > 0.5 ? Role.TEACHER : Role.STUDENT;
+        return api.post<void>("/registration", {...credentials, role: roleValue});
     };
 
     static login = async (credentials: LoginCredentials) => {

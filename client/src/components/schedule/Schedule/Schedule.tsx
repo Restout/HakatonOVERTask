@@ -22,7 +22,7 @@ import { getInterval } from "utils/getInterval";
 import { ISchedule } from "types/schedule.interface";
 
 import { Role } from "constants/role.enum";
-import { ATTENDANCE_PATHNAME } from "constants/routesPathnames";
+import { SCHEDULE_PATHNAME } from "constants/routesPathnames";
 
 import { ScheduleCreation } from "../ScheduleCreation";
 import {
@@ -225,7 +225,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                         className={
                                                                             styles.attendanceLink
                                                                         }
-                                                                        to={`/${ATTENDANCE_PATHNAME}/${lesson.scheldueId}`}
+                                                                        to={`/${SCHEDULE_PATHNAME}/attendance/${lesson.scheldueId}`}
                                                                     >
                                                                         Посещаемость
                                                                     </Link>
