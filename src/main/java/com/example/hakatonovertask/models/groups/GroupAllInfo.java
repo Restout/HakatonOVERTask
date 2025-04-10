@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupAllInfo {
-    private int creatorId;
+    private int groupId;
     private String groupName;
+    private int supervisorId;
+    private int courseId;
+    private Integer creatorId;
 }

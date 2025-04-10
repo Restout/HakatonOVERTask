@@ -1,9 +1,9 @@
 export interface ISchedule {
-    scheldueId: number;
+    scheduleId: number;
     day: string;
     startTime: string;
     endTime: string;
-    audience: string;
+    location: string;
     firstName: string;
     lastname: string;
     lesson: string;
@@ -11,9 +11,11 @@ export interface ISchedule {
 
 export interface ScheduleDTO {
     day: string;
-    lesson: string;
     startTime: string;
     endTime: string;
-    teacherId: number;
-    audience: string;
+    lessonName: string;
+    lessonDescription: string;
+    location: string;
+    organizerLastName: string;
+    organizerFirstName: string;
 }

@@ -5,18 +5,28 @@ import { Helmet } from 'react-helmet';
 
 import Button from 'components/ui/Button/Button';
 import { Alert } from 'components/ui/Alert';
-import { Input } from 'components/ui/Input';
+import Input from 'components/ui/Input/Input/Input';
 import { Label } from 'components/ui/Label';
 import { FieldGroup } from 'components/ui/FieldGroup';
 import { Modal } from 'components/ui/Modal/Modal';
 
 import GroupsService from 'services/GroupsService';
-import { GroupMember, UserGroupRequest } from 'types/group.interface';
+import { UserGroupRequest, ServerGroupResponse, UserDetails } from 'types/group.interface';
 
 import { useAuth } from 'hooks/auth/useAuth';
 import useTypedSelector from 'hooks/shared/useTypedSelector';
 
 import styles from './styles.module.scss';
+
+// Функция для форматирования даты рождения
+const formatBirthday = (dateString: string) => {
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU');
+    } catch (e) {
+        return 'Недоступно';
+    }
+};
 
 const GroupDetailsPage: FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -70,24 +80,23 @@ const GroupDetailsPage: FC = () => {
 
         addUserToGroup({
             groupId: Number(id),
-            userId: 0, // Будет определено на сервере по email
-            email: email.trim()
+            userEmail: email.trim()
         });
     };
 
-    const handleRemoveUser = (member: GroupMember) => {
+    const handleRemoveUser = (userEmail: string) => {
         if (!id) {
             return;
         }
 
         removeUserFromGroup({
             groupId: Number(id),
-            userId: member.userId,
-            email: member.email
+            userEmail: userEmail
         });
     };
 
-    const isCreator = user?.id === group?.creatorId;
+    // Проверяем, является ли текущий пользователь создателем группы
+    const isCreator = user?.id === group?.creator?.id;
 
     return (
         <div className={styles.container}>
@@ -97,28 +106,38 @@ const GroupDetailsPage: FC = () => {
             
             <div className={styles.header}>
                 <h1>{group?.groupName || 'Загрузка...'}</h1>
-                <Button onClick={() => setIsModalOpen(true)} variant="dark-blue">
-                    Добавить участника
-                </Button>
+                {isCreator && (
+                    <Button onClick={() => setIsModalOpen(true)} variant="dark-blue">
+                        Добавить участника
+                    </Button>
+                )}
             </div>
 
             <div className={styles.membersSection}>
                 <h2>Участники группы</h2>
                 
-                {group?.members && group.members.length > 0 ? (
+                {group?.students && group.students.length > 0 ? (
                     <div className={styles.membersList}>
-                        {group.members.map((member) => (
-                            <div key={member.userId} className={styles.memberCard}>
+                        {group.students.map((member: UserDetails) => (
+                            <div key={member.id} className={styles.memberCard}>
                                 <div className={styles.memberInfo}>
-                                    <div>
-                                        <strong>{member.firstName} {member.lastName}</strong>
+                                    <div className={styles.memberName}>
+                                        <strong>{member.lastName} {member.firstName} {member.fatherName}</strong>
                                     </div>
-                                    <div>{member.email}</div>
+                                    <div className={styles.memberDetail}>
+                                        <span className={styles.label}>Email:</span> {member.email}
+                                    </div>
+                                    <div className={styles.memberDetail}>
+                                        <span className={styles.label}>Телефон:</span> {member.phone}
+                                    </div>
+                                    <div className={styles.memberDetail}>
+                                        <span className={styles.label}>Дата рождения:</span> {formatBirthday(member.birthday)}
+                                    </div>
                                     <div className={styles.role}>{member.role}</div>
                                 </div>
-                                {(isCreator || user?.id === member.userId) && (
+                                {(isCreator || user?.id === member.id) && (
                                     <Button 
-                                        onClick={() => handleRemoveUser(member)} 
+                                        onClick={() => handleRemoveUser(member.email)} 
                                         variant="light-blue" 
                                         className={styles.removeBtn}
                                     >

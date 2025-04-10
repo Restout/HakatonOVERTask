@@ -38,21 +38,24 @@ const ScheduleCreation: FC<Props> = ({ close, className, groupId }) => {
     );
 
     const handleSubmit = async (data: ScheduleFormState) => {
-        const audience = data.audience.trim();
+        const location = data.location.trim();
         const startTime = data.startTime.trim();
         const endTime = data.endTime.trim();
-        const lesson = data.lesson.trim();
+        const lessonName = data.lessonName.trim();
+        const lessonDescription = data.lessonDescription?.trim() || '';
+        const organizerLastName = data.organizerLastName.trim();
+        const organizerFirstName = data.organizerFirstName.trim();
         const day = transformDate(data.day);
-        const teacherId = data.teacherId.trim();
 
         if (
             !checkEmptyValidity([
-                audience,
+                location,
                 startTime,
                 endTime,
-                lesson,
+                lessonName,
                 day,
-                teacherId,
+                organizerLastName,
+                organizerFirstName
             ])
         ) {
             return;
@@ -75,16 +78,15 @@ const ScheduleCreation: FC<Props> = ({ close, className, groupId }) => {
         const formattedStartTime = `${day}T${formattedStartHours}:${formattedStartMinutes}:00`;
         const formattedEndTime = `${day}T${formattedEndHours}:${formattedEndMinutes}:00`;
 
-        const formattedAudience =
-            audience === "Дистанционно" ? "Дистанционно" : audience;
-
         const newSchedule: ScheduleDTO = {
-            day: transformDate(data.day),
-            audience: formattedAudience,
+            day,
+            location,
             startTime: formattedStartTime,
             endTime: formattedEndTime,
-            lesson,
-            teacherId: parseInt(teacherId),
+            lessonName,
+            lessonDescription,
+            organizerLastName,
+            organizerFirstName
         };
 
         mutate(newSchedule);
@@ -92,7 +94,7 @@ const ScheduleCreation: FC<Props> = ({ close, className, groupId }) => {
 
     return (
         <div className={cn(styles.body, className)}>
-            <Title className={styles.title}>Новый курс</Title>
+            <Title className={styles.title}>Новое занятие</Title>
             <ScheduleForm
                 onSubmit={handleSubmit}
                 isDisabled={isLoading}

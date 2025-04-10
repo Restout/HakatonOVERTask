@@ -17,6 +17,7 @@ public interface ScheduleMapper {
     @Mapping(target = "lessonDescription" , source = "lesson.description")
     @Mapping(target = "firstName" , source = "organizerLastName")
     @Mapping(target = "lastName" , source = "organizerFirstName")
+    @Mapping(target = "scheduleId", source = "scheldueId")
     ScheldueDayOut fromScheduleToScheduleOutDto(ScheduleDay scheduleDay);
 
     @Mapping(target = "lesson.lessonName", source = "lessonName" )

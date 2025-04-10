@@ -1,6 +1,6 @@
 import { api, authApi } from "api";
 
-import { GroupCreateRequest, GroupDTO, GroupWithMembers, IGroup, UserGroupRequest } from "types/group.interface";
+import { GroupCreateRequest, GroupDTO, GroupWithMembers, IGroup, UserGroupRequest, ServerGroupResponse } from "types/group.interface";
 
 const PATH_NAME = "/groups";
 
@@ -10,7 +10,7 @@ class GroupsService {
     };
 
     static getGroup = async (groupId: number) => {
-        return api.get<GroupWithMembers>(`${PATH_NAME}/${groupId}`);
+        return api.get<ServerGroupResponse>(`${PATH_NAME}/${groupId}`);
     };
 
     // Метод может принимать как GroupCreateRequest, так и GroupDTO

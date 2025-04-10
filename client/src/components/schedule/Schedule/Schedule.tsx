@@ -1,35 +1,30 @@
-import { FC, Fragment, useMemo, useState } from "react";
+import {FC, Fragment, useMemo, useState} from "react";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import WithAuth from "hocs/WithAuth";
-import { Link, useSearchParams } from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
-import { Container } from "components/shared/Container";
-import { Alert } from "components/ui/Alert";
-import { Button } from "components/ui/Button";
-import { DeleteButton } from "components/ui/DeleteButton";
-import { Loader } from "components/ui/Loader";
-import { Title } from "components/ui/typography/Title";
+import {Container} from "components/shared/Container";
+import {Alert} from "components/ui/Alert";
+import {Button} from "components/ui/Button";
+import {DeleteButton} from "components/ui/DeleteButton";
+import {Loader} from "components/ui/Loader";
+import {Title} from "components/ui/typography/Title";
 
 import useTypedSelector from "hooks/shared/useTypedSelector";
 
 import ScheduleService from "services/ScheduleService";
 
-import { formatDate } from "utils/formatDate";
-import { formatTime } from "utils/formatTime";
-import { getInterval } from "utils/getInterval";
+import {formatDate} from "utils/formatDate";
+import {formatTime} from "utils/formatTime";
+import {getInterval} from "utils/getInterval";
 
-import { ISchedule } from "types/schedule.interface";
+import {ISchedule} from "types/schedule.interface";
 
-import { Role } from "constants/role.enum";
-import { SCHEDULE_PATHNAME } from "constants/routesPathnames";
+import {Role} from "constants/role.enum";
 
-import { ScheduleCreation } from "../ScheduleCreation";
-import {
-    getNextMonday,
-    getPreviousMonday,
-    getPreviousWeekMonday,
-} from "./getMonday";
+import {ScheduleCreation} from "../ScheduleCreation";
+import {getNextMonday, getPreviousMonday, getPreviousWeekMonday,} from "./getMonday";
 import styles from "./schedule.module.scss";
 
 const DATE_SEARCH_NAME = "date";
@@ -134,7 +129,10 @@ const Schedule: FC<Props> = ({ groupId }) => {
                             </Button>
                         }
                         unAuthChildren={null}
-                        allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
+                        allowedRoles={[Role.ADMIN,
+                            Role.STUDENT,
+                            Role.TEACHER,
+                            Role.SUPERVISOR]}
                     />
                 </header>
                 {user && isAdding && (
@@ -147,7 +145,10 @@ const Schedule: FC<Props> = ({ groupId }) => {
                             />
                         }
                         unAuthChildren={null}
-                        allowedRoles={[Role.ADMIN, Role.SUPERVISOR]}
+                        allowedRoles={[Role.ADMIN,
+                            Role.STUDENT,
+                            Role.TEACHER,
+                            Role.SUPERVISOR]}
                     />
                 )}
                 <Controls
@@ -167,7 +168,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                         <ul>
                                             {scheduleData.lessons.map(
                                                 (lesson) => (
-                                                    <li key={lesson.scheldueId}>
+                                                    <li key={lesson.scheduleId}>
                                                         <div
                                                             className={
                                                                 styles.time
@@ -195,15 +196,15 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                             </p>
                                                             <p>
                                                                 {
-                                                                    lesson.audience
+                                                                    lesson.location
                                                                 }
                                                             </p>
                                                             <WithAuth
                                                                 authChildren={
                                                                     <DeleteButton
-                                                                        onClick={() =>
+                                                                        onClick={() => 
                                                                             mutate(
-                                                                                lesson.scheldueId,
+                                                                                lesson.scheduleId,
                                                                             )
                                                                         }
                                                                         className={
@@ -217,32 +218,14 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                 allowedRoles={[
                                                                     Role.ADMIN,
                                                                     Role.SUPERVISOR,
-                                                                ]}
-                                                            />
-                                                            <WithAuth
-                                                                authChildren={
-                                                                    <Link
-                                                                        className={
-                                                                            styles.attendanceLink
-                                                                        }
-                                                                        to={`/${SCHEDULE_PATHNAME}/attendance/${lesson.scheldueId}`}
-                                                                    >
-                                                                        Посещаемость
-                                                                    </Link>
-                                                                }
-                                                                unAuthChildren={
-                                                                    null
-                                                                }
-                                                                allowedRoles={[
-                                                                    Role.ADMIN,
-                                                                    Role.TEACHER,
-                                                                    Role.SUPERVISOR,
+                                                                    Role.STUDENT,
+                                                                    Role.TEACHER
                                                                 ]}
                                                             />
                                                         </div>
                                                     </li>
-                                                ),
-                                            )}
+                                                ))
+                                            }
                                         </ul>
                                     </div>
                                 )}

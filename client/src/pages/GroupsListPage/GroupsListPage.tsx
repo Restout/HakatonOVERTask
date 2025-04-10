@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import Button from 'components/ui/Button/Button';
 import { Alert } from 'components/ui/Alert';
-import { Input } from 'components/ui/Input';
+import Input from 'components/ui/Input/Input/Input';
 import { Label } from 'components/ui/Label';
 import { FieldGroup } from 'components/ui/FieldGroup';
 import { Modal } from 'components/ui/Modal/Modal';

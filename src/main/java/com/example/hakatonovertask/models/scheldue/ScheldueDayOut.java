@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class ScheldueDayOut {
-    private int scheldueId;
+    private int scheduleId;
     private LocalDate day;
     private String lessonName;
     private String lessonDescription;
