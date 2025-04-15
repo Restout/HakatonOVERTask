@@ -8,7 +8,7 @@ const GroupsPage: FC = () => {
     return (
         <>
             <Meta />
-            <Groups />;
+            <Groups />
         </>
     );
 };
