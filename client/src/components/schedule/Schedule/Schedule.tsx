@@ -1,8 +1,7 @@
 import { FC, Fragment, useMemo, useState } from "react";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import WithAuth from "hocs/WithAuth";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { Container } from "components/shared/Container";
 import { Alert } from "components/ui/Alert";
@@ -192,32 +191,27 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                 }
                                                             </p>
                                                             <p>
-                                                                {
-                                                                    lesson.location
-                                                                }
+                                                                <Link
+                                                                    style={{
+                                                                        color: "#008cce",
+                                                                    }}
+                                                                    to={
+                                                                        lesson.location
+                                                                    }
+                                                                >
+                                                                    Присоединиться
+                                                                    к комнате
+                                                                </Link>
                                                             </p>
-                                                            <WithAuth
-                                                                authChildren={
-                                                                    <DeleteButton
-                                                                        onClick={() =>
-                                                                            mutate(
-                                                                                lesson.scheduleId,
-                                                                            )
-                                                                        }
-                                                                        className={
-                                                                            styles.deleteButton
-                                                                        }
-                                                                    />
+                                                            <DeleteButton
+                                                                onClick={() =>
+                                                                    mutate(
+                                                                        lesson.scheduleId,
+                                                                    )
                                                                 }
-                                                                unAuthChildren={
-                                                                    null
+                                                                className={
+                                                                    styles.deleteButton
                                                                 }
-                                                                allowedRoles={[
-                                                                    Role.ADMIN,
-                                                                    Role.SUPERVISOR,
-                                                                    Role.STUDENT,
-                                                                    Role.TEACHER,
-                                                                ]}
                                                             />
                                                         </div>
                                                     </li>
