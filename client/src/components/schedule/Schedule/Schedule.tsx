@@ -1,30 +1,35 @@
-import {FC, Fragment, useMemo, useState} from "react";
+import { FC, Fragment, useMemo, useState } from "react";
 
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import WithAuth from "hocs/WithAuth";
-import {useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
-import {Container} from "components/shared/Container";
-import {Alert} from "components/ui/Alert";
-import {Button} from "components/ui/Button";
-import {DeleteButton} from "components/ui/DeleteButton";
-import {Loader} from "components/ui/Loader";
-import {Title} from "components/ui/typography/Title";
+import { Container } from "components/shared/Container";
+import { Alert } from "components/ui/Alert";
+import { Button } from "components/ui/Button";
+import { DeleteButton } from "components/ui/DeleteButton";
+import { Loader } from "components/ui/Loader";
+import { Title } from "components/ui/typography/Title";
 
 import useTypedSelector from "hooks/shared/useTypedSelector";
 
+import GroupsService from "services/GroupsService";
 import ScheduleService from "services/ScheduleService";
 
-import {formatDate} from "utils/formatDate";
-import {formatTime} from "utils/formatTime";
-import {getInterval} from "utils/getInterval";
+import { formatDate } from "utils/formatDate";
+import { formatTime } from "utils/formatTime";
+import { getInterval } from "utils/getInterval";
 
-import {ISchedule} from "types/schedule.interface";
+import { ISchedule } from "types/schedule.interface";
 
-import {Role} from "constants/role.enum";
+import { Role } from "constants/role.enum";
 
-import {ScheduleCreation} from "../ScheduleCreation";
-import {getNextMonday, getPreviousMonday, getPreviousWeekMonday,} from "./getMonday";
+import { ScheduleCreation } from "../ScheduleCreation";
+import {
+    getNextMonday,
+    getPreviousMonday,
+    getPreviousWeekMonday,
+} from "./getMonday";
 import styles from "./schedule.module.scss";
 
 const DATE_SEARCH_NAME = "date";
@@ -55,6 +60,14 @@ const Schedule: FC<Props> = ({ groupId }) => {
         queryFn: () => ScheduleService.get(groupId, date),
         queryKey: ["schedule", date, groupId],
         select: (data) => data.data,
+    });
+
+    const { data: group, isFetching } = useQuery({
+        queryKey: ["groups", groupId],
+        queryFn: () => GroupsService.getGroup(Number(groupId)),
+        select(data) {
+            return data.data;
+        },
     });
 
     const { mutate } = useMutation((id: number) => ScheduleService.delete(id), {
@@ -118,37 +131,21 @@ const Schedule: FC<Props> = ({ groupId }) => {
         <section className={styles.section}>
             <Container>
                 <header className={styles.header}>
-                    <Title>Расписание занятий группы: {groupId}</Title>
-                    <WithAuth
-                        authChildren={
-                            <Button
-                                variant="dark-blue"
-                                onClick={() => setIsAdding((prev) => !prev)}
-                            >
-                                {isAdding ? "Отменить" : "Добавить"}
-                            </Button>
-                        }
-                        unAuthChildren={null}
-                        allowedRoles={[Role.ADMIN,
-                            Role.STUDENT,
-                            Role.TEACHER,
-                            Role.SUPERVISOR]}
-                    />
+                    <Title>
+                        Расписание занятий группы: {group?.groupName ?? groupId}
+                    </Title>
+                    <Button
+                        variant="dark-blue"
+                        onClick={() => setIsAdding((prev) => !prev)}
+                    >
+                        {user && isAdding ? "Отменить" : "Добавить"}
+                    </Button>
                 </header>
                 {user && isAdding && (
-                    <WithAuth
-                        authChildren={
-                            <ScheduleCreation
-                                className={styles.creation}
-                                close={() => setIsAdding(false)}
-                                groupId={parseInt(groupId)}
-                            />
-                        }
-                        unAuthChildren={null}
-                        allowedRoles={[Role.ADMIN,
-                            Role.STUDENT,
-                            Role.TEACHER,
-                            Role.SUPERVISOR]}
+                    <ScheduleCreation
+                        className={styles.creation}
+                        close={() => setIsAdding(false)}
+                        groupId={parseInt(groupId)}
                     />
                 )}
                 <Controls
@@ -202,7 +199,7 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                             <WithAuth
                                                                 authChildren={
                                                                     <DeleteButton
-                                                                        onClick={() => 
+                                                                        onClick={() =>
                                                                             mutate(
                                                                                 lesson.scheduleId,
                                                                             )
@@ -219,13 +216,13 @@ const Schedule: FC<Props> = ({ groupId }) => {
                                                                     Role.ADMIN,
                                                                     Role.SUPERVISOR,
                                                                     Role.STUDENT,
-                                                                    Role.TEACHER
+                                                                    Role.TEACHER,
                                                                 ]}
                                                             />
                                                         </div>
                                                     </li>
-                                                ))
-                                            }
+                                                ),
+                                            )}
                                         </ul>
                                     </div>
                                 )}

@@ -1,9 +1,4 @@
-import {
-    FC,
-    useEffect,
-    useImperativeHandle,
-    useState,
-} from "react";
+import { FC, useEffect, useImperativeHandle, useState } from "react";
 
 import {
     Control,
@@ -88,11 +83,24 @@ const ScheduleForm: FC<Props> = ({ onSubmit, isDisabled, isError }) => {
                     {error}
                 </Alert>
             )}
-            <FieldRow className={styles.lessonRow}>
+            <FieldRow className={styles.doubleRow}>
                 <LessonName
                     register={register}
                     isDisabled={isDisabled}
                     error={errors.lessonName}
+                />
+                <Day
+                    register={register}
+                    isDisabled={isDisabled}
+                    error={errors.day}
+                    control={control}
+                />
+            </FieldRow>
+            <FieldRow className={styles.doubleRow}>
+                <OrganizerFirstName
+                    register={register}
+                    isDisabled={isDisabled}
+                    error={errors.organizerFirstName}
                 />
                 <OrganizerLastName
                     register={register}
@@ -100,25 +108,12 @@ const ScheduleForm: FC<Props> = ({ onSubmit, isDisabled, isError }) => {
                     error={errors.organizerLastName}
                 />
             </FieldRow>
-            <FieldRow>
-                <LessonDescription
-                    register={register}
-                    isDisabled={isDisabled}
-                    error={errors.lessonDescription}
-                />
-                <OrganizerFirstName
-                    register={register}
-                    isDisabled={isDisabled}
-                    error={errors.organizerFirstName}
-                />
-            </FieldRow>
+            <LessonDescription
+                register={register}
+                isDisabled={isDisabled}
+                error={errors.lessonDescription}
+            />
             <FieldRow className={styles.scheduleRow}>
-                <Day
-                    register={register}
-                    isDisabled={isDisabled}
-                    error={errors.day}
-                    control={control}
-                />
                 <StartTime
                     register={register}
                     isDisabled={isDisabled}
@@ -166,7 +161,7 @@ function LessonName({ register, error, isDisabled }: FieldProps) {
     useImperativeHandle(ref, () => lessonRef.current);
 
     return (
-        <FieldGroup className={styles.group}>
+        <FieldGroup>
             <Label isRequired={true} htmlFor="lessonName">
                 Название предмета
             </Label>
@@ -218,7 +213,10 @@ function OrganizerLastName({ register, error, isDisabled }: FieldProps) {
 
     const { required, maxLengthLimit, minLengthLimit } = formErrors;
 
-    const fieldOptions: RegisterOptions<ScheduleFormState, "organizerLastName"> = {
+    const fieldOptions: RegisterOptions<
+        ScheduleFormState,
+        "organizerLastName"
+    > = {
         required: required,
         maxLength: {
             value: LENGTH_LIMIT,
@@ -254,7 +252,10 @@ function OrganizerFirstName({ register, error, isDisabled }: FieldProps) {
 
     const { required, maxLengthLimit, minLengthLimit } = formErrors;
 
-    const fieldOptions: RegisterOptions<ScheduleFormState, "organizerFirstName"> = {
+    const fieldOptions: RegisterOptions<
+        ScheduleFormState,
+        "organizerFirstName"
+    > = {
         required: required,
         maxLength: {
             value: LENGTH_LIMIT,
@@ -336,7 +337,7 @@ function StartTime({ register, error, isDisabled }: FieldProps) {
             <Input
                 className={styles.input}
                 disabled={isDisabled}
-                placeholder="Время начала (HH:MM)"
+                placeholder="Время начала (ЧЧ:MM)"
                 {...register("startTime", fieldOptions)}
                 id="startTime"
                 aria-invalid={error ? "true" : "false"}
@@ -372,7 +373,7 @@ function EndTime({ register, error, isDisabled }: FieldProps) {
             <Input
                 className={styles.input}
                 disabled={isDisabled}
-                placeholder="Время окончания (HH:MM)"
+                placeholder="Время окончания (ЧЧ:MM)"
                 {...register("endTime", fieldOptions)}
                 id="endTime"
                 aria-invalid={error ? "true" : "false"}
