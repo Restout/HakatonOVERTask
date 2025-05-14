@@ -17,7 +17,7 @@ const Footer: FC = () => {
                 <div className={styles.wrapper}>
                     <div>
                         <h5 className={styles.title}>
-                            Корпоративный университет Совкомбанк
+                            Веб-приложения совместной работы
                         </h5>
                         <p className={styles.text}>
                             Политика конфиденциальности

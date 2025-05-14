@@ -51,7 +51,6 @@ public class StudentController implements BaseUserController<Student, StudentDao
     }
 
     @Override
-
     @PutMapping("/api/auth/user/grand/student")
     public ResponseEntity<Student> grandUserToRole(@RequestBody StudentDao roleDao) {
         Student student;

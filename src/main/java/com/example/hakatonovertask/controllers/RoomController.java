@@ -1,5 +1,6 @@
 package com.example.hakatonovertask.controllers;
 
+import lombok.Generated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,6 @@ import java.util.UUID;
 @RestController
 public class RoomController {
 
-    // Временное хранилище комнат
     private final Map<String, Room> rooms = new HashMap<>();
 
     @GetMapping("/api/rooms")
@@ -68,7 +68,7 @@ public class RoomController {
         return room;
     }
 
-    // Вспомогательные классы
+    @Generated
     public static class Room {
         private String id;
         private String name;
@@ -124,7 +124,7 @@ public class RoomController {
             this.createdBy = createdBy;
         }
     }
-
+    @Generated
     public static class RoomRequest {
         private String name;
         private int createdBy;
@@ -146,6 +146,7 @@ public class RoomController {
         }
     }
 
+    @Generated
     public static class RoomJoinRequest {
         private String roomId;
         private int userId;

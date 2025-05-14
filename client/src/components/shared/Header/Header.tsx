@@ -19,8 +19,6 @@ import {
     SIGN_IN_PATH,
 } from "constants/routesPathnames";
 
-import logo from "assets/img/logo.svg";
-
 import styles from "./header.module.scss";
 
 interface Props {
@@ -35,7 +33,6 @@ const Header: FC<Props> = ({ className }) => {
             <Container>
                 <div className={styles.wrapper}>
                     <Link className={styles.logo} to={HOME_PATH}>
-                        <img src={logo} alt="Logo" />
                     </Link>
                     <div className={styles.controls}>
                         <Link
