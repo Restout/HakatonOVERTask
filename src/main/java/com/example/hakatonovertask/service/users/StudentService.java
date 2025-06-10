@@ -8,6 +8,7 @@ import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,11 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
-    @Autowired
-    private StudentJpaRepository studentJpaRepository;
-    @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private GroupRepository groupRepository;
+    private final StudentJpaRepository studentJpaRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final GroupRepository groupRepository;
 
     public Optional<Student> saveStudent(Student student) {
         return Optional.of(studentJpaRepository.save(student));
@@ -37,7 +36,7 @@ public class StudentService {
 
         Student student = new Student(userModel.getId(), userModel, studentDao.getRecordBookId(), studentDao.getGroupId(),
                 groupRepository.findById(studentDao.getGroupId()).get());
-    userJpaRepository.deleteById(studentDao.getId());
+        userJpaRepository.deleteById(studentDao.getId());
         return Optional.of(studentJpaRepository.save(student));
     }
 

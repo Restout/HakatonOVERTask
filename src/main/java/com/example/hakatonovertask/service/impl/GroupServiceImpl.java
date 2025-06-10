@@ -72,7 +72,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     private Group creatGroup(GroupAllInfo group, UserModel user) {
-        var groupToSave = new Group(group.getGroupId(), group.getGroupName(), user);
+        var groupToSave = new Group(group.getGroupName(), user);
         List<UserModel> userModels = new ArrayList<>();
         userModels.add(user);
         groupToSave.setStudents(userModels);
