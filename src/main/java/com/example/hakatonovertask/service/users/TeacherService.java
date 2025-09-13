@@ -6,6 +6,7 @@ import com.example.hakatonovertask.repositories.users.TeacherJpaRepository;
 import com.example.hakatonovertask.repositories.users.UserJpaRepository;
 import com.example.hakatonovertask.security.model.UserModel;
 import com.example.hakatonovertask.security.utils.Roles;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,10 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TeacherService {
-    @Autowired
-    private TeacherJpaRepository teacherJpaRepository;
-    @Autowired
-    private UserJpaRepository userJpaRepository;
+    private final TeacherJpaRepository teacherJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     public Optional<Teacher> saveTeacher(Teacher teacher) {
         return Optional.of(teacherJpaRepository.save(teacher));

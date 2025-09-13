@@ -8,16 +8,17 @@ import { Alert } from "components/ui/Alert";
 import { Loader } from "components/ui/Loader";
 import { Title } from "components/ui/typography/Title";
 
-import GroupsService from "services/GroupsService";
 import useTypedSelector from "hooks/shared/useTypedSelector";
+
+import GroupsService from "services/GroupsService";
 
 import styles from "./groups.module.scss";
 
 const Groups: FC = () => {
     // Получаем информацию о текущем пользователе
     const { user } = useTypedSelector((state) => state.user);
-    
-    const { data, isLoading, isError, isSuccess } = useQuery({
+
+    const { data, isFetching, isError, isSuccess } = useQuery({
         queryKey: ["groups", user?.id], // Добавляем id пользователя в ключ запроса
         queryFn: () => GroupsService.getAll(user?.id), // Передаем id пользователя в запрос
         select(data) {
@@ -30,7 +31,9 @@ const Groups: FC = () => {
         return (
             <section className={styles.section}>
                 <Container>
-                    <Alert variant="error">Необходимо авторизоваться для просмотра групп</Alert>
+                    <Alert variant="error">
+                        Необходимо авторизоваться для просмотра групп
+                    </Alert>
                 </Container>
             </section>
         );
@@ -40,9 +43,9 @@ const Groups: FC = () => {
         <section className={styles.section}>
             <Container>
                 <header className={styles.header}>
-                    <Title className={styles.title}>Учебные группы</Title>
+                    <Title className={styles.title}>Расписание</Title>
                 </header>
-                {isSuccess && data.length > 0 ? (
+                {data && data.length > 0 ? (
                     <ul className={styles.groupsList}>
                         {data.map(({ groupId, groupName }) => (
                             <li key={groupId}>
@@ -50,11 +53,14 @@ const Groups: FC = () => {
                             </li>
                         ))}
                     </ul>
-                ) : isSuccess && (
-                    <Alert variant="info">У вас пока нет групп</Alert>
+                ) : (
+                    isSuccess &&
+                    !isFetching && (
+                        <Alert variant="info">У вас пока нет групп</Alert>
+                    )
                 )}
                 <Error message={isError ? "Ошибка при загрузке групп" : null} />
-                <Loading isLoading={isLoading} />
+                <Loading isLoading={isFetching} />
             </Container>
         </section>
     );

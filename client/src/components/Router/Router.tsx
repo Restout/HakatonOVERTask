@@ -6,11 +6,12 @@ import { SignInPage } from "pages/(auth)/SignInPage";
 import { SignUpPage } from "pages/(auth)/SignUpPage";
 import { GroupsPage } from "pages/(schedule)/GroupsPage";
 import { SchedulePage } from "pages/(schedule)/SchedulePage";
+import { GroupDetailsPage } from "pages/GroupDetailsPage";
+import { GroupsListPage } from "pages/GroupsListPage";
 import { HomePage } from "pages/HomePage";
 import { MissingPage } from "pages/MissingPage";
 import { RoomPage } from "pages/RoomPage";
-import { GroupsListPage } from "pages/GroupsListPage";
-import { GroupDetailsPage } from "pages/GroupDetailsPage";
+import { RoomPageUiKit } from "pages/RoomPageUiKit";
 import { RoomsPage } from "pages/RoomsPage";
 
 import { MainLayout } from "components/layouts/MainLayout";
@@ -19,13 +20,13 @@ import { Profile } from "components/users/Profile";
 
 import { Role } from "constants/role.enum";
 import {
-    GROUP_DETAILS_PATH,
     GROUPS_PATH,
+    GROUP_DETAILS_PATH,
     HOME_PATH,
     LK_PATHNAME,
     PROFILE_PATHNAME,
-    ROOM_PATH,
     ROOMS_PATH,
+    ROOM_PATH,
     SCHEDULE_PATHNAME,
     SIGN_IN_PATH,
     SIGN_UP_PATH,
@@ -41,10 +42,14 @@ const Router: FC = () => {
                 <Route path={HOME_PATH} element={<HomePage />} />
 
                 <Route element={<ProtectedRoutes />}>
-                    <Route path={ROOM_PATH} element={<RoomPage />} />
+                    {/* <Route path={ROOM_PATH} element={<RoomPage />} /> */}
+                    <Route path={ROOM_PATH} element={<RoomPageUiKit />} />
                     <Route path={ROOMS_PATH} element={<RoomsPage />} />
                     <Route path={GROUPS_PATH} element={<GroupsListPage />} />
-                    <Route path={GROUP_DETAILS_PATH} element={<GroupDetailsPage />} />
+                    <Route
+                        path={GROUP_DETAILS_PATH}
+                        element={<GroupDetailsPage />}
+                    />
                 </Route>
 
                 <Route

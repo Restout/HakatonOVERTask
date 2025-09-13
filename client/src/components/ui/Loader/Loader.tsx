@@ -12,6 +12,7 @@ interface Props {
 const Loader: FC<Props> = ({ className, isCenter }) => {
     return (
         <span
+            data-testid="loader"
             className={cn(styles.loader, isCenter && styles.center, className)}
         />
     );

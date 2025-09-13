@@ -1,6 +1,4 @@
-.group {
-    margin-bottom: 15px;
-}
+@import "/src/assets/styles/mixins.scss";
 
 .input {
     width: 100%;
@@ -19,16 +17,27 @@
     margin-left: auto;
 }
 
-.lessonRow {
-    grid-template-columns: repeat(3, 1fr);
+.doubleRow {
+    margin-bottom: 15px;
+    @include mobile {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 .scheduleRow {
-    grid-template-columns: repeat(3, 1fr);
+    margin-top: 15px;
+    margin-bottom: 15px;
+    @include mobile {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 .audienceRow {
-    grid-template-columns: repeat(3, 1fr);
+    margin-bottom: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    @include mobile {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 .date {

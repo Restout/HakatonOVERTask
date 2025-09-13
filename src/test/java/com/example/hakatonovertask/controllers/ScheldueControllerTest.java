@@ -70,10 +70,10 @@ public class ScheldueControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].scheldueId", is(1)))
+                .andExpect(jsonPath("$[0].scheduleId", is(1)))
                 .andExpect(jsonPath("$[0].lessonName", is("Math")))
                 .andExpect(jsonPath("$[0].location", is("Room 101")))
-                .andExpect(jsonPath("$[1].scheldueId", is(2)))
+                .andExpect(jsonPath("$[1].scheduleId", is(2)))
                 .andExpect(jsonPath("$[1].lessonName", is("Physics")))
                 .andExpect(jsonPath("$[1].location", is("Room 102")));
 
@@ -101,8 +101,8 @@ public class ScheldueControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].scheldueId", is(1)))
-                .andExpect(jsonPath("$[1].scheldueId", is(2)));
+                .andExpect(jsonPath("$[0].scheduleId", is(1)))
+                .andExpect(jsonPath("$[1].scheduleId", is(2)));
 
         verify(scheldueService).getScheldueByGroupAndDate(ArgumentMatchers.eq(groupId), ArgumentMatchers.any(LocalDate.class));
     }
@@ -126,7 +126,7 @@ public class ScheldueControllerTest {
                         .param("scheduleId", scheduleId.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.scheldueId", is(scheduleId)))
+                .andExpect(jsonPath("$.scheduleId", is(scheduleId)))
                 .andExpect(jsonPath("$.lessonName", is("Math")))
                 .andExpect(jsonPath("$.lessonDescription", is("Calculus basics")))
                 .andExpect(jsonPath("$.location", is("Room 101")))
@@ -168,7 +168,7 @@ public class ScheldueControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(scheduleInfo)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.scheldueId", is(1)))
+                .andExpect(jsonPath("$.scheduleId", is(1)))
                 .andExpect(jsonPath("$.lessonName", is("Java Programming")))
                 .andExpect(jsonPath("$.lessonDescription", is("Introduction to Java")))
                 .andExpect(jsonPath("$.location", is("Room 201")))
@@ -213,7 +213,7 @@ public class ScheldueControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(scheduleInfo)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.scheldueId", is(scheduleId)))
+                .andExpect(jsonPath("$.scheduleId", is(scheduleId)))
                 .andExpect(jsonPath("$.lessonName", is("Advanced Java")))
                 .andExpect(jsonPath("$.lessonDescription", is("Spring Framework")))
                 .andExpect(jsonPath("$.location", is("Room 301")))

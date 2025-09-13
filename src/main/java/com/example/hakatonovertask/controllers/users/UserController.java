@@ -19,28 +19,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-
-    @GetMapping("/api/auth/users/all")
-    public ResponseEntity<Iterable<UserModel>> getAllUsers(Roles role, Pageable page) {
-        if (role == null) {
-            return ResponseEntity
-                    .ok()
-                    .header("user_count", String.valueOf(userService.getCountOfUsers()))
-                    .body(userService.getAllUsers(page));
-        }
-        try {
-            return ResponseEntity
-                    .ok()
-                    .header("user_count", String.valueOf(userService.getCountOfUsersByRole(role)))
-                    .body(userService.getUsersByRole(role, page));
-        } catch (Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .build();
-        }
-    }
-
     @GetMapping("api/auth/users/one")
     public ResponseEntity<UserModel> getUserById(@RequestParam int id) {
         try {

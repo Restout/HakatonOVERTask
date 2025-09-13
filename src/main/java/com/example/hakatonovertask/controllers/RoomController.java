@@ -1,5 +1,9 @@
 package com.example.hakatonovertask.controllers;
 
+import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +16,6 @@ import java.util.UUID;
 @RestController
 public class RoomController {
 
-    // Временное хранилище комнат
     private final Map<String, Room> rooms = new HashMap<>();
 
     @GetMapping("/api/rooms")
@@ -68,7 +71,8 @@ public class RoomController {
         return room;
     }
 
-    // Вспомогательные классы
+    @Getter
+    @Setter
     public static class Room {
         private String id;
         private String name;
@@ -83,48 +87,9 @@ public class RoomController {
             this.createdAt = createdAt;
             this.createdBy = createdBy;
         }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<String> getParticipants() {
-            return participants;
-        }
-
-        public void setParticipants(List<String> participants) {
-            this.participants = participants;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public int getCreatedBy() {
-            return createdBy;
-        }
-
-        public void setCreatedBy(int createdBy) {
-            this.createdBy = createdBy;
-        }
     }
-
+    @Getter
+    @Setter
     public static class RoomRequest {
         private String name;
         private int createdBy;
@@ -146,6 +111,8 @@ public class RoomController {
         }
     }
 
+    @Getter
+    @Setter
     public static class RoomJoinRequest {
         private String roomId;
         private int userId;

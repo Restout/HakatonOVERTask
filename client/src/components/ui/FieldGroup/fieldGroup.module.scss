@@ -1,9 +1,5 @@
 .group {
-    label {
-        display: inline-block;
-        padding-bottom: 0.25rem;
-    }
-    p {
-        margin-top: 0.25rem;
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }

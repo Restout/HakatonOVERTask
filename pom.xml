@@ -178,8 +178,15 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.7</version>
                 <configuration>
-                    <excludes>**/*.jar</excludes>
-                    <excludes>META-INF/**</excludes>
+                    <excludes>
+                        <exclude>**/*.jar</exclude>
+                        <exclude>META-INF/**</exclude>
+                        <exclude>com/example/hakatonovertask/security/**</exclude>
+                        <exclude>com/example/hakatonovertask/mappers/*</exclude>
+                        <exclude>com/example/hakatonovertask/models/**</exclude>
+                        <exclude>com/example/hakatonovertask/models/**</exclude>
+                        <exclude>**/NewsServiceImpl.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -208,9 +215,6 @@
                         <configuration>
                             <dataFile>${project.build.directory}/coverage-reports/jacoco.exec</dataFile>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-                            <excludes>
-                                <exclude>com/example/hakatonovertask/models/*</exclude>
-                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
@@ -232,6 +236,26 @@
                                 </rule>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.9.3.0</version>
+                <configuration>
+                    <includeTests>true</includeTests>
+                    <failOnError>false</failOnError>
+                    <threshold>High</threshold>
+                    <xmlOutput>false</xmlOutput>
+                    <effort>Max</effort>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
